@@ -1,0 +1,45 @@
+/* .profile-page {
+  animation: troioi 0.2s ease-in-out;
+  &.move {
+    animation-direction: reverse;
+  }
+  table,
+  th,
+  td {
+    border: 1px solid #ddd;
+  }
+
+  .sda {
+    width: 100%;
+  }
+  table {
+    width: 95%;
+    margin: 16px 2.5%;
+  }
+  table {
+    border-collapse: collapse;
+  }
+  tr {
+    background-color: #e2e2e2;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  tr:hover {
+    background-color: #bbbbbb;
+  }
+  tr .header {
+    background-color: #217c5b;
+    color: white;
+  }
+} */
+/* 
+@keyframes troioi {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+} */
