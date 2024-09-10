@@ -12,6 +12,10 @@ import MobileDayOffPage from "../pages/mobile/dayoff/dayOff";
 import MobileProfilePage from "../pages/mobile/profile/profile";
 import HomePageNew from "../pages/mobile/new-home/onepage";
 import MobileDayCheckPage from "../pages/mobile/daycheck/daycheck";
+import MobileHomePage1 from "../pages/mobile/home-1/home";
+import CalendarNew from "../pages/mobile/calendar-new/home";
+import MobileWageNew from "../pages/mobile/wage-new/home";
+import { SpamAlert } from "./blocked_ip";
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +23,14 @@ export const router = createBrowserRouter([
     element: <MobileMainLayout />,
     // loader: rootLoader,
     children: [
+      {
+        path: `/m/spam_alert`,
+        element: (
+          <MAuthLayout>
+            <SpamAlert />,
+          </MAuthLayout>
+        ),
+      },
       {
         path: `/m`,
         element: (
@@ -57,15 +69,30 @@ export const router = createBrowserRouter([
           },
           {
             path: `/m/${routerMainPath.app}/${routerParams.app.home}`,
-            element: <MobileHomePage />,
+            // element: <MobileHomePage />,
+            element: <MobileHomePage1 />,
+          },
+          {
+            path: `/m/app/home1`,
+            element: <MobileHomePage1 />,
+          },
+          {
+            path: `/m/app/calendar1`,
+            element: <CalendarNew />,
+          },
+          {
+            path: `/m/app/wage1`,
+            element: <MobileWageNew />,
           },
           {
             path: `/m/${routerMainPath.app}/${routerParams.app.dayCheck}`,
-            element: <MobileDayCheckPage />,
+            // element: <MobileDayCheckPage />,
+            element: <CalendarNew />,
           },
           {
             path: `/m/${routerMainPath.app}/${routerParams.app.wage}`,
-            element: <MobileWagePage />,
+            // element: <MobileWagePage />,
+            element: <MobileWageNew />,
           },
           {
             path: `/m/${routerMainPath.app}/${routerParams.app.dayOff}`,

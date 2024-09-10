@@ -7,7 +7,6 @@ import {
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import "./locales/i18n";
 import { router } from "./routes/routes";
 

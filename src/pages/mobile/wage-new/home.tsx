@@ -1,0 +1,654 @@
+import { Avatar, DatePicker, Empty, Image, Skeleton } from "antd";
+import * as React from "react";
+import { FaBarsProgress, FaBarsStaggered } from "react-icons/fa6";
+import { GiHolyGrail } from "react-icons/gi";
+import { GoSun } from "react-icons/go";
+import { IoMoonOutline } from "react-icons/io5";
+import { LiaHandHoldingUsdSolid } from "react-icons/lia";
+import { HiBars3BottomLeft } from "react-icons/hi2";
+import LanguageChanger from "../../../components/common/languageChange";
+import { numberToCurrency } from "../wage/utils";
+import styled from "styled-components";
+import { t } from "i18next";
+import { MdChangeCircle, MdOutlineCurrencyExchange } from "react-icons/md";
+import { FaExchangeAlt } from "react-icons/fa";
+import { HiOutlineSwitchVertical } from "react-icons/hi";
+import dayjs from "dayjs";
+import { useQuery } from "@tanstack/react-query";
+import { getWageData, getYearWage } from "./utils";
+import { useUserInfoStore } from "../../../store/userinfo";
+import { useTranslation } from "react-i18next";
+import { HeaderNew } from "../calendar-new/components/header";
+
+export interface IMobileWageNewProps {}
+
+export default function MobileWageNew(props: IMobileWageNewProps) {
+  const { t } = useTranslation();
+
+  const [isMonthWage, setIsMonthWage] = React.useState<unknown>(true);
+  const [date, setDate] = React.useState(
+    dayjs(new Date().toISOString().slice(0, 10), "YYYY-MM-DD"),
+  );
+  const { user } = useUserInfoStore();
+
+  const monthWage = useQuery({
+    queryFn: () => {
+      if (user.EMP_NO)
+        return getWageData(user.EMP_NO, date.format("YYYY-MM-DD"));
+      else return { error: "no emp_no found" };
+    },
+    queryKey: ["monthwage", date, user.EMP_NO || "EMP_NO"],
+    // placeholderData: keepPreviousData,
+  });
+
+  const monthTotalPay = React.useMemo(() => {
+    return monthWage.data?.total || {};
+  }, [monthWage?.data]);
+  const monthIncome = React.useMemo(() => {
+    return monthWage.data?.income || {};
+  }, [monthWage?.data]);
+  const monthDeduct = React.useMemo(() => {
+    return monthWage.data?.dedux || {};
+  }, [monthWage?.data]);
+  const monthWorktime = React.useMemo(() => {
+    return monthWage.data?.workTime?.[0] || {};
+  }, [monthWage?.data]);
+
+  const yearWage = useQuery({
+    queryFn: () => {
+      if (user.EMP_NO)
+        return getYearWage(user.EMP_NO, date.format("YYYY-MM-DD"));
+      else return { error: "no emp_no found" };
+    },
+    queryKey: ["total-wage", date, user.EMP_NO || "EMP_NO"],
+    // placeholderData: keepPreviousData,
+  });
+
+  console.log("yearWage :>> ", yearWage);
+
+  const yearWageTotal = React.useMemo(() => yearWage.data, [yearWage]);
+
+  React.useEffect(() => {
+    const date = monthWage.data?.total?.pay_yymm;
+    console.log("object", date);
+    // if (date) setDate(dayjs(`${date.slice(4, 6)}-01-${date.slice(0, 4)}`));
+
+    if (date) {
+      console.log(
+        "object",
+        `${date.slice(0, 4)}-${date.slice(4, 6)}-01`,
+        "YYYY-MM-DD",
+      );
+      setDate(
+        dayjs(`${date.slice(0, 4)}-${date.slice(4, 6)}-01`, "YYYY-MM-DD"),
+      );
+    }
+  }, [monthWage.data?.total?.pay_yymm]);
+
+  console.log("user", user);
+
+  if (!isMonthWage)
+    return (
+      <div
+        className="w-full overflow-auto bg-slate-50"
+        style={{ height: "calc(100dvh - 44px)" }}
+        // style={{
+        //   background:
+        //     "url(https://th.bing.com/th/id/R.3c489fc3d57210d12875d2a31656771a?rik=5PqU%2bhbZl7gzIQ&riu=http%3a%2f%2fwallpapercave.com%2fwp%2fVbCgf6N.jpg&ehk=%2baaoHfTrbbttD9Wd6ERbUuFre%2fPNv62EdEqfvKIScXw%3d&risl=&pid=ImgRaw&r=0) center center /cover no-repeat",
+        // }}
+        // style={{
+        //   background:
+        //     "url(https://th.bing.com/th/id/OIP.vSx9a0BaAFmBMbNZEDFaJAHaEK?rs=1&pid=ImgDetMain) center center /cover no-repeat",
+        // }}
+        // style={{
+        //   background:
+        //     "url(https://bobthecamper.com/sitebuilder/images/navbarTWObackgroundALT4-254x644.png) center center /cover no-repeat",
+        // }}
+      >
+        <div
+          className="header h-[180px] rounded-b-[40px] bg-gradient-to-b from-indigo-900 to-indigo-700 px-3 py-2 shadow-md shadow-indigo-700"
+          style={{
+            background: "#5366f1 ",
+            boxShadow:
+              "inset 10px 10px 10px #2862ff, inset -12px -12px 10px #2862ff , 0px 6px 9px #606dca",
+          }}
+          // style={{
+          //   background: `url(https://th.bing.com/th/id/OIP.onJtjFhdkQc9xvZ6EF1zQQHaEo?rs=1&pid=ImgDetMain) center center /cover no-repeat`,
+          // }}
+        >
+          <HeaderNew
+            title={
+              <>
+                <div className="page-name flex flex-1 items-center justify-center gap-2 pr-4 text-center text-sm text-gray-50">
+                  <div className="ml-12 flex-1">Bảng lương năm</div>
+                  <div className="flex items-center justify-center rounded-full bg-white px-1 py-0.5">
+                    <HiOutlineSwitchVertical
+                      size={16}
+                      color="#f34b4b"
+                      onClick={() => setIsMonthWage(!isMonthWage)}
+                    />
+                  </div>
+                </div>
+              </>
+            }
+          />
+        </div>
+        <div className="content relative -mt-20 h-60 flex-1 px-4">
+          <div className="absolute -top-7 left-0 right-0 mb-1 flex items-end justify-between px-6">
+            <DatePicker
+              picker="year"
+              value={date}
+              onCalendarChange={(val) => setDate(val)}
+              allowClear={false}
+              inputReadOnly
+              className="w-28 border-none py-0 font-bold text-indigo-900 shadow-none outline-none [&_*::placeholder]:text-gray-200 [&_*]:text-base [&_*]:font-medium"
+            />
+            {/* <p className="text-xs text-white">
+              Chi trả:{" "}
+              {monthTotalPay?.prov_dt?.slice(0, 10) || (
+                <Skeleton.Input size="small" active />
+              )}
+            </p> */}
+          </div>
+          <div className="panel h-[120px] rounded-3xl bg-white px-[5%] pb-[4%] shadow shadow-indigo-900">
+            <div className="main-panel flex h-full items-center justify-center gap-6">
+              <div
+                className="h-full w-2/5"
+                style={{
+                  background:
+                    "url('https://th.bing.com/th/id/OIP.dvNIc5ta8in8ifoRHO9BJAHaEo?rs=1&pid=ImgDetMain') center center / contain no-repeat",
+                }}
+              />
+
+              <div className="flex-1">
+                <p className="calendar line-clamp-1 text-xs font-light text-gray-400">
+                  {`${user.MINOR_NM} - ${user.DEPT_NM}`}
+                </p>
+                <p className="calendar line-clamp-1 text-lg font-medium text-gray-600">
+                  {user.NAME}
+                </p>
+                <p className="calendar font-mono text-sm text-gray-600">
+                  {user.EMP_NO}
+                </p>
+                <p className="calendar text-xs font-medium text-gray-400">
+                  {user.EMAIL_ADDR}
+                </p>
+              </div>
+            </div>
+            {/* <div className="pt-2">
+        <div className="panel-content flex items-center justify-between text-indigo-300">
+          <div className="item">
+            <p className="pb-1 font-mono text-xs">Ngày làm</p>
+            <p className="text-center text-lg text-gray-700">
+              {monthWorktime.tot_day ? (
+                Number(monthWorktime.tot_day)
+              ) : (
+                <Skeleton.Button size="small" active />
+              )}
+            </p>
+          </div>
+          <div className="item">
+            <p className="pb-1 font-mono text-xs">Số giờ</p>
+            <p className="text-center text-lg text-gray-700">
+              {monthWorktime.tot_day ? (
+                Number(monthWorktime.tot_day)
+              ) : (
+                <Skeleton.Button size="small" active />
+              )}
+            </p>
+          </div>
+          <div className="item">
+            <p className="pb-1 font-mono text-xs">Tăng ca</p>
+            <p className="text-center text-lg text-gray-700">
+              {monthWorktime.tot_day ? (
+                Number(monthWorktime.tot_day) + "H"
+              ) : (
+                <Skeleton.Button size="small" active />
+              )}
+            </p>
+          </div>
+          <div className="item">
+            <p className="pb-1 font-mono text-xs">Bậc lương</p>
+            <p className="text-center text-lg text-gray-700">
+              {" "}
+              {`${user.PAY_GRD1} ${user.PAY_GRD2}`}
+            </p>
+          </div>
+        </div>
+      </div> */}
+          </div>
+
+          <div className="content-main mt-2 grid grid-cols-[52%_45%] gap-4 py-2">
+            <div className="item rounded-3xl bg-white px-4 pt-3 text-gray-600 shadow shadow-gray-300">
+              <p className="text-xs">Chi trả</p>
+              <div className="py-2 text-center text-xl font-medium">
+                {yearWageTotal?.[0]?.tongluongchitra ? (
+                  numberToCurrency(Number(yearWageTotal?.[0].tongluongchitra))
+                ) : (
+                  <Skeleton.Input size="small" active />
+                )}
+              </div>
+            </div>
+            <div className="item rounded-3xl bg-rose-400 px-4 pt-3 text-white shadow-md shadow-[#fe4f6f88]">
+              <p className="text-xs">Khấu trừ</p>
+              <div className="py-2 text-center text-xl font-medium">
+                {yearWageTotal?.[0]?.tongluongkhautru ? (
+                  numberToCurrency(Number(yearWageTotal?.[0].tongluongkhautru))
+                ) : (
+                  <Skeleton.Input size="small" active />
+                )}
+              </div>
+            </div>
+
+            {/* <div className="item rounded-3xl bg-rose-400 px-4 pt-3 text-white shadow-md shadow-[#fe4f6f88]">
+        <p className="text-xs">CN</p>
+        <p className="py-2 text-center text-xl font-bold">3</p>
+      </div> */}
+          </div>
+          <div className="content-main gap-4 py-2">
+            <div className="item rounded-3xl bg-indigo-500 px-4 pt-3 text-white shadow shadow-indigo-400">
+              <p className="text-sm">Chi trả thực tế</p>
+              <div className="py-2 text-center text-2xl font-bold">
+                {yearWageTotal?.[0]?.tongluongthucnhan ? (
+                  numberToCurrency(Number(yearWageTotal?.[0].tongluongthucnhan))
+                ) : (
+                  <Skeleton.Input size="small" active />
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="content-options mt-2 flex justify-between pt-2">
+            <div className="option text-sm font-medium text-indigo-800">
+              Chi tiết
+            </div>
+            {/* <div className="option text-red-500">View all</div> */}
+          </div>
+
+          <div className="ml-1 mt-2 flex flex-wrap rounded-lg bg-white py-1 shadow-inner shadow-indigo-300">
+            {yearWage.isLoading ? (
+              <>
+                <Skeleton.Input active />
+                <Skeleton.Input active />
+                <Skeleton.Input active />
+                <Skeleton.Input active />
+                <Skeleton.Input active />
+                <Skeleton.Input active />
+              </>
+            ) : yearWageTotal?.length ? (
+              <div className="flex w-full flex-wrap">
+                {yearWageTotal.length ? (
+                  <table className="w-full">
+                    <tbody>
+                      <tr className="font text-center text-xs">
+                        <td className="py-1">Tháng</td>
+                        <td className="text-gray-600">Chi trả</td>
+                        <td className="text-rose-400">Khấu trừ</td>
+                        <td className="text-indigo-600">Thực lĩnh</td>
+                      </tr>
+                      {yearWageTotal.map((pay, index) => {
+                        return (
+                          <tr className="text-center text-sm font-medium">
+                            <td className="py-0.5 text-xs font-normal">
+                              {pay.pay_yymm}
+                            </td>
+                            <td className="text-gray-600">
+                              <div className="line-clamp-1">
+                                {numberToCurrency(Number(pay.pay_tot_amt))}
+                              </div>
+                            </td>
+                            <td className="text-rose-400">
+                              <div className="line-clamp-1">
+                                {numberToCurrency(Number(pay.sub_tot_amt))}
+                              </div>
+                            </td>
+                            <td className="text-indigo-600">
+                              <div className="line-clamp-1">
+                                {numberToCurrency(Number(pay.real_prov_amt))}
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                ) : (
+                  <div className="w-full text-center">
+                    <Empty />
+                  </div>
+                )}
+                {/* <div className="w-full px-2 py-1">
+                  <div className="text-base font-bold text-blue-600">
+                    <span className="font-bold">{t("wage.totalPay")}:</span>{" "}
+                    <span>{numberToCurrency(monthTotalPay?.pay_tot_amt)}</span>
+                  </div>
+                </div> */}
+              </div>
+            ) : (
+              <div className="w-full text-center">
+                <Empty />
+              </div>
+            )}
+          </div>
+          <div className="content-sub flex"></div>
+          <div className="button"></div>
+        </div>
+      </div>
+    );
+
+  return (
+    <div
+      className="w-full overflow-auto bg-slate-50"
+      style={{ height: "calc(100dvh - 44px)" }}
+      // style={{
+      //   background:
+      //     "url(https://th.bing.com/th/id/R.3c489fc3d57210d12875d2a31656771a?rik=5PqU%2bhbZl7gzIQ&riu=http%3a%2f%2fwallpapercave.com%2fwp%2fVbCgf6N.jpg&ehk=%2baaoHfTrbbttD9Wd6ERbUuFre%2fPNv62EdEqfvKIScXw%3d&risl=&pid=ImgRaw&r=0) center center /cover no-repeat",
+      // }}
+      // style={{
+      //   background:
+      //     "url(https://th.bing.com/th/id/OIP.vSx9a0BaAFmBMbNZEDFaJAHaEK?rs=1&pid=ImgDetMain) center center /cover no-repeat",
+      // }}
+      // style={{
+      //   background:
+      //     "url(https://bobthecamper.com/sitebuilder/images/navbarTWObackgroundALT4-254x644.png) center center /cover no-repeat",
+      // }}
+    >
+      <div
+        className="header h-[180px] rounded-b-[40px] bg-gradient-to-b from-indigo-900 to-indigo-700 px-3 py-2 shadow-md shadow-indigo-700"
+        style={{
+          background: "#5366f1 ",
+          boxShadow:
+            "inset 10px 10px 10px #2862ff, inset -12px -12px 10px #2862ff , 0px 6px 9px #606dca",
+        }}
+        // style={{
+        //   background: `url(https://th.bing.com/th/id/OIP.onJtjFhdkQc9xvZ6EF1zQQHaEo?rs=1&pid=ImgDetMain) center center /cover no-repeat`,
+        // }}
+      >
+        <HeaderNew
+          title={
+            <>
+              <div className="page-name flex flex-1 items-center justify-center gap-2 pr-4 text-center text-sm text-gray-50">
+                <div className="ml-12 flex-1">{t("newLang.monthWage")}</div>
+                <div className="flex items-center justify-center rounded-full bg-white px-1 py-0.5">
+                  <HiOutlineSwitchVertical
+                    size={16}
+                    color="#f34b4b"
+                    onClick={() => setIsMonthWage(!isMonthWage)}
+                  />
+                </div>
+              </div>
+            </>
+          }
+        />
+      </div>
+      <div className="content relative -mt-24 h-60 flex-1 px-4">
+        <div className="absolute -top-7 left-0 right-0 mb-1 flex items-end justify-between px-6">
+          <DatePicker
+            cellRender={(val) => (
+              <div>
+                {t("common.month")} {dayjs(val).month() + 1}
+              </div>
+            )}
+            picker="month"
+            value={date}
+            onCalendarChange={(val) => setDate(val)}
+            allowClear={false}
+            inputReadOnly
+            className="w-28 border-none py-0 font-bold text-indigo-900 shadow-none outline-none [&_*::placeholder]:text-gray-200 [&_*]:text-base [&_*]:font-medium"
+          />
+          <div className="text-xs text-white">
+            {t("newLang.payAt")}:{" "}
+            {monthTotalPay?.prov_dt?.slice(0, 10) || (
+              <Skeleton.Input size="small" active />
+            )}
+          </div>
+        </div>
+        <div className="panel h-[180px] rounded-3xl bg-white px-[5%] pb-[4%] shadow shadow-indigo-900">
+          <div className="main-panel flex h-2/3 items-center justify-center gap-6">
+            <div
+              className="h-full w-2/5"
+              style={{
+                background:
+                  "url('https://th.bing.com/th/id/OIP.dvNIc5ta8in8ifoRHO9BJAHaEo?rs=1&pid=ImgDetMain') center center / contain no-repeat",
+              }}
+            />
+
+            <div className="flex-1">
+              <p className="calendar line-clamp-1 text-xs font-light text-gray-400">
+                {`${user.MINOR_NM} - ${user.DEPT_NM}`}
+              </p>
+              <p className="calendar line-clamp-1 text-lg font-medium text-gray-600">
+                {user.NAME}
+              </p>
+              <p className="calendar font-mono text-sm text-gray-600">
+                {user.EMP_NO}
+              </p>
+              <p className="calendar text-xs font-medium text-gray-400">
+                {user.EMAIL_ADDR}
+              </p>
+            </div>
+          </div>
+          <div className="pt-2">
+            <div className="panel-content flex items-center justify-between text-indigo-300">
+              <div className="item">
+                <p className="pb-1 font-mono text-xs">{t("common.dayCount")}</p>
+                <div className="text-center text-lg text-gray-700">
+                  {monthWorktime.tot_day ? (
+                    Number(monthWorktime.tot_day)
+                  ) : (
+                    <Skeleton.Button size="small" active />
+                  )}
+                </div>
+              </div>
+              <div className="item">
+                <p className="pb-1 font-mono text-xs">
+                  {t("common.hourCount")}
+                </p>
+                <div className="text-center text-lg text-gray-700">
+                  {monthWorktime.tot_day ? (
+                    Number(monthWorktime.tot_day)
+                  ) : (
+                    <Skeleton.Button size="small" active />
+                  )}
+                </div>
+              </div>
+              <div className="item">
+                <p className="pb-1 font-mono text-xs">
+                  {t("common.overTimeCount")}
+                </p>
+                <div className="text-center text-lg text-gray-700">
+                  {monthWorktime.tot_day ? (
+                    Number(monthWorktime.tot_day) + "H"
+                  ) : (
+                    <Skeleton.Button size="small" active />
+                  )}
+                </div>
+              </div>
+              <div className="item">
+                <p className="pb-1 font-mono text-xs">{t("work.salaryRank")}</p>
+                <p className="text-center text-lg text-gray-700">
+                  {" "}
+                  {`${user.PAY_GRD1} ${user.PAY_GRD2}`}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="content-main mt-2 grid grid-cols-[52%_45%] gap-4 py-2">
+          <div className="item rounded-3xl bg-white px-4 pt-3 text-gray-600 shadow shadow-gray-300">
+            <p className="text-xs">{t("common.income")}</p>
+            <div className="py-2 text-center text-xl font-medium">
+              {monthTotalPay?.pay_tot_amt ? (
+                numberToCurrency(Number(monthTotalPay.pay_tot_amt))
+              ) : (
+                <Skeleton.Input size="small" active />
+              )}
+            </div>
+          </div>
+          <div className="item rounded-3xl bg-rose-400 px-4 pt-3 text-white shadow-md shadow-[#fe4f6f88]">
+            <p className="text-xs">{t("common.deduct")}</p>
+            <div className="py-2 text-center text-xl font-medium">
+              {monthTotalPay?.sub_tot_amt ? (
+                numberToCurrency(Number(monthTotalPay.sub_tot_amt))
+              ) : (
+                <Skeleton.Input size="small" active />
+              )}
+            </div>
+          </div>
+
+          {/* <div className="item rounded-3xl bg-rose-400 px-4 pt-3 text-white shadow-md shadow-[#fe4f6f88]">
+            <p className="text-xs">CN</p>
+            <p className="py-2 text-center text-xl font-bold">3</p>
+          </div> */}
+        </div>
+        <div className="content-main gap-4 py-2">
+          <div className="item rounded-3xl bg-indigo-500 px-4 pt-3 text-white shadow shadow-indigo-400">
+            <p className="text-sm">{t("common.realGet")}</p>
+            <div className="py-2 text-center text-2xl font-bold">
+              {monthTotalPay?.real_prov_amt ? (
+                numberToCurrency(Number(monthTotalPay.real_prov_amt))
+              ) : (
+                <Skeleton.Input size="small" active />
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="content-options mt-2 flex justify-between pt-2">
+          <div className="option text-sm font-medium text-indigo-800">
+            {t("wage.payDetail")}
+          </div>
+          {/* <div className="option text-red-500">View all</div> */}
+        </div>
+
+        <div className="ml-1 mt-2 flex flex-wrap rounded-lg bg-white py-1 shadow-inner shadow-indigo-300">
+          {monthWage.isLoading ? (
+            <Skeleton active />
+          ) : monthIncome?.length ? (
+            <div className="flex w-full flex-wrap">
+              {monthIncome.map((pay, index) => {
+                return (
+                  <div key={index} className="w-1/2 px-2 py-1">
+                    <Statistic
+                      type="primary"
+                      title={
+                        pay.allow_nm[0].toUpperCase() +
+                        pay.allow_nm.slice(1).toLowerCase()
+                      }
+                      content={
+                        <>
+                          {numberToCurrency(pay.allow)}
+                          <span className="text-xs italic text-green-600">
+                            {" "}
+                            {(Number(pay.dilig_hh) !== 0 ||
+                              Number(pay.dilig_mm) !== 0) &&
+                              `(${Number(pay.dilig_hh) ? Number(pay.dilig_hh) + "h" : ""}${
+                                Number(pay.dilig_mm)
+                                  ? " " + Number(pay.dilig_mm) + "m"
+                                  : ""
+                              })`}
+                          </span>
+                        </>
+                      }
+                    />
+                  </div>
+                );
+              })}
+              <div className="w-full px-2 py-1">
+                <div className="text-base font-bold text-blue-600">
+                  <span className="font-bold">{t("wage.totalPay")}:</span>{" "}
+                  <span>{numberToCurrency(monthTotalPay?.pay_tot_amt)}</span>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="w-full text-center">
+              <Empty />
+            </div>
+          )}
+        </div>
+
+        <div className="content-options mt-2 flex justify-between pt-2">
+          <div className="option text-sm font-medium text-[#f84f4f]">
+            {t("wage.deductDetail")}
+          </div>
+          {/* <div className="option text-red-500">View all</div> */}
+        </div>
+
+        <div className="ml-1 mt-2 flex flex-wrap rounded-lg bg-white py-1 shadow-inner shadow-[#ff8f8f]">
+          {monthWage.isLoading ? (
+            <Skeleton active />
+          ) : monthDeduct?.length ? (
+            <>
+              {monthDeduct.map((sub, index: string) => {
+                return (
+                  <div key={index} className="w-1/2 px-2 py-1">
+                    <Statistic
+                      type="primary"
+                      title={
+                        sub.allow_nm[0].toUpperCase() +
+                        sub.allow_nm.slice(1).toLowerCase()
+                      }
+                      content={<>{numberToCurrency(sub.sub_amt)}</>}
+                    />
+                  </div>
+                );
+              })}
+              <div className="w-full px-2 py-1">
+                <div className="text-base font-bold text-blue-600">
+                  <span className="font-bold">{t("wage.totalDeduct")}:</span>{" "}
+                  <span>
+                    {numberToCurrency(Number(monthTotalPay?.sub_tot_amt))}
+                  </span>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="w-full text-center">
+              <Empty />
+            </div>
+          )}
+        </div>
+
+        <div className="content-sub flex"></div>
+        <div className="button"></div>
+        <div className="h-1"></div>
+      </div>
+    </div>
+  );
+}
+
+const StyledStatistic = styled.div`
+  font-size: 0.625rem;
+  .title {
+    font-size: 1.4em;
+  }
+  .content {
+    font-size: 1.4em;
+  }
+  span {
+    font-size: 0.9em;
+  }
+`;
+
+function Statistic(props: IStatisticProps) {
+  return (
+    <StyledStatistic className={props.className} style={props.style}>
+      <div
+        className={`title text-xs ${
+          props.type === "primary"
+            ? "from-black to-indigo-500"
+            : props.type === "error"
+              ? "from-indigo-800 to-red-800"
+              : "from-black to-black"
+        } bg-gradient-to-r bg-clip-text text-transparent`}
+      >
+        {props.title}
+      </div>
+      <div className="content mt-0.5 pl-3 text-sm font-bold text-gray-700">
+        {props.content}
+      </div>
+    </StyledStatistic>
+  );
+}

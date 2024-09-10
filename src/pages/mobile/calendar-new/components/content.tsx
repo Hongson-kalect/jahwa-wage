@@ -31,7 +31,7 @@ export default function Content(props: IContentProps) {
   //   document.cookie.s;
   // };
   return (
-    <ContentWrap style={{ display: "unset", gap: "4px" }} clasName="!gap-4">
+    <ContentWrap style={{ display: "unset", gap: "4px" }} className="!gap-4">
       <div className={`relative`}>
         <SumaryInfo
           date={props.date}
@@ -84,7 +84,7 @@ const StyledInfo = styled.div`
     left: 20%;
     position: absolute;
     background-color: #06421d;
-    /* height: 8px; */
+    height: 8px;
     border-radius: 999999px;
   } */
   &::after {
@@ -233,7 +233,7 @@ const SumaryInfo = (props: SumaryProps) => {
             onChange={(value) => props.setDate(value)}
             picker="month"
             cellRender={(val) => <div>Tháng {dayjs(val).month() + 1}</div>}
-            className="bg-yellow-400 shadow shadow-gray-900"
+            className="bg-yellow-400 shadow shadow-gray-900 ring-2 ring-blue-400"
           />
         </div>
       </div>

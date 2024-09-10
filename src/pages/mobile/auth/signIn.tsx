@@ -11,14 +11,49 @@ import jahwaLogo from "../../../assets/images/icon3.png";
 import jahwaBG from "../../../assets/images/jahwa_view.png";
 import { Button, Col } from "antd";
 import { useTranslation } from "react-i18next";
-import { setCookie } from "../../../lib/utlis";
+import { getCookie, setCookie } from "../../../lib/utlis";
 import { httpGet } from "../../../api/axios";
+import { toast } from "react-toastify";
 
 export interface IMSignInPageProps {}
 
 const SinginPage = styled.div``;
 
 export default function MSignInPage(props: IMSignInPageProps) {
+  const [checkingUser, setCheckingUser] = React.useState(false);
+  const { setUser } = useUserInfoStore();
+  const navigate = useNavigate();
+
+  const refreshUserInfo = async () => {
+    //có thể để thành useQuery
+    // if (user.EMP_NO) return
+    const token = getCookie("auth");
+    if (getCookie("save") && getCookie("emp") && token) {
+      try {
+        setCheckingUser(true);
+        const res = await httpGet("verify");
+        setUser(res.data?.[0]);
+        navigate("/m/app/home");
+        setCheckingUser(false);
+      } catch (error) {
+        toast.error("Login season expired, please login again!");
+      }
+      //nếu có data thì gán cho user
+      // nếu ko thì về login
+    }
+  };
+
+  React.useLayoutEffect(() => {
+    refreshUserInfo();
+  }, []);
+
+  if (checkingUser)
+    return (
+      <div className="fixed inset-0 h-screen w-screen bg-black opacity-30">
+        Cheking
+      </div>
+    );
+
   return (
     <SinginPage
       className="flex flex-1 bg-white"
@@ -53,12 +88,15 @@ export default function MSignInPage(props: IMSignInPageProps) {
 }
 
 const SignInForm = () => {
-  const [showPass, setShowPass] = React.useState(false);
-  const [username, setUsername] = React.useState("");
+  // const [showPass, setShowPass] = React.useState(false);
+  const [username, setUsername] = React.useState(getCookie("emp") || "");
   const [password, setPassword] = React.useState("");
+  const [saveAccount, setSaveAccount] = React.useState(
+    getCookie("save") || false,
+  );
   const [action, setAction] = React.useState("");
   const { setEmp_no, setUser, setIsLogin } = useUserInfoStore();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
@@ -66,7 +104,9 @@ const SignInForm = () => {
     mutationFn: () => handleLogin(username, password),
     onSuccess: async (res) => {
       await setCookie("auth", res.data.token, 1);
-      await setCookie("emp_no", username, 1);
+      if (saveAccount) setCookie("emp", username, 9999);
+      // await setCookie("emp_no", username, 1);
+      await fetchUserData(username);
       setIsLogin(true);
       setEmp_no(username);
       navigate("/m/app/home");
@@ -81,11 +121,25 @@ const SignInForm = () => {
     },
   });
 
+  const fetchUserData = async (username: string) => {
+    try {
+      const res = await httpGet("user/" + username);
+      const data = res.data;
+      setUser(data?.[0]);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
   React.useEffect(() => {
     if (action) {
       setAction("");
     }
   }, [username, password]);
+
+  React.useEffect(() => {
+    setCookie("save", saveAccount ? "1" : "", 9999);
+  }, [saveAccount]);
 
   return (
     <div className="container">
@@ -168,6 +222,8 @@ const SignInForm = () => {
             <div className="flex items-center justify-between gap-2 px-2">
               <div className="flex items-center gap-2">
                 <input
+                  checked={saveAccount}
+                  onChange={() => setSaveAccount(!saveAccount)}
                   className="scale-125"
                   type="checkbox"
                   name="remember"

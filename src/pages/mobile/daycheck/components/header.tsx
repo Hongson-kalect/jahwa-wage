@@ -18,7 +18,11 @@ export default function MobileDayCheckHeader(
         <p className="ml-2 line-clamp-1 flex-1 text-sm uppercase text-green-400">
           Ngày công
         </p>
-        <DatePicker type="month" picker="month" />
+        <DatePicker
+          type="month"
+          picker="month"
+          cellRender={(val) => <div>Tháng {dayjs(val).month() + 1}</div>}
+        />
 
         {/* <Badge badgeContent={4} color="error" className="ml-1">
           <IoNotifications

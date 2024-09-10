@@ -1,11 +1,11 @@
 import axios from "axios";
-import { getCookie } from "../lib/utlis";
+import { getCookie, removeCookie } from "../lib/utlis";
 
 // const backendDomain = process.env.REACT_APP_BACKEND_DOMAIN;
 // const backendDomain = "172.16.151.129:5000";
 
 const api = axios.create({
-  baseURL: "https://172.16.151.7:5000/api",
+  baseURL: "https://vina.jahwa.co.kr:5000/api",
   timeout: 5000,
   // headers: {
   //   Authentication: "Bearer " + getCookie("auth"),
@@ -33,13 +33,20 @@ api.interceptors.response.use(
   },
   function (error) {
     console.log("vào đc đây khum?", error);
-    if (error.code === "ERR_NETWORK") {
-      if (confirm("Lỗi đường truyên. Kiểm tra kết nối dữ liệu?")) {
-        window.location.href = "https://172.16.151.7:5000";
-        // window.open("https://172.16.151.7:5000", "_blank");
-      }
+    if (error?.response?.data?.code === "SPAM") {
+      window.location.href = "/m/spam_alert";
     }
-    if (error?.response?.status == 401) window.location.href = "/";
+    if (error.code === "ERR_NETWORK") {
+      // if (confirm("Lỗi đường truyên. Kiểm tra kết nối dữ liệu?")) {
+      // window.location.href = "https://172.16.151.7:5000";
+      // window.open("https://172.16.151.7:5000", "_blank");
+      // }
+    }
+    if (error?.response?.status == 401) {
+      removeCookie("auth");
+      removeCookie("emp");
+      window.location.href = "/";
+    }
     return Promise.reject(error);
   },
 );

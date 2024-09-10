@@ -53,3 +53,39 @@ html {
     transform: translateY(0px);
   }
 }
+
+@keyframes rightFloatIn {
+  from {
+    transform: translateX(30px);
+  }
+  to {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes leftFloatIn {
+  from {
+    transform: translateX(-30px);
+  }
+  to {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes bottomFloatIn {
+  from {
+    transform: translateY(12px);
+  }
+  to {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes topFloatIn {
+  from {
+    transform: translateY(-12px);
+  }
+  to {
+    transform: translateY(0px);
+  }
+}

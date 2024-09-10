@@ -7,6 +7,7 @@ const Styled = styled.div`
   flex-direction: column;
   width: 100vw;
   overflow: auto;
+  background: linear-gradient(135deg, #3a42e1, #620c90);
 `;
 
 type Props = {
@@ -16,11 +17,7 @@ type Props = {
 
 export const MobileAppWrapper = (props: Props) => {
   return (
-    <Styled
-      className={
-        "bg-[#000] duration-300 dark:bg-black " + (props.className || "")
-      }
-    >
+    <Styled className={"duration-300 dark:bg-black " + (props.className || "")}>
       {props.children}
     </Styled>
   );

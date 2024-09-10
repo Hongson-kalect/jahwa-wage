@@ -69,15 +69,14 @@ export default function LanguageChanger(props: ILanguageChangerProps) {
   }, []);
 
   React.useEffect(() => {
-    console.log("language", language);
     i18n.changeLanguage(language);
   }, []);
 
   return (
     <Dropdown menu={{ items }} placement="bottomLeft">
       <Avatar
+        // size={"large"}
         onClick={() => setChangeLang(true)}
-        size={"small"}
         src={
           language === "vi"
             ? vnFlag
@@ -87,7 +86,7 @@ export default function LanguageChanger(props: ILanguageChangerProps) {
                 ? cnFlag
                 : enFlag
         }
-        className="ml-0.5 shadow-md shadow-gray-400"
+        className="ml-0.5"
       ></Avatar>
     </Dropdown>
   );

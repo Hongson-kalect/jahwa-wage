@@ -11,67 +11,103 @@ export default function PersonalProfile({ user }: IPersonalProfileProps) {
   return (
     <div>
       <div className="seft-info">
-        <p className="header pl-2 text-sm font-medium italic text-gray-600">
+        <p className="header pl-2 text-sm font-medium italic text-rose-400">
           Thông tin cơ bản
         </p>
 
-        <table className="w-full rounded-lg p-2 text-xs shadow-inner shadow-gray-600 [&_td]:border-0 [&_td]:border-b [&_td]:border-solid [&_td]:border-gray-300">
-          <tr>
-            <td>
-              <p className="text-nowrap pr-2 text-sm font-medium">Họ tên:</p>
-            </td>
-            <td>{user.NAME}</td>
-          </tr>
-          <tr>
-            <td>
-              <p className="text-nowrap pr-2 text-sm font-medium">Mã NV:</p>
-            </td>
-            <td>{user.EMP_NO}</td>
-          </tr>
-          <tr>
-            <td>
-              <p className="text-nowrap pr-2 text-sm font-medium">Email:</p>
-            </td>
-            <td>{user.EMAIL_ADDR}</td>
-          </tr>
-          <tr>
-            <td>
-              <p className="text-nowrap pr-2 text-sm font-medium">Ngày sinh:</p>
-            </td>
-            <td>{user.BIRT}</td>
-          </tr>
-          <tr>
-            <td>
-              <p className="text-nowrap pr-2 text-sm font-medium">Nơi sinh:</p>
-            </td>
-            <td>{user.DOMI}</td>
-          </tr>
-          <tr>
-            <td>
-              <p className="text-nowrap pr-2 text-sm font-medium">
-                Thường trú:
-              </p>
-            </td>
-            <td>{user.CURR_ADDR}</td>
-          </tr>
-          <tr>
-            <td>
-              <p className="text-nowrap pr-2 text-sm font-medium">SDT:</p>
-            </td>
-            <td>{user.TEL_NO}</td>
-          </tr>
-          <tr>
-            <td>
-              <p className="text-nowrap pr-2 text-sm font-medium">CMND:</p>
-            </td>
-            <td>{user.RES_NO}</td>
-          </tr>
-          <tr>
-            <td>
-              <p className="text-nowrap pr-2 text-sm font-medium">Quốc tịch:</p>
-            </td>
-            <td>{user.NAT_CD}</td>
-          </tr>
+        <table className="w-full rounded-lg bg-white p-2 text-xs text-gray-800 shadow shadow-slate-400 [&_td]:border-0 [&_td]:border-b [&_td]:border-solid [&_td]:border-gray-300">
+          <tbody>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
+                  Họ tên:
+                </p>
+              </td>
+              <td className="line-clamp-1 py-0.5 text-xs font-medium">
+                {user.NAME}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
+                  Mã NV:
+                </p>
+              </td>
+              <td className="line-clamp-1 py-0.5 text-xs font-medium">
+                {user.EMP_NO}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
+                  Email:
+                </p>
+              </td>
+              <td className="line-clamp-1 py-0.5 text-xs font-medium">
+                {user.EMAIL_ADDR}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
+                  Ngày sinh:
+                </p>
+              </td>
+              <td className="line-clamp-1 py-0.5 text-xs font-medium">
+                {user.BIRT}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
+                  Nơi sinh:
+                </p>
+              </td>
+              <td className="line-clamp-1 py-0.5 text-xs font-medium">
+                {user.DOMI}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
+                  Thường trú:
+                </p>
+              </td>
+              <td className="line-clamp-1 py-0.5 text-xs font-medium">
+                {user.CURR_ADDR}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
+                  SDT:
+                </p>
+              </td>
+              <td className="line-clamp-1 py-0.5 text-xs font-medium">
+                {user.TEL_NO}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
+                  CMND:
+                </p>
+              </td>
+              <td className="line-clamp-1 py-0.5 text-xs font-medium">
+                {user.RES_NO}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
+                  Quốc tịch:
+                </p>
+              </td>
+              <td className="line-clamp-1 py-0.5 text-xs font-medium">
+                {user.NAT_CD}
+              </td>
+            </tr>
+          </tbody>
         </table>
 
         {/* <div className="content-wrap flex flex-col gap-1 rounded-md p-2 text-sm font-medium shadow-inner shadow-black [&_p]:text-nowrap [&_span]:text-xs [&_span]:font-normal">
@@ -121,58 +157,80 @@ export default function PersonalProfile({ user }: IPersonalProfileProps) {
       </div>
 
       <div className="seft-info mt-4">
-        <p className="header pl-2 text-sm font-medium italic text-gray-600">
+        <p className="header pl-2 text-sm font-medium italic text-rose-400">
           Thông tin chi tiết
         </p>
-        <table className="w-full rounded-lg p-2 text-xs shadow-inner shadow-gray-600 [&_td]:border-0 [&_td]:border-b [&_td]:border-solid [&_td]:border-gray-300">
-          <tr>
-            <td>
-              <p className="text-nowrap pr-2 text-sm font-medium">Tên Hàn:</p>
-            </td>
-            <td>{user?.HANJA_NAME}</td>
-          </tr>
-          <tr>
-            <td>
-              <p className="text-nowrap pr-2 text-sm font-medium">Tên Anh:</p>
-            </td>
-            <td>{user.ENG_NAME}</td>
-          </tr>
-          <tr>
-            <td>
-              <p className="text-nowrap pr-2 text-sm font-medium">Biệt danh:</p>
-            </td>
-            <td>{"Ăn đì phai"}</td>
-          </tr>
-          <tr>
-            <td>
-              <p className="text-nowrap pr-2 text-sm font-medium">Hôn nhân:</p>
-            </td>
-            <td>Chua Di Phai</td>
-          </tr>
-          <tr>
-            <td>
-              <p className="text-nowrap pr-2 text-sm font-medium">Học vấn:</p>
-            </td>
-            <td>CHua cos nha</td>
-          </tr>
-          <tr>
-            <td>
-              <p className="text-nowrap pr-2 text-sm font-medium">Ngành:</p>
-            </td>
-            <td>Chua co nha</td>
-          </tr>
-          <tr>
-            <td>
-              <p className="text-nowrap pr-2 text-sm font-medium">Hạng bằng:</p>
-            </td>
-            <td>Chua co nha</td>
-          </tr>
-          <tr>
-            <td>
-              <p className="text-nowrap pr-2 text-sm font-medium">Trường:</p>
-            </td>
-            <td>Chua co nha</td>
-          </tr>
+        <table className="w-full rounded-lg p-2 text-xs text-gray-800 shadow shadow-slate-400 [&_td]:border-0 [&_td]:border-b [&_td]:border-solid [&_td]:border-gray-300">
+          <tbody>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
+                  Tên Hàn:
+                </p>
+              </td>
+              <td className="line-clamp-1 py-0.5 text-xs font-medium">
+                {user?.HANJA_NAME || "Không"}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
+                  Tên Anh:
+                </p>
+              </td>
+              <td className="line-clamp-1 py-0.5 text-xs font-medium">
+                {user.ENG_NAME}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
+                  Biệt danh:
+                </p>
+              </td>
+              <td className="py-0.5 font-medium">{"Ăn đì phai"}</td>
+            </tr>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
+                  Hôn nhân:
+                </p>
+              </td>
+              <td className="py-0.5 font-medium">Chua Di Phai</td>
+            </tr>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
+                  Học vấn:
+                </p>
+              </td>
+              <td className="py-0.5 font-medium">CHua cos nha</td>
+            </tr>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
+                  Ngành:
+                </p>
+              </td>
+              <td className="py-0.5 font-medium">Chua co nha</td>
+            </tr>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
+                  Hạng bằng:
+                </p>
+              </td>
+              <td className="py-0.5 font-medium">Chua co nha</td>
+            </tr>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
+                  Trường:
+                </p>
+              </td>
+              <td className="py-0.5 font-medium">Chua co nha</td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>

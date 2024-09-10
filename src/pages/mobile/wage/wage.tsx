@@ -27,7 +27,6 @@ export default function MobileWagePage() {
   const [showType, setShowType] = React.useState<unknown>("month");
   const [date, setDate] = React.useState(dayjs("2000-01-22", "YYYY-MM-DD"));
   const { user } = useUserInfoStore();
-  console.log("qqqqqq", user);
 
   const monthWay = useQuery({
     queryFn: () => {
@@ -65,8 +64,6 @@ export default function MobileWagePage() {
       );
     }
   }, [monthWay.data?.total?.pay_yymm]);
-
-  console.log("monthWay", monthWay);
 
   return (
     <MobileAppWrapper>

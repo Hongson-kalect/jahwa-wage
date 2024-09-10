@@ -1,14 +1,12 @@
-import * as React from "react";
-import HomeHeader from "./components/header";
-import Content from "./components/content";
-import { MobileAppWrapper } from "../../../components/mobile/appWrapper";
-import MobileNews from "./components/news";
 import { useQuery } from "@tanstack/react-query";
 import dayjs, { Dayjs } from "dayjs";
-import { calDateValue, getWorkData } from "./utils";
+import * as React from "react";
+import { MobileAppWrapper } from "../../../components/mobile/appWrapper";
 import { useUserInfoStore } from "../../../store/userinfo";
+import Content from "./components/content";
+import HomeHeader from "./components/header";
 import { WorkList, WorkType } from "./interface";
-import { HamsterLoading } from "../../../components/common/loading";
+import { calDateValue, getWorkData } from "./utils";
 
 export interface IMobileHomePageProps {}
 
@@ -60,7 +58,6 @@ export default function MobileHomePage(props: IMobileHomePageProps) {
           sortArray.push(matchDate);
         }
         matchDate.data.push(work);
-        // if(sortArray.some((item)=>{item.month===work.month}))
       });
       return setWorkData(sortArray);
     }

@@ -10,11 +10,29 @@
     "workCount": "출근일수",
     "overtime": "오버타임",
     "eatBonus": "식사보너",
+    "Day": "일",
+    "Hour": "시간",
+    "Night": "야간",
     "day": "일",
     "hour": "시간",
     "night": "야간",
     "sun": "주말",
     "fes": "휴가",
+    "weekendWork": "일요일 근무",
+    "dayCount": "근무 일수",
+    "hourCount": "근무 시간",
+    "overTimeCount": "초과 근무",
+    "offDayLeft": "남은 휴가",
+    "detail": "세부 사항",
+
+    "lunarDate": "음력",
+    "day0": "일요일",
+    "day1": "월요일",
+    "day2": "화요일",
+    "day3": "수요일",
+    "day4": "목요일",
+    "day5": "금요일",
+    "day6": "토요일",
 
     "total": "총",
     "realGet": "실수령",
@@ -25,11 +43,14 @@
     "personal": "개인",
     "work": "직업"
   },
-  "header": {},
+  "header": {
+    "calendar": "근무표"
+  },
   "sidebar": {
     "home": "홈",
-    "wage": "급여 현황",
-    "dayOff": "휴가 정보",
+    "wage": "급여",
+    "calendar": "근무표",
+    "dayOff": "휴일",
     "progress": "진행 상황",
     "notification": "알림",
     "seft": "자신",
@@ -112,7 +133,12 @@
     "start": "시작",
     "finish": "종료",
     "otTime": "초과근로시간",
-    "shift": "배치"
+    "shift": "배치",
+    "timeIn": "출근 시간",
+    "timeOut": "퇴근 시간",
+    "eatBonus": "식사 보조",
+    "off": "휴가",
+    "bonus": "보너스"
   },
 
   "selfNotify": {

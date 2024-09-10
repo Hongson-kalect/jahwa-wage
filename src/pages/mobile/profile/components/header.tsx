@@ -4,6 +4,7 @@ import * as React from "react";
 import { IoNotifications } from "react-icons/io5";
 import { useUserInfoStore } from "../../../../store/userinfo";
 import LanguageChanger from "../../../../components/common/languageChange";
+import { HeaderNew } from "../../calendar-new/components/header";
 
 export interface IMobileProfileHeaderProps {
   activeTab: string;
@@ -20,9 +21,10 @@ export default function MobileProfileHeader({
   const { user } = useUserInfoStore();
 
   return (
-    <div className="items-end gap-4 rounded-b-[40px] pt-4 [&>*]:text-white">
+    <div className="items-end gap-4 rounded-b-[40px] px-3 py-2 [&>*]:text-white">
+      <HeaderNew title="Thông tin cá nhân" />
       <div className="flex w-full items-center px-4">
-        <p className="line-clamp-1 flex-1 text-lg">Thông tin cá nhân</p>
+        <p className="line-clamp-1 flex-1">Thông tin cá nhân</p>
         {/* <div className="">
           <Avatar
             size="large"

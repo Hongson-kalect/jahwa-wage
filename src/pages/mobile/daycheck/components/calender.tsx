@@ -188,7 +188,7 @@ export default function MobileHomeCalendar(props: IMobileHomeCalendarProps) {
           showWeekNumbers={false}
           value={calendarValue}
         />
-        <p className="mt-4 w-full pb-1 text-left text-xs text-gray-500 underline">
+        <p className="w-full pb-1 pt-4 text-left text-xs text-gray-500 underline">
           Chú thích
         </p>
         <div className="flex w-full flex-wrap items-center gap-y-1">

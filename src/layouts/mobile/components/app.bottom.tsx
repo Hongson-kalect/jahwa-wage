@@ -18,7 +18,7 @@ const StyledPaper = styled(Paper)`
       color: gray;
     }
     .Mui-selected {
-      color: #09a6bb;
+      color: #4366f1;
       /* color: white; */
     }
   }
@@ -30,7 +30,8 @@ export default function MobileAppBottom(props: IMobileAppBottomProps) {
 
   React.useLayoutEffect(() => {
     if (
-      ["home", "wage", "day-off", "day-check", "profile"].includes(selectedApp)
+      // ["home", "wage", "day-off", "day-check", "profile"].includes(selectedApp)
+      true
     ) {
       navigate(`/m/${routerMainPath.app}/${selectedApp}`);
     } else {
@@ -41,7 +42,7 @@ export default function MobileAppBottom(props: IMobileAppBottomProps) {
     <StyledPaper
       sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
       elevation={3}
-      className="z-10 h-10 overflow-hidden shadow shadow-primary-5 dark:[&>div]:bg-black dark:[&_.Mui-selected]:!text-blue-500"
+      className="z-10 h-10 overflow-hidden px-2 shadow shadow-primary-5 dark:[&>div]:bg-black dark:[&_.Mui-selected]:!text-blue-500"
     >
       <BottomNavigation
         className="h-10"
@@ -56,11 +57,11 @@ export default function MobileAppBottom(props: IMobileAppBottomProps) {
           value={"home"}
           icon={<IoHomeSharp size={20} />}
         />
-        {/* <BottomNavigationAction
-          label="B.Công"
+        <BottomNavigationAction
+          label={t("sidebar.calendar")}
           value={"day-check"}
           icon={<FaCalendarCheck size={20} />}
-        /> */}
+        />
         <BottomNavigationAction
           label={t("sidebar.wage")}
           value={"wage"}
