@@ -18,7 +18,7 @@ const StyledPaper = styled(Paper)`
       color: gray;
     }
     .Mui-selected {
-      color: #4366f1;
+      color: #173096;
       /* color: white; */
     }
   }

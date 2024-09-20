@@ -67,7 +67,7 @@ export default function HomeHeader(props: IHomeHeaderProps) {
       key: 3,
       label: (
         <div style={{ fontSize: "12px", color: "#666" }}>
-          {user.MINOR_NM} - {user.DEPT_NM}
+          {user.chucvi} - {user.DEPT_NM}
         </div>
       ),
     },

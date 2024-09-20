@@ -1,5 +1,5 @@
 import { Avatar, Button, Empty, Image, Popover, Tooltip } from "antd";
-import { FaBarsStaggered } from "react-icons/fa6";
+import { FaBarsStaggered, FaUpLong } from "react-icons/fa6";
 import { GoSun } from "react-icons/go";
 import { IoMoonOutline } from "react-icons/io5";
 import { LiaHandHoldingUsdSolid } from "react-icons/lia";
@@ -11,7 +11,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import VietnameseDate from "vietnamese-date";
 import { WorkType } from "./interface";
-import { LuLogOut } from "react-icons/lu";
+import { LuArrowBigUp, LuLogOut } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import { removeCookie } from "../../../lib/utlis";
 import { HeaderNew } from "../calendar-new/components/header";
@@ -208,12 +208,14 @@ export default function MobileHomePage1(props: IMobileHomePage1Props) {
       // }}
     >
       <div
-        className="header h-[165px] rounded-b-[40px] bg-gradient-to-b from-indigo-900 to-indigo-700 px-3 py-2 shadow-md shadow-indigo-700"
-        style={{
-          background: "#5366f1 ",
-          boxShadow:
-            "inset 10px 10px 10px #2862ff, inset -12px -12px 10px #2862ff , 0px 6px 9px #606dca",
-        }}
+        className="header h-[165px] rounded-b-xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-900 px-3 py-2 shadow-md shadow-indigo-700"
+        style={
+          {
+            // background: "#5366f1 ",
+            // boxShadow:
+            //   "inset 10px 10px 10px #2862ff, inset -12px -12px 10px #2862ff , 0px 6px 9px #606dca",
+          }
+        }
         // style={{
         //   background: `url(https://th.bing.com/th/id/OIP.onJtjFhdkQc9xvZ6EF1zQQHaEo?rs=1&pid=ImgDetMain) center center /cover no-repeat`,
         // }}
@@ -222,7 +224,7 @@ export default function MobileHomePage1(props: IMobileHomePage1Props) {
       </div>
       <div className="content -mt-24 h-60 flex-1 px-4">
         <div
-          className="panel h-[180px] rounded-3xl bg-white px-[18px] py-[12px] shadow shadow-indigo-900"
+          className="panel h-[180px] rounded-3xl bg-white px-[18px] py-[12px] shadow-sm shadow-blue-800"
           style={{
             animation:
               "0.3s cubic-bezier(0.22, 0.61, 0.36, 1) 0s 1 normal none running topFloatIn",
@@ -233,7 +235,7 @@ export default function MobileHomePage1(props: IMobileHomePage1Props) {
               {new Date().getDay()===0?"Chủ nhật":<div>Thứ {new Date().getDay()+1}</div>}
             </p> */}
             <div className="flex w-32 flex-col gap-1 text-center shadow shadow-black">
-              <div className="bg-indigo-400 py-0.5 text-xs text-white">
+              <div className="bg-indigo-600 py-0.5 text-xs text-white">
                 {new Date().getDay() === 0 ? (
                   "Chủ nhật"
                 ) : (
@@ -241,7 +243,7 @@ export default function MobileHomePage1(props: IMobileHomePage1Props) {
                 )}
               </div>
               <div
-                className={`text-4xl font-medium ${new Date().getDay() === 0 ? "text-rose-400" : new Date().getDay() === 6 ? "text-[#e0793d]" : "text-gray-800"}`}
+                className={`text-4xl font-medium ${new Date().getDay() === 0 ? "text-white" : new Date().getDay() === 6 ? "text-[#e0793d]" : "text-gray-800"}`}
               >
                 {new Date().getDate()}
               </div>
@@ -262,7 +264,7 @@ export default function MobileHomePage1(props: IMobileHomePage1Props) {
                 </span>
               </p>
               <p className="pt-2 text-xs font-light">
-                <span className="text-sm font-medium text-rose-400">
+                <span className="text-sm font-medium text-blue-600">
                   {t("common.Hour")} hoàng đạo:{" "}
                 </span>{" "}
                 {lunarDate.propitiousHours}
@@ -273,7 +275,7 @@ export default function MobileHomePage1(props: IMobileHomePage1Props) {
             <div className="panel-content flex items-center justify-between text-indigo-300">
               <div className="item">
                 <p className="pb-1 font-mono text-xs">{t("common.dayCount")}</p>
-                <p className="text-center text-lg text-gray-700">
+                <p className="text-center text-lg text-black">
                   {/* {Number(workTime?.tot_day)} */}
                   {Number(dayWorkCount.day + dayWorkCount.night)}
                 </p>
@@ -282,7 +284,7 @@ export default function MobileHomePage1(props: IMobileHomePage1Props) {
                 <p className="pb-1 font-mono text-xs">
                   {t("common.hourCount")}
                 </p>
-                <p className="text-center text-lg text-gray-700">
+                <p className="text-center text-lg text-black">
                   {Number(workTime.wk_time)}
                 </p>
               </div>
@@ -290,7 +292,7 @@ export default function MobileHomePage1(props: IMobileHomePage1Props) {
                 <p className="pb-1 font-mono text-xs">
                   {t("common.overTimeCount")}
                 </p>
-                <p className="text-center text-lg text-gray-700">
+                <p className="text-center text-lg text-black">
                   {Math.round(((overTime.day + overTime.night) * 10) / 60) /
                     10 +
                     " " +
@@ -301,13 +303,13 @@ export default function MobileHomePage1(props: IMobileHomePage1Props) {
                 <p className="pb-1 font-mono text-xs">
                   {t("common.offDayLeft")}
                 </p>
-                <p className="text-center text-lg text-gray-700">0</p>
+                <p className="text-center text-lg text-black">0</p>
               </div>
             </div>
           </div>
         </div>
         <div className="content-options mt-4 flex justify-between py-2">
-          <div className="option text-2xl font-medium text-indigo-800">
+          <div className="option text-2xl font-medium text-indigo-900">
             {t("common.detail")}
           </div>
           {/* <div className="option text-red-500">View all</div> */}
@@ -315,14 +317,14 @@ export default function MobileHomePage1(props: IMobileHomePage1Props) {
         {dayWorkCount.night + dayWorkCount.day > 0 ? (
           <>
             <div className="content-main grid grid-cols-3 gap-4 py-2">
-              <div className="item rounded-3xl bg-white px-4 py-3 text-gray-600 shadow shadow-gray-300">
+              <div className="item rounded-3xl border border-solid border-blue-600 bg-white px-4 py-3 text-blue-600 shadow-md shadow-blue-500">
                 <p className="text-sm">{t("common.day")}</p>
                 <p className="p-2 pb-0 text-center text-3xl font-medium">
                   {dayWorkCount.day}
                 </p>
               </div>
               <div
-                className={`item rounded-3xl bg-[#3d7ecf] px-4 py-3 text-white shadow shadow-indigo-500 ${
+                className={`item rounded-3xl bg-blue-600 px-4 py-3 text-white shadow shadow-indigo-500 ${
                   dayWorkCount.night === 0 ? "opacity-50" : ""
                 }`}
                 style={{
@@ -330,14 +332,14 @@ export default function MobileHomePage1(props: IMobileHomePage1Props) {
                     "0.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0s 1 normal none running rightFloatIn",
                 }}
               >
-                <p className="text-sm">{t("common.night")}</p>
+                <p className="text-sm">{t("common.Night")}</p>
                 <p className="p-2 pb-0 text-center text-3xl font-bold">
                   {dayWorkCount.night}
                 </p>
               </div>
               {dayWorkCount.sun ? (
                 <div
-                  className="item rounded-3xl bg-rose-400 px-4 py-3 text-white shadow-md shadow-[#fe4f6f88]"
+                  className="item rounded-3xl border border-solid border-blue-900 bg-indigo-900 px-4 py-3 text-white shadow-md shadow-gray-500"
                   style={{
                     animation:
                       "1s cubic-bezier(0.22, 0.61, 0.36, 1) 0s 1 normal none running rightFloatIn",
@@ -351,7 +353,7 @@ export default function MobileHomePage1(props: IMobileHomePage1Props) {
               ) : null}
               {dayWorkCount.fes ? (
                 <div
-                  className="item rounded-3xl bg-rose-400 px-4 py-3 text-white shadow-md shadow-[#fe4f6f88]"
+                  className="item rounded-3xl bg-white px-4 py-3 text-blue-600 shadow-md shadow-[#fe4f6f88]"
                   style={{
                     animation:
                       "1s cubic-bezier(0.22, 0.61, 0.36, 1) 0s 1 normal none running rightFloatIn",
@@ -372,19 +374,19 @@ export default function MobileHomePage1(props: IMobileHomePage1Props) {
               }}
             >
               {overTime.night + overTime.day > 0 ? (
-                <div className="content-sub flex gap-2 rounded-xl bg-white px-2 py-1">
-                  <div className="type flex w-16 items-center justify-center rounded-2xl bg-[#3d7ecf] py-4 text-white shadow-md shadow-indigo-400">
+                <div className="content-sub flex gap-2 rounded-xl bg-white px-2 py-1 shadow-sm shadow-indigo-400">
+                  {/* <div className="type border-right flex w-10 items-center justify-center rounded-2xl font-bold text-blue-600">
                     OT
-                  </div>
+                  </div> */}
                   <div className="content flex-1 py-1">
-                    <div className="title text-xs text-gray-400">
+                    <div className="title text-xs text-gray-500">
                       {t("common.overtime")}
                     </div>
-                    <div className="items mt-1 flex justify-between pr-4 text-sm">
+                    <div className="items mt-1 flex justify-evenly px-2 pr-4 text-sm">
                       <div
-                        className={`item flex flex-1 items-center gap-1 ${overTime.day ? "" : "opacity-35"}`}
+                        className={`item flex flex-1 gap-1 ${overTime.day ? "" : "opacity-35"}`}
                       >
-                        <GoSun size={16} className="text-indigo-600" />{" "}
+                        <GoSun size={16} className="mb-0.5 text-blue-600" />{" "}
                         <p className="font-medium text-gray-600">
                           {Math.round(overTime.day / 6) / 10} {t("common.Hour")}
                         </p>
@@ -392,7 +394,10 @@ export default function MobileHomePage1(props: IMobileHomePage1Props) {
                       <div
                         className={`item flex flex-1 items-center gap-1 ${overTime.night ? "" : "opacity-35"}`}
                       >
-                        <IoMoonOutline size={16} className="text-indigo-600" />{" "}
+                        <IoMoonOutline
+                          size={16}
+                          className="mb-0.5 text-blue-600"
+                        />{" "}
                         <p className="font-medium text-gray-600">
                           {Math.round(overTime.night / 6) / 10}{" "}
                           {t("common.Hour")}
@@ -401,10 +406,9 @@ export default function MobileHomePage1(props: IMobileHomePage1Props) {
                       <div
                         className={`item flex flex-1 items-center gap-1 ${overTime.sun ? "" : "opacity-35"}`}
                       >
-                        <LiaHandHoldingUsdSolid
-                          size={16}
-                          className="text-indigo-600"
-                        />{" "}
+                        <p className="mb-0.5 rounded-full border border-solid border-indigo-500 px-1 text-xs text-blue-600">
+                          CN
+                        </p>
                         <p className="font-medium text-gray-600">
                           {Math.round(overTime.sun / 6) / 10} {t("common.Hour")}
                         </p>
@@ -414,19 +418,19 @@ export default function MobileHomePage1(props: IMobileHomePage1Props) {
                 </div>
               ) : null}
               {eatBonus.night + eatBonus.day > 0 ? (
-                <div className="content-sub flex gap-2 rounded-xl bg-white px-2 py-1">
-                  <div className="type flex w-16 items-center justify-center rounded-2xl bg-[#3d7ecf] py-4 text-white shadow-md shadow-indigo-400">
+                <div className="content-sub flex gap-2 rounded-xl bg-white px-2 py-1 shadow-sm shadow-indigo-400">
+                  {/* <div className="type flex w-16 items-center justify-center rounded-2xl bg-blue-600 py-4 text-white shadow-md shadow-indigo-400">
                     EB
-                  </div>
+                  </div> */}
                   <div className="content flex-1 py-1">
-                    <div className="title text-xs text-gray-400">
+                    <div className="title text-xs text-gray-500">
                       {t("common.eatBonus")}
                     </div>
-                    <div className="items mt-1 flex justify-between pr-4 text-sm">
+                    <div className="items mt-1 flex justify-between px-2 pr-4 text-sm">
                       <div
                         className={`item flex flex-1 items-center gap-1 ${eatBonus.day ? "" : "opacity-35"}`}
                       >
-                        <GoSun size={16} className="text-indigo-600" />{" "}
+                        <GoSun size={16} className="mb-0.5 text-blue-600" />{" "}
                         <p className="font-medium text-gray-600">
                           {Math.round(eatBonus.day / 6) / 10} {t("common.Hour")}
                         </p>
@@ -434,7 +438,10 @@ export default function MobileHomePage1(props: IMobileHomePage1Props) {
                       <div
                         className={`item flex flex-1 items-center gap-1 ${eatBonus.night ? "" : "opacity-35"}`}
                       >
-                        <IoMoonOutline size={16} className="text-indigo-600" />{" "}
+                        <IoMoonOutline
+                          size={16}
+                          className="mb-0.5 text-blue-600"
+                        />{" "}
                         <p className="font-medium text-gray-600">
                           {Math.round(eatBonus.night / 6) / 10}{" "}
                           {t("common.Hour")}
@@ -443,10 +450,9 @@ export default function MobileHomePage1(props: IMobileHomePage1Props) {
                       <div
                         className={`item flex flex-1 items-center gap-1 ${eatBonus.sun ? "" : "opacity-35"}`}
                       >
-                        <LiaHandHoldingUsdSolid
-                          size={16}
-                          className="text-indigo-600"
-                        />{" "}
+                        <p className="mb-0.5 rounded-full border border-solid border-indigo-500 px-1 text-xs text-blue-600">
+                          CN
+                        </p>
                         <p className="font-medium text-gray-600">
                           {Math.round(eatBonus.sun / 6) / 10} {t("common.Hour")}
                         </p>
@@ -456,19 +462,19 @@ export default function MobileHomePage1(props: IMobileHomePage1Props) {
                 </div>
               ) : null}
               {sunday.night + sunday.day + overTime.sun > 0 ? (
-                <div className="content-sub flex gap-2 rounded-xl bg-white px-2 py-1">
-                  <div className="type flex w-16 items-center justify-center rounded-2xl bg-rose-400 py-4 text-white shadow-md shadow-[#fe4f6f88]">
+                <div className="content-sub flex gap-2 rounded-xl bg-white px-2 py-1 shadow-sm shadow-indigo-900">
+                  {/* <div className="type flex w-16 items-center justify-center rounded-2xl bg-white py-4 text-blue-600 text-white shadow-md shadow-[#fe4f6f88]">
                     CN
-                  </div>
+                  </div> */}
                   <div className="content flex-1 py-1">
-                    <div className="title text-xs text-gray-400">
+                    <div className="title text-xs text-indigo-900">
                       {t("common.weekendWork")}
                     </div>
-                    <div className="items mt-1 flex justify-between pr-4 text-sm">
+                    <div className="items mt-1 flex justify-between px-2 pr-4 text-sm">
                       <div
                         className={`item flex flex-1 items-center gap-1 ${sunday.day ? "" : "opacity-35"}`}
                       >
-                        <GoSun size={20} className="text-indigo-600" />{" "}
+                        <GoSun size={16} className="mb-0.5 text-blue-600" />{" "}
                         <p className="font-medium text-gray-600">
                           {sunday.day} {t("common.day")}
                         </p>
@@ -476,7 +482,10 @@ export default function MobileHomePage1(props: IMobileHomePage1Props) {
                       <div
                         className={`item flex flex-1 items-center gap-1 ${sunday.night ? "" : "opacity-35"}`}
                       >
-                        <IoMoonOutline size={20} className="text-indigo-600" />{" "}
+                        <IoMoonOutline
+                          size={16}
+                          className="mb-0.5 text-blue-600"
+                        />{" "}
                         <p className="font-medium text-gray-600">
                           {sunday.night} {t("common.day")}
                         </p>
@@ -484,10 +493,7 @@ export default function MobileHomePage1(props: IMobileHomePage1Props) {
                       <div
                         className={`item flex flex-1 items-center gap-1 ${overTime.sun ? "" : "opacity-35"}`}
                       >
-                        <LiaHandHoldingUsdSolid
-                          size={20}
-                          className="text-indigo-600"
-                        />{" "}
+                        <LuArrowBigUp size={18} className="text-blue-600" />{" "}
                         <p className="font-medium text-gray-600">
                           {Math.round(overTime.sun / 6) / 10} {t("common.Hour")}
                         </p>

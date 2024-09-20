@@ -22,6 +22,7 @@ import { useUserInfoStore } from "../../../../store/userinfo";
 import LanguageChanger from "../../../../components/common/languageChange";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { LuLogOut } from "react-icons/lu";
+import jahwaIcon3 from "../../../../assets/images/icon3.png";
 
 export interface IHomeHeaderProps {}
 
@@ -52,7 +53,7 @@ export default function HomeHeader(props: IHomeHeaderProps) {
       key: 3,
       label: (
         <div style={{ fontSize: "12px", color: "#666" }}>
-          {user.MINOR_NM} - {user.DEPT_NM}
+          {user.chucvi} - {user.DEPT_NM}
         </div>
       ),
     },
@@ -118,7 +119,7 @@ const AvatarItem = () => {
       >
         <Image
           style={{ borderRadius: "999px", border: "2px solid #546cda" }}
-          src="https://bizweb.dktcdn.net/thumb/grande/100/409/603/articles/bao-gia-in-anh-the-lay-ngay.jpg?v=1631007259167"
+          src={user.avatar}
           height={72}
           width={72}
         />
@@ -143,7 +144,7 @@ const AvatarItem = () => {
         >
           {user.EMAIL_ADDR}
         </div>
-        {user.MINOR_NM} - {user.DEPT_NM}
+        {user.chucvi} - {user.DEPT_NM}
         <div>{user.EMP_NO}</div>
         <Button
           onClick={logout}
@@ -162,20 +163,21 @@ const AvatarItem = () => {
 };
 
 export const HeaderNew = ({ title }: { title: React.ReactNode }) => {
+  const navigate = useNavigate();
+  const { user } = useUserInfoStore();
   return (
     <div className="flex items-center gap-3">
-      <div className="avatar">
-        <Popover placement="bottomRight" className="" title={<AvatarItem />}>
-          <Avatar
-            src="https://bizweb.dktcdn.net/thumb/grande/100/409/603/articles/bao-gia-in-anh-the-lay-ngay.jpg?v=1631007259167"
-            size="large"
-            className="shadow shadow-indigo-400"
-          />
-        </Popover>
+      <div className="nav-bar" onClick={() => navigate("/m/app/home")}>
+        {/* <FaBarsStaggered color="white" size={20} className="h-7" /> */}
+        <img src={jahwaIcon3} alt="jahwa" className="h-5" />
       </div>
-      <div className="nav-bar">
-        <FaBarsStaggered color="white" size={20} className="h-7" />
-      </div>
+      <Popover placement="bottomRight" className="" title={<AvatarItem />}>
+        <Avatar
+          src={user.avatar}
+          // size="norma;"
+          className="shadow shadow-indigo-400"
+        />
+      </Popover>
       <div className="page-name line-clamp-1 flex-1 pr-4 text-center text-sm text-gray-50">
         {title}
       </div>

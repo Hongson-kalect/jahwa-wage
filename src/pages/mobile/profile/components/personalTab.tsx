@@ -1,18 +1,19 @@
 import * as React from "react";
 import { useUserInfoStore } from "../../../../store/userinfo";
 import { UserInfoType } from "../interface";
+import { useTranslation } from "react-i18next";
 
 export interface IPersonalProfileProps {
   user: UserInfoType;
 }
 
 export default function PersonalProfile({ user }: IPersonalProfileProps) {
-  console.log("user", user);
+  const { t } = useTranslation();
   return (
     <div>
       <div className="seft-info">
         <p className="header pl-2 text-sm font-medium italic text-rose-400">
-          Thông tin cơ bản
+          {t("profile.detail.seftInfo.basicInfo")}
         </p>
 
         <table className="w-full rounded-lg bg-white p-2 text-xs text-gray-800 shadow shadow-slate-400 [&_td]:border-0 [&_td]:border-b [&_td]:border-solid [&_td]:border-gray-300">
@@ -20,7 +21,7 @@ export default function PersonalProfile({ user }: IPersonalProfileProps) {
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Họ tên:
+                  {t("profile.detail.seftInfo.name")}:
                 </p>
               </td>
               <td className="line-clamp-1 py-0.5 text-xs font-medium">
@@ -30,7 +31,27 @@ export default function PersonalProfile({ user }: IPersonalProfileProps) {
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Mã NV:
+                  {t("profile.detail.seftInfo.koreanName")}:
+                </p>
+              </td>
+              <td className="line-clamp-1 py-0.5 text-xs font-medium">
+                {user?.HANJA_NAME || "Không"}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
+                  {t("profile.detail.seftInfo.englishName")}:
+                </p>
+              </td>
+              <td className="line-clamp-1 py-0.5 text-xs font-medium">
+                {user.ENG_NAME || "Không"}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
+                  {t("profile.detail.seftInfo.code")}:
                 </p>
               </td>
               <td className="line-clamp-1 py-0.5 text-xs font-medium">
@@ -40,7 +61,7 @@ export default function PersonalProfile({ user }: IPersonalProfileProps) {
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Email:
+                  {t("profile.detail.seftInfo.email")}:
                 </p>
               </td>
               <td className="line-clamp-1 py-0.5 text-xs font-medium">
@@ -50,17 +71,17 @@ export default function PersonalProfile({ user }: IPersonalProfileProps) {
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Ngày sinh:
+                  {t("profile.detail.seftInfo.dayOfBirth")}:
                 </p>
               </td>
               <td className="line-clamp-1 py-0.5 text-xs font-medium">
-                {user.BIRT}
+                {user.BIRT?.slice(0, 10)}
               </td>
             </tr>
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Nơi sinh:
+                  {t("profile.detail.seftInfo.dayOfBirth")}:
                 </p>
               </td>
               <td className="line-clamp-1 py-0.5 text-xs font-medium">
@@ -70,7 +91,7 @@ export default function PersonalProfile({ user }: IPersonalProfileProps) {
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Thường trú:
+                  {t("profile.detail.seftInfo.address")}::
                 </p>
               </td>
               <td className="line-clamp-1 py-0.5 text-xs font-medium">
@@ -80,7 +101,7 @@ export default function PersonalProfile({ user }: IPersonalProfileProps) {
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  SDT:
+                  {t("profile.detail.seftInfo.phone")}:
                 </p>
               </td>
               <td className="line-clamp-1 py-0.5 text-xs font-medium">
@@ -90,7 +111,7 @@ export default function PersonalProfile({ user }: IPersonalProfileProps) {
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  CMND:
+                  {t("profile.detail.seftInfo.IDNumber")}:
                 </p>
               </td>
               <td className="line-clamp-1 py-0.5 text-xs font-medium">
@@ -100,7 +121,7 @@ export default function PersonalProfile({ user }: IPersonalProfileProps) {
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Quốc tịch:
+                  {t("profile.detail.seftInfo.nation")}:
                 </p>
               </td>
               <td className="line-clamp-1 py-0.5 text-xs font-medium">
@@ -109,54 +130,62 @@ export default function PersonalProfile({ user }: IPersonalProfileProps) {
             </tr>
           </tbody>
         </table>
-
-        {/* <div className="content-wrap flex flex-col gap-1 rounded-md p-2 text-sm font-medium shadow-inner shadow-black [&_p]:text-nowrap [&_span]:text-xs [&_span]:font-normal">
-          <div className="flex flex-wrap gap-2">
-            <p className="w-24">Họ tên:</p> <span> Diệp Hồng Sơn</span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <p className="w-24">Mã NV:</p> <span>V22406013</span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <p className="w-24">Email:</p> <span>hongson197201@gmail.com</span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <p className="w-24">Ngay sinh:</p> <span>01/01/2000</span>
-          </div>
-          <div className="flex gap-2">
-            <div>
-              <p className="w-24">Noi sinh:</p>
-            </div>
-            <span className="line-clamp-2">
-              Tổ dân phố Đồng Hội, thị trấn Đại Đình, huyện Tam Đảo, tỉnh Vĩnh
-              Phúc
-            </span>
-          </div>
-          <div className="flex gap-2">
-            <div>
-              <p className="w-24">Thường trú:</p>
-            </div>
-            <span className="line-clamp-2">
-              Tổ dân phố Đồng Hội, thị trấn Đại Đình, huyện Tam Đảo, tỉnh Vĩnh
-              Phúc
-            </span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <p className="w-24">SDT:</p> <span>0987654321</span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <p className="w-24">CMND:</p> <span>026201004567</span>
-            <div className="flex flex-wrap gap-2">
-              <p>Quốc tịch:</p> <span>Việt nam</span>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <p className="w-24">Quốc tịch:</p> <span>Việt Nam</span>
-          </div>
-        </div> */}
       </div>
 
-      <div className="seft-info mt-4">
+      <div className="detail-info mt-4">
+        <p className="header pl-2 text-sm font-medium italic text-rose-400">
+          {t("profile.detail.otherInfo.healthInfo")}:
+        </p>
+
+        <table className="w-full rounded-lg bg-white p-2 text-xs text-gray-800 shadow shadow-gray-600 [&_td]:border-0 [&_td]:border-b [&_td]:border-solid [&_td]:border-gray-300">
+          <tbody>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light">
+                  {t("profile.detail.otherInfo.height")}:
+                </p>
+              </td>
+              <td className="py-0.5 font-medium">{user.HGT}</td>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light">
+                  {t("profile.detail.otherInfo.weight")}:
+                </p>
+              </td>
+              <td className="py-0.5 font-medium">{user.WGT}</td>
+            </tr>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light">
+                  {t("profile.detail.otherInfo.leftEye")}:
+                </p>
+              </td>
+              <td className="py-0.5 font-medium">{user.EYESGT_LEFT}</td>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light">
+                  {t("profile.detail.otherInfo.rightEye")}:
+                </p>
+              </td>
+              <td className="py-0.5 font-medium">{user.EYESGT_RIGHT}</td>
+            </tr>
+            <tr>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light">
+                  {t("profile.detail.otherInfo.bloodType")}:
+                </p>
+              </td>
+              <td className="py-0.5 font-medium">Trắng</td>
+              <td>
+                <p className="text-nowrap pr-2 text-xs font-light">
+                  {t("profile.detail.otherInfo.blindEye")}:
+                </p>
+              </td>
+              <td className="py-0.5 font-medium">{user.DALT_TYPE}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {/* <div className="seft-info mt-4">
         <p className="header pl-2 text-sm font-medium italic text-rose-400">
           Thông tin chi tiết
         </p>
@@ -179,7 +208,7 @@ export default function PersonalProfile({ user }: IPersonalProfileProps) {
                 </p>
               </td>
               <td className="line-clamp-1 py-0.5 text-xs font-medium">
-                {user.ENG_NAME}
+                {user.ENG_NAME || "Không"}
               </td>
             </tr>
             <tr>
@@ -196,7 +225,9 @@ export default function PersonalProfile({ user }: IPersonalProfileProps) {
                   Hôn nhân:
                 </p>
               </td>
-              <td className="py-0.5 font-medium">Chua Di Phai</td>
+              <td className="py-0.5 font-medium">
+                {user.SPOUSE ? "Đã hun" : "Chưa kêt hun"}
+              </td>
             </tr>
             <tr>
               <td>
@@ -232,7 +263,7 @@ export default function PersonalProfile({ user }: IPersonalProfileProps) {
             </tr>
           </tbody>
         </table>
-      </div>
+      </div> */}
     </div>
   );
 }

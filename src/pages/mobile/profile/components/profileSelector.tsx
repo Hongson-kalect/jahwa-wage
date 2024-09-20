@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import { FaBuilding, FaUserLarge } from "react-icons/fa6";
 import { RiFolderChartFill } from "react-icons/ri";
 import styled from "styled-components";
@@ -126,6 +127,7 @@ export interface IProfileSelectorProps {
 }
 
 export default function ProfileSelector(props: IProfileSelectorProps) {
+  const { t } = useTranslation();
   return (
     <Styled>
       <div className="radio-inputs">
@@ -142,7 +144,9 @@ export default function ProfileSelector(props: IProfileSelectorProps) {
             <span className="radio-icon">
               <FaUserLarge size={12} />
             </span>
-            <span className="radio-label font-medium">Cá nhân</span>
+            <span className="radio-label font-medium">
+              {t("common.personal")}
+            </span>
           </span>
         </label>
         <label>
@@ -158,10 +162,10 @@ export default function ProfileSelector(props: IProfileSelectorProps) {
             <span className="radio-icon">
               <FaBuilding />
             </span>
-            <span className="radio-label font-medium">Công ty</span>
+            <span className="radio-label font-medium">{t("common.work")}</span>
           </span>
         </label>
-        <label>
+        {/* <label>
           <input
             // checked={props.activeTab === "info"}
             onClick={() => props.setActiveTab("info")}
@@ -175,7 +179,7 @@ export default function ProfileSelector(props: IProfileSelectorProps) {
             </span>
             <span className="radio-label font-medium">Khác</span>
           </span>
-        </label>
+        </label> */}
       </div>
     </Styled>
   );

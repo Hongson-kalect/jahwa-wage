@@ -22,6 +22,10 @@
     "overTimeCount": "Tăng ca",
     "offDayLeft": "Phép còn",
     "detail": "Chi tiết",
+    "lastYear": "Năm trước",
+    "thisYear": "Năm nay",
+    "used": "Đã dùng",
+    "": "",
 
     "lunarDate": "Âm lịch",
     "day0": "Chủ nhật",
@@ -102,6 +106,7 @@
     "left": "Còn lại",
     "history": "Lịch sử nghỉ",
     "date": "Ngày",
+    "dayOff": "Ngày nghỉ",
     "type": "Loại",
     "reason": "Lý do"
   },
@@ -176,7 +181,7 @@
         "title": "Thông tin cá nhân",
         "basicInfo": "Thông tin cơ bản",
         "code": "Mã nhân viên",
-        "name": "Tên",
+        "name": "Họ tên",
         "dayOfBirth": "Ngày sinh",
         "gender": "Giới tính",
         "email": "Email",

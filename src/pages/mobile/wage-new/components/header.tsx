@@ -67,7 +67,7 @@ export default function HomeHeader(props: IHomeHeaderProps) {
       key: 3,
       label: (
         <div style={{ fontSize: "12px", color: "#666" }}>
-          {user.MINOR_NM} - {user.DEPT_NM}
+          {user.chucvi} - {user.DEPT_NM}
         </div>
       ),
     },
@@ -103,10 +103,7 @@ export default function HomeHeader(props: IHomeHeaderProps) {
         </p>
         <div className="flex gap-1">
           <Dropdown menu={{ items: headerUserOptions }} placement="bottom">
-            <Avatar
-              src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-              alt="avatar"
-            />
+            <Avatar src={user.avatar} alt="avatar" />
           </Dropdown>
 
           {/* <div className="px-1">

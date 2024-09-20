@@ -53,32 +53,34 @@ export default function MobileDayOffPage(props: IMobileDayOffPageProps) {
       // }}
     >
       <div
-        className="header h-[165px] rounded-b-[40px] bg-gradient-to-b from-indigo-900 to-indigo-700 px-3 py-2 shadow-md shadow-indigo-700"
-        style={{
-          background: "#5366f1 ",
-          boxShadow:
-            "inset 10px 10px 10px #2862ff, inset -12px -12px 10px #2862ff , 0px 6px 9px #606dca",
-        }}
+        className="header rounded-b-xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-900 px-3 py-2 shadow-sm shadow-indigo-700"
+        // style={{
+        //   background: "#5366f1 ",
+        //   boxShadow:
+        //     "inset 10px 10px 10px #2862ff, inset -12px -12px 10px #2862ff , 0px 6px 9px #606dca",
+        // }}
         // style={{
         //   background: `url(https://th.bing.com/th/id/OIP.onJtjFhdkQc9xvZ6EF1zQQHaEo?rs=1&pid=ImgDetMain) center center /cover no-repeat`,
         // }}
       >
         <HeaderNew title={t("common.monthReport")} />
       </div>
-      <div className="content -mt-24 flex h-60 flex-1 flex-col px-4">
-        <div className="panel h-[180px] rounded-3xl bg-white px-[18px] py-[12px] shadow shadow-indigo-900">
+      <div className="content mt-3 flex h-60 flex-1 flex-col px-4">
+        <div
+          className="panel rounded-lg bg-white px-[5%] pb-[4%] pt-2 shadow-md shadow-blue-400"
+          style={{ border: "1px solid #4917d3" }}
+        >
           <div className="main-panel flex h-2/3 items-center justify-center gap-6">
             <div
               className="h-full w-2/5"
               style={{
-                background:
-                  "url('https://th.bing.com/th/id/OIP.dvNIc5ta8in8ifoRHO9BJAHaEo?rs=1&pid=ImgDetMain') center center / contain no-repeat",
+                background: `url('${user.avatar}') center center / contain no-repeat`,
               }}
             />
 
             <div className="flex-1">
               <p className="calendar line-clamp-1 text-xs font-light text-gray-400">
-                {`${user.MINOR_NM} - ${user.DEPT_NM}`}
+                {`${user.chucvi} - ${user.DEPT_NM}`}
               </p>
               <p className="calendar line-clamp-1 text-lg font-medium text-gray-600">
                 {user.NAME}
@@ -91,9 +93,9 @@ export default function MobileDayOffPage(props: IMobileDayOffPageProps) {
               </p>
             </div>
           </div>
-          <div className="panel-content flex items-center justify-between text-indigo-300">
+          <div className="panel-content mt-1.5 flex items-center justify-between text-indigo-300">
             <div className="item">
-              <p className="pb-1 font-mono text-xs">Năm trước</p>
+              <p className="pb-1 font-mono text-xs">{t("dayOff.lastYear")}</p>
               <p className="text-center text-lg text-gray-700">
                 {dayOffQuery.isLoading ? (
                   <Skeleton.Button active />
@@ -103,7 +105,7 @@ export default function MobileDayOffPage(props: IMobileDayOffPageProps) {
               </p>
             </div>
             <div className="item">
-              <p className="pb-1 font-mono text-xs">Năm nay</p>
+              <p className="pb-1 font-mono text-xs">{t("dayOff.thisYear")}</p>
               <p className="text-center text-lg text-gray-700">
                 {dayOffQuery.isLoading ? (
                   <Skeleton.Button active />
@@ -123,7 +125,7 @@ export default function MobileDayOffPage(props: IMobileDayOffPageProps) {
               </p>
             </div>
             <div className="item">
-              <p className="pb-1 font-mono text-xs">Đã dùng</p>
+              <p className="pb-1 font-mono text-xs">{t("dayOff.used")}</p>
               <p className="text-center text-lg text-gray-700">
                 {dayOffQuery.isLoading ? (
                   <Skeleton.Button active />
@@ -191,7 +193,7 @@ export default function MobileDayOffPage(props: IMobileDayOffPageProps) {
           </div>
           {/* <div className="option text-red-500">View all</div> */}
         </div>
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1">
           {dayOffQuery.isLoading ? (
             <Skeleton active />
           ) : dayOffHistory?.length ? (
@@ -202,9 +204,9 @@ export default function MobileDayOffPage(props: IMobileDayOffPageProps) {
               <tbody className="[&_td]:border [&_td]:border-solid [&_td]:border-gray-200 [&_td]:py-1.5 [&_td]:text-xs">
                 <tr className="sticky -top-0.5 !bg-primary-3 !text-sm !font-light text-white">
                   <th></th>
-                  <th>Ngày nghỉ</th>
-                  <th>Loại</th>
-                  <th className="py-1.5">Lý do</th>
+                  <th>{t("dayOff.dayOff")}</th>
+                  <th>{t("dayOff.type")}</th>
+                  <th className="py-1.5">{t("dayOff.reason")}</th>
                 </tr>
 
                 {dayOffHistory.map((item, index) => {

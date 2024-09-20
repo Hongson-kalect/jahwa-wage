@@ -9,7 +9,7 @@ import { AxiosError } from "axios";
 import { useUserInfoStore } from "../../../store/userinfo";
 import jahwaLogo from "../../../assets/images/icon3.png";
 import jahwaBG from "../../../assets/images/jahwa_view.png";
-import { Button, Col } from "antd";
+import { Button, Col, Input, Select } from "antd";
 import { useTranslation } from "react-i18next";
 import { getCookie, setCookie } from "../../../lib/utlis";
 import { httpGet } from "../../../api/axios";
@@ -32,7 +32,15 @@ export default function MSignInPage(props: IMSignInPageProps) {
       try {
         setCheckingUser(true);
         const res = await httpGet("verify");
-        setUser(res.data?.[0]);
+        const data = res.data;
+        setUser(
+          data?.[0]
+            ? {
+                ...data?.[0],
+                avatar: `https://gw.jahwa.co.kr/Photo/VNERP%2F${getCookie("emp")}.JPG`,
+              }
+            : {},
+        );
         navigate("/m/app/home");
         setCheckingUser(false);
       } catch (error) {
@@ -94,6 +102,7 @@ const SignInForm = () => {
   const [saveAccount, setSaveAccount] = React.useState(
     getCookie("save") || false,
   );
+  const [server, setServer] = React.useState(getCookie("server") || "");
   const [action, setAction] = React.useState("");
   const { setEmp_no, setUser, setIsLogin } = useUserInfoStore();
   const { t } = useTranslation();
@@ -125,7 +134,14 @@ const SignInForm = () => {
     try {
       const res = await httpGet("user/" + username);
       const data = res.data;
-      setUser(data?.[0]);
+      setUser(
+        data?.[0]
+          ? {
+              ...data?.[0],
+              avatar: `https://gw.jahwa.co.kr/Photo/VNERP%2F${username}.JPG`,
+            }
+          : {},
+      );
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -140,6 +156,10 @@ const SignInForm = () => {
   React.useEffect(() => {
     setCookie("save", saveAccount ? "1" : "", 9999);
   }, [saveAccount]);
+
+  React.useEffect(() => {
+    setCookie("server", server || "", 9999);
+  }, [server]);
 
   return (
     <div className="container">
@@ -188,11 +208,12 @@ const SignInForm = () => {
               >
                 {t("loginPage.username")}
               </label>
-              <input
+              <Input
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 type="text"
                 id="email"
+                size="large"
                 className="m-0 block h-10 w-full appearance-none rounded border border-gray-300 p-[11px] font-semibold leading-[18px] tracking-[0px] text-black caret-green-600 outline-0 ring-green-600 ring-offset-2 focus:ring-2"
               />
               <p className="mt-1 text-sm text-red-600">
@@ -207,12 +228,43 @@ const SignInForm = () => {
                 {t("loginPage.password")}
               </label>
 
-              <input
+              <Input
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 type="password"
                 id="password"
+                size="large"
                 className="m-0 block h-10 w-full appearance-none rounded border border-gray-300 p-[11px] font-semibold leading-[18px] tracking-[0px] text-black caret-green-600 outline-0 ring-green-600 ring-offset-2 focus:ring-2"
+              />
+              <p className="mt-1 text-sm text-red-600">
+                {/* {validateData.find((item) => item.field === "password")?.message} */}
+              </p>
+            </div>
+            <div className="relative block">
+              <label
+                htmlFor="password"
+                className="mb-1 block cursor-text font-normal leading-[140%] text-gray-700"
+              >
+                Server:
+              </label>
+
+              <Select
+                defaultValue={server}
+                value={server}
+                onChange={(val) => setServer(val)}
+                placeholder="--Select server name--"
+                options={[
+                  { label: "--Select server name--", value: "" },
+                  // { label: "Korean", value: "" },
+                  { label: "Jahwa vina", value: "VNERP" },
+                  { label: "Jahwa thời vụ", value: "VNPERP" },
+                  { label: "JH vina", value: "VNERPJH" },
+                  { label: "JH thời vụ", value: "VNPERPNT" },
+                  { label: "Nanotech", value: "VNERPCS" },
+                  // { label: "Nanotech", value: "VNERPCS" },
+                ]}
+                size="large"
+                className="m-0 block w-full appearance-none border border-gray-300 font-semibold leading-[18px] tracking-[0px] text-black caret-green-600 outline-0 ring-green-600 ring-offset-2 focus:ring-2 [&_*]:bg-red-200"
               />
               <p className="mt-1 text-sm text-red-600">
                 {/* {validateData.find((item) => item.field === "password")?.message} */}
@@ -222,16 +274,19 @@ const SignInForm = () => {
             <div className="flex items-center justify-between gap-2 px-2">
               <div className="flex items-center gap-2">
                 <input
-                  checked={saveAccount}
+                  checked={!!saveAccount}
                   onChange={() => setSaveAccount(!saveAccount)}
                   className="scale-125"
                   type="checkbox"
                   name="remember"
                   id="remember"
                 />
-                <p className="text-sm italic text-blue-600">
+                <label
+                  htmlFor="remember"
+                  className="text-sm italic text-blue-600"
+                >
                   {t("loginPage.saveAccount")}
-                </p>
+                </label>
               </div>
               <div>
                 <a className="text-xs italic text-[#7747ff]" href="#">

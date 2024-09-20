@@ -1,11 +1,13 @@
 import axios from "axios";
 import { getCookie, removeCookie } from "../lib/utlis";
+import { toast } from "react-toastify";
 
 // const backendDomain = process.env.REACT_APP_BACKEND_DOMAIN;
 // const backendDomain = "172.16.151.129:5000";
 
 const api = axios.create({
-  baseURL: "https://vina.jahwa.co.kr:5000/api",
+  // baseURL: "https://vina.jahwa.co.kr:5000/api",
+  baseURL: "/api",
   timeout: 5000,
   // headers: {
   //   Authentication: "Bearer " + getCookie("auth"),
@@ -16,6 +18,7 @@ api.interceptors.request.use(
   function (config) {
     // Do something before request is sent
     config.headers.Authentication = "Bearer " + getCookie("auth");
+    config.headers.database = getCookie("server");
     return config;
   },
   function (error) {
@@ -42,10 +45,15 @@ api.interceptors.response.use(
       // window.open("https://172.16.151.7:5000", "_blank");
       // }
     }
+
     if (error?.response?.status == 401) {
       removeCookie("auth");
       removeCookie("emp");
       window.location.href = "/";
+    }
+    if (error?.response?.status == 429) {
+      toast.dismiss();
+      toast.error("Thao tác chậm thôi bạn ây");
     }
     return Promise.reject(error);
   },

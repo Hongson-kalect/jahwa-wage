@@ -32,10 +32,11 @@ const StyledCalendar = styled(Calendar)`
   /* margin-top: 8px; */
   /* border-radius: 20px; */
   outline: none !important;
+  border-radius: 4px;
   overflow: hidden;
   width: 100%;
   height: 100%;
-  border: 1px solid #828282;
+  border: 1px solid #16083b;
   padding: 2px 0px;
   display: flex !important;
   .react-calendar__viewContainer {
@@ -43,9 +44,9 @@ const StyledCalendar = styled(Calendar)`
   }
   .react-calendar__month-view__weekdays__weekday {
     padding: 4px 0;
-    background-color: #c1eaff;
+    background-color: #3355f0;
     /* font-weight: ; */
-    color: #555;
+    color: #ffffff;
     text-align: center;
     & * {
       text-decoration: none;
@@ -67,6 +68,7 @@ const StyledCalendar = styled(Calendar)`
   }
 
   .react-calendar__viewContainer {
+    border-radius: 12px;
     margin-top: -2px;
     flex: 1;
     .react-calendar__month-view {
@@ -96,7 +98,7 @@ const StyledCalendar = styled(Calendar)`
               }
               &.react-calendar__tile--active {
                 border-radius: 4px;
-                background-color: #5b45db !important;
+                background-color: #2e10d6 !important;
                 animation: blink 2s cubic-bezier(0.39, 0.575, 0.565, 1) infinite;
                 color: white !important;
               }
@@ -122,19 +124,13 @@ const StyledCalendar = styled(Calendar)`
 
   @keyframes blink {
     0% {
+      border-color: red;
     }
-
-    40%,
-    70% {
-      --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0
-        var(--tw-ring-offset-width) #ff0000;
-      --tw-ring-shadow: var(--tw-ring-inset) 0 0 0
-        calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
-      box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
-        var(--tw-shadow, 0 0 #0000);
-      scale: 1.02;
+    50% {
+      border-color: blue;
     }
     100% {
+      border-color: red;
     }
   }
 `;
@@ -144,7 +140,7 @@ export interface ICalendarNewProps {}
 export default function CalendarNew(props: ICalendarNewProps) {
   const { t } = useTranslation();
 
-  const [isViewAll, setIsViewAll] = React.useState(false);
+  const [isViewAll, setIsViewAll] = React.useState(true);
   const { user } = useUserInfoStore();
   const [workData, setWorkData] = React.useState<
     { date: string; time?: string; data: WorkType[]; shift: string }[]
@@ -202,7 +198,7 @@ export default function CalendarNew(props: ICalendarNewProps) {
     return tempDetail;
   }, [selectedDate]);
 
-  console.log("dateDetail", dateDetail);
+  console.log("workData", workData);
 
   const [bonus, setBonus] = React.useState<
     { id: number; name: string; time: number }[]
@@ -279,7 +275,7 @@ export default function CalendarNew(props: ICalendarNewProps) {
 
   return (
     <div
-      className="h-full w-full overflow-y-auto overflow-x-hidden bg-slate-50"
+      className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden bg-slate-100"
       style={{ height: "calc(100% - 44px)" }}
       // style={{
       //   background:
@@ -295,18 +291,20 @@ export default function CalendarNew(props: ICalendarNewProps) {
       // }}
     >
       <div
-        className="header h-[165px] rounded-b-[40px] bg-gradient-to-b from-indigo-900 to-indigo-700 px-3 py-2 shadow-md shadow-indigo-700"
-        style={{
-          background: "#5366f1",
-          boxShadow:
-            "inset 10px 10px 10px #2862ff, inset -12px -12px 10px #2862ff , 0px 6px 9px #606dca",
-        }}
+        className="header rounded-b-xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-900 px-3 py-2 shadow-sm shadow-indigo-700"
+        style={
+          {
+            // background: "#5366f1",
+            // boxShadow:
+            //   "inset 10px 10px 10px #2862ff, inset -12px -12px 10px #2862ff , 0px 6px 9px #606dca",
+          }
+        }
       >
         <HeaderNew title={t("header.calendar")} />
       </div>
-      <div className="content -mt-24 h-60 flex-1 px-4">
+      <div className="content mt-8 flex flex-1 flex-col px-4">
         <div className="panel relative h-[180px] bg-white shadow-md shadow-indigo-400">
-          <div className="absolute -top-5 flex w-full items-center justify-end">
+          <div className="absolute -top-5 flex w-full items-center justify-end pr-1">
             <DatePicker
               cellRender={(val) => (
                 <div>
@@ -318,10 +316,14 @@ export default function CalendarNew(props: ICalendarNewProps) {
               value={selectedMonth}
               onCalendarChange={(e) => setSelectedMonth(e)}
               allowClear={false}
+              style={{
+                boxShadow: "#5244d9 -1px -1px 1px, #081150 1px -1px 1px",
+              }}
               inputReadOnly
-              className="w-28 rounded-none border-none py-0 font-bold text-indigo-900 shadow-inner shadow-indigo-800 outline-none [&_*::placeholder]:text-gray-200 [&_*]:text-sm [&_*]:font-medium"
+              className="w-28 rounded-none border-none py-0 font-bold text-indigo-900 outline-none [&_*::placeholder]:text-gray-200 [&_*]:text-sm [&_*]:font-medium"
             />
           </div>
+
           <StyledCalendar
             className="shadow-md shadow-gray-500 dark:[&_*]:text-gray-100"
             showNeighboringMonth={false}
@@ -427,58 +429,128 @@ export default function CalendarNew(props: ICalendarNewProps) {
             className="option italic text-red-500 underline"
             onClick={() => setIsViewAll(!isViewAll)}
           >
-            {isViewAll ? "View One" : "View all"}
+            {isViewAll ? "Xem đã chọn" : "Xem tất cả"}
           </div>
         </div>
-        {selectedDate ? (
-          <>
-            <div className="content-main grid grid-cols-[60%_40%] gap-4 py-2 pr-2">
-              <div
-                className={`item rounded-3xl bg-white px-4 py-3 shadow ${dateDetail.of ? "text-rose-600 shadow-pink-300" : "text-indigo-800 shadow-indigo-300"}`}
+        <div className="detail-content flex-1">
+          {isViewAll ? (
+            workData.length ? (
+              <table
+                className="w-full border-collapse bg-white text-center shadow-md shadow-gray-600 dark:bg-gray-200"
+                style={{ border: "1px solid gray" }}
               >
-                <p className="text-sm">
-                  {dateDetail.of ? t("work.off") : t("work.timeOut")}
-                </p>
-                <p
-                  className={`p-2 pb-0 text-center ${dateDetail.of ? "text-lg" : "text-3xl"} font-medium`}
+                <tbody className="[&_td]:border [&_td]:border-solid [&_td]:border-gray-200 [&_td]:py-1.5 [&_td]:text-sm">
+                  <tr className="sticky -top-0.5 !bg-primary-3 !text-sm !font-light text-white">
+                    <th className="py-1">Ngày</th>
+                    <th>Ca</th>
+                    <th>Giờ về</th>
+                    <th>Tăng ca</th>
+                    <th>Trợ ăn</th>
+                  </tr>
+
+                  {workData.map((item, index) => {
+                    const ot = item.data.find((item) =>
+                      [33, 31, 47, 40, 38].includes(Number(item.dilig_cd)),
+                    );
+                    const eb = item.data.find((item) =>
+                      [55, 56, 57, 58, 59, 60].includes(Number(item.dilig_cd)),
+                    );
+                    const off = item.data.find((item) =>
+                      [1, 9].includes(Number(item.dilig_cd)),
+                    );
+                    const day = new Date(item.date).getDay();
+                    if (off)
+                      return (
+                        <tr key={index} className="bg-red-300 text-sm">
+                          <td
+                            className={`drop-shadow-[0_1.2px_1.2px_rgba(179, 179, 179, 0.2)] py-0.5 ${day === 0 ? "text-base font-bold text-red-600" : day === 6 ? "text-base font-bold text-orange-600" : ""}`}
+                          >
+                            {item.date.slice(8, 10)}
+                          </td>
+                          <td>{Number(item.shift) === 2 ? "Đêm" : "Ngày"}</td>
+                          <td colSpan={3}>{off.dilig_nm}</td>
+                        </tr>
+                      );
+                    return (
+                      <tr key={index} className="text-sm">
+                        <td
+                          className={`py-0.5 ${day === 0 ? "text-base font-bold text-red-500" : day === 6 ? "text-base font-bold text-orange-500" : ""}`}
+                        >
+                          {item.date.slice(8, 10)}
+                        </td>
+                        <td
+                          className={`${Number(item.shift) === 2 ? "font-semibold italic" : "font-light"}`}
+                        >
+                          {Number(item.shift) === 2 ? "Đêm" : "Ngày"}
+                        </td>
+                        <td>{item.time}</td>
+                        <td>
+                          {ot
+                            ? `${Number(ot.dilig_hh) ? Number(ot.dilig_hh) + "h " : ""}${Number(ot.dilig_mm) ? Number(ot.dilig_mm) + "p" : ""}`
+                            : "-"}
+                        </td>
+                        <td>
+                          {eb
+                            ? `${Number(eb.dilig_hh) ? Number(eb.dilig_hh) + "h " : ""}${Number(eb.dilig_mm) ? Number(eb.dilig_mm) + "p" : ""}`
+                            : "-"}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            ) : (
+              <Empty />
+            )
+          ) : selectedDate ? (
+            <>
+              <div className="content-main grid grid-cols-[60%_40%] gap-2 py-2 pr-2">
+                <div
+                  className={`item rounded-xl bg-white px-4 py-3 shadow ${dateDetail.of ? "text-rose-600 shadow-pink-300" : "text-blue-700 shadow-indigo-300"}`}
                 >
-                  {dateDetail.of || selectedDate?.time || "No data"}
-                </p>
-              </div>
-              {/* <div className="item rounded-3xl bg-orange-600 px-4 py-3 text-gray-600 shadow shadow-gray-300">
+                  <p className="text-sm">
+                    {dateDetail.of ? t("work.off") : t("work.timeOut")}
+                  </p>
+                  <p
+                    className={`p-2 pb-0 text-center ${dateDetail.of ? "text-lg" : "text-3xl"} font-medium`}
+                  >
+                    {dateDetail.of || selectedDate?.time || "No data"}
+                  </p>
+                </div>
+                {/* <div className="item rounded-3xl bg-orange-600 px-4 py-3 text-gray-600 shadow shadow-gray-300">
             <p className="text-sm text-white">Nghỉ</p>
             <p className="line-clamp-1 py-2 pb-0 text-center text-3xl font-medium text-white">
               Phép năm
             </p>
           </div> */}
-              <div
-                style={{
-                  animation:
-                    "1s cubic-bezier(0.22, 0.61, 0.36, 1) 0s 1 normal none running rightFloatIn",
-                }}
-                className={`item duration-400 rounded-3xl px-4 py-3 shadow ${Number(selectedDate?.shift) === 2 ? "bg-indigo-700 text-white shadow-blue-200" : "bg-white text-indigo-800 shadow-indigo-400"}`}
-              >
-                <p className="text-sm">{t("work.shift")}</p>
-                <p className={`p-2 pb-0 text-center text-3xl font-bold`}>
-                  {Number(selectedDate?.shift) === 2
-                    ? t("common.Night")
-                    : t("common.Day")}
-                </p>
-              </div>
+                <div
+                  style={{
+                    animation:
+                      "1s cubic-bezier(0.22, 0.61, 0.36, 1) 0s 1 normal none running rightFloatIn",
+                  }}
+                  className={`item duration-400 rounded-xl px-4 py-3 shadow ${Number(selectedDate?.shift) === 2 ? "bg-blue-600 text-white shadow-blue-200" : "bg-white text-blue-700 shadow-indigo-400"}`}
+                >
+                  <p className="text-sm">{t("work.shift")}</p>
+                  <p className={`p-2 pb-0 text-center text-3xl font-bold`}>
+                    {Number(selectedDate?.shift) === 2
+                      ? t("common.Night")
+                      : t("common.Day")}
+                  </p>
+                </div>
 
-              {/* <div className="item rounded-3xl bg-white px-4 py-3 text-white shadow shadow-blue-400">
+                {/* <div className="item rounded-3xl bg-white px-4 py-3 text-white shadow shadow-blue-400">
             <p className="text-sm text-indigo-600">Ca</p>
             <p className="p-2 pb-0 text-center text-3xl font-bold text-indigo-900">
               Ngày
             </p>
           </div> */}
-              {/* <div className="item rounded-3xl bg-rose-400  px-4 py-3 text-white shadow shadow-pink-400">
+                {/* <div className="item rounded-3xl bg-rose-400  px-4 py-3 text-white shadow shadow-pink-400">
             <p className="text-sm">CN</p>
             <p className="p-2 pb-0 text-center text-3xl font-bold">3</p>
           </div> */}
-            </div>
-            <div className="flex flex-col gap-2">
-              {/* <div className="content-sub flex gap-2 rounded-xl bg-white px-2 py-1 shadow shadow-indigo-200">
+              </div>
+              <div className="flex flex-col gap-2">
+                {/* <div className="content-sub flex gap-2 rounded-xl bg-white px-2 py-1 shadow shadow-indigo-200">
             <div className="type flex w-16 items-center justify-center rounded-2xl bg-indigo-700 py-4 text-white shadow shadow-indigo-400">
               OT
             </div>
@@ -534,100 +606,100 @@ export default function CalendarNew(props: ICalendarNewProps) {
               </div>
             </div>
           </div> */}
-              {/* <div className="divider mt-2"></div> */}
-              {dateDetail.ot + dateDetail.eb > 0 ? (
-                <>
-                  <p className="-mb-2 mt-2 text-sm italic text-blue-500">
-                    {t("work.bonus")}
-                  </p>
-                  <div
-                    className="content-sub grid grid-cols-3 gap-3 rounded-xl px-2"
-                    style={{
-                      animation:
-                        "0.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0s 1 normal none running leftFloatIn",
-                    }}
-                  >
-                    {dateDetail.ot ? (
-                      <div className="card-1 flex -skew-x-3 flex-col justify-between rounded-lg p-2 shadow shadow-indigo-600">
-                        <div className="flex items-center justify-between px-1 text-blue-400">
-                          <FaArrowAltCircleUp className="" size={20} />
-                          <p className="title line-clamp-1 text-center text-xs">
-                            {t("work.overtime")}
-                          </p>
+                {/* <div className="divider mt-2"></div> */}
+                {dateDetail.ot + dateDetail.eb > 0 ? (
+                  <>
+                    <p className="-mb-2 mt-2 text-sm italic text-blue-500">
+                      {t("work.bonus")}
+                    </p>
+                    <div
+                      className="content-sub grid grid-cols-3 gap-3 rounded-xl px-2"
+                      style={{
+                        animation:
+                          "0.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0s 1 normal none running leftFloatIn",
+                      }}
+                    >
+                      {dateDetail.ot ? (
+                        <div className="card-1 flex -skew-x-3 flex-col justify-between rounded-lg bg-white p-2 shadow shadow-indigo-600">
+                          <div className="flex items-center justify-between px-1 text-blue-400">
+                            <FaArrowAltCircleUp className="" size={20} />
+                            <p className="title line-clamp-1 text-center text-xs">
+                              {t("work.overtime")}
+                            </p>
+                          </div>
+                          <div className="value mt-1 text-center text-lg font-medium text-blue-800">
+                            {Math.floor(dateDetail.ot / 60)
+                              ? Math.floor(dateDetail.ot / 60) + "H"
+                              : ""}{" "}
+                            {Math.floor(dateDetail.ot % 60)
+                              ? Math.floor(dateDetail.ot % 60) + "M"
+                              : ""}
+                          </div>
                         </div>
-                        <div className="value mt-1 text-center text-lg font-medium text-blue-800">
-                          {Math.floor(dateDetail.ot / 60)
-                            ? Math.floor(dateDetail.ot / 60) + "H"
-                            : ""}{" "}
-                          {Math.floor(dateDetail.ot % 60)
-                            ? Math.floor(dateDetail.ot % 60) + "M"
-                            : ""}
+                      ) : null}
+                      {dateDetail.eb ? (
+                        <div className="card-1 flex -skew-x-3 flex-col justify-between rounded-lg bg-white p-2 shadow shadow-indigo-600">
+                          <div className="flex items-center justify-between px-1 text-blue-400">
+                            <BiSolidBowlRice className="" size={20} />
+                            <p className="title line-clamp-1 text-center text-xs">
+                              {t("work.eatBonus")}
+                            </p>
+                          </div>
+                          <div className="value mt-1 text-center text-lg font-medium text-blue-800">
+                            {Math.floor(dateDetail.eb / 60)
+                              ? Math.floor(dateDetail.eb / 60) + "H"
+                              : ""}{" "}
+                            {Math.floor(dateDetail.eb % 60)
+                              ? Math.floor(dateDetail.eb % 60) + "M"
+                              : ""}
+                          </div>
                         </div>
-                      </div>
-                    ) : null}
-                    {dateDetail.eb ? (
-                      <div className="card-1 flex -skew-x-3 flex-col justify-between rounded-lg p-2 shadow shadow-indigo-600">
-                        <div className="flex items-center justify-between px-1 text-blue-400">
-                          <BiSolidBowlRice className="" size={20} />
-                          <p className="title line-clamp-1 text-center text-xs">
-                            {t("work.eatBonus")}
-                          </p>
+                      ) : null}
+                    </div>
+                  </>
+                ) : null}
+                {dateDetail.leaveSoon + dateDetail.comeLate > 0 ? (
+                  <>
+                    <p className="-mb-2 mt-2 text-sm italic text-blue-500">
+                      Khấu trừ
+                    </p>
+                    <div className="content-sub grid grid-cols-3 gap-3 rounded-xl px-2">
+                      {dateDetail.comeLate ? (
+                        <div className="card-1 flex -skew-x-3 flex-col justify-between rounded-lg p-2 shadow shadow-indigo-600">
+                          <div className="flex items-center justify-between px-1 text-blue-400">
+                            <PiClockCountdownFill className="" size={20} />
+                            <p className="title text-center text-xs">Đi muộn</p>
+                          </div>
+                          <div className="value mt-1 text-center text-lg font-medium text-blue-800">
+                            {Math.floor(dateDetail.comeLate / 60)
+                              ? Math.floor(dateDetail.comeLate / 60) + "H"
+                              : ""}{" "}
+                            {Math.floor(dateDetail.comeLate % 60)
+                              ? Math.floor(dateDetail.comeLate % 60) + "M"
+                              : ""}
+                          </div>
                         </div>
-                        <div className="value mt-1 text-center text-lg font-medium text-blue-800">
-                          {Math.floor(dateDetail.eb / 60)
-                            ? Math.floor(dateDetail.eb / 60) + "H"
-                            : ""}{" "}
-                          {Math.floor(dateDetail.eb % 60)
-                            ? Math.floor(dateDetail.eb % 60) + "M"
-                            : ""}
+                      ) : null}
+                      {dateDetail.leaveSoon ? (
+                        <div className="card-1 flex -skew-x-3 flex-col justify-between rounded-lg p-2 shadow shadow-indigo-600">
+                          <div className="flex items-center justify-between px-1 text-blue-400">
+                            <BiRun className="" size={20} />
+                            <p className="title text-center text-xs">Về sớm</p>
+                          </div>
+                          <div className="value mt-1 text-center text-lg font-medium text-blue-800">
+                            {Math.floor(dateDetail.leaveSoon / 60)
+                              ? Math.floor(dateDetail.leaveSoon / 60) + "H"
+                              : ""}{" "}
+                            {Math.floor(dateDetail.leaveSoon % 60)
+                              ? Math.floor(dateDetail.leaveSoon % 60) + "M"
+                              : ""}
+                          </div>
                         </div>
-                      </div>
-                    ) : null}
-                  </div>
-                </>
-              ) : null}
-              {dateDetail.leaveSoon + dateDetail.comeLate > 0 ? (
-                <>
-                  <p className="-mb-2 mt-2 text-sm italic text-blue-500">
-                    Khấu trừ
-                  </p>
-                  <div className="content-sub grid grid-cols-3 gap-3 rounded-xl px-2">
-                    {dateDetail.comeLate ? (
-                      <div className="card-1 flex -skew-x-3 flex-col justify-between rounded-lg p-2 shadow shadow-indigo-600">
-                        <div className="flex items-center justify-between px-1 text-blue-400">
-                          <PiClockCountdownFill className="" size={20} />
-                          <p className="title text-center text-xs">Đi muộn</p>
-                        </div>
-                        <div className="value mt-1 text-center text-lg font-medium text-blue-800">
-                          {Math.floor(dateDetail.comeLate / 60)
-                            ? Math.floor(dateDetail.comeLate / 60) + "H"
-                            : ""}{" "}
-                          {Math.floor(dateDetail.comeLate % 60)
-                            ? Math.floor(dateDetail.comeLate % 60) + "M"
-                            : ""}
-                        </div>
-                      </div>
-                    ) : null}
-                    {dateDetail.leaveSoon ? (
-                      <div className="card-1 flex -skew-x-3 flex-col justify-between rounded-lg p-2 shadow shadow-indigo-600">
-                        <div className="flex items-center justify-between px-1 text-blue-400">
-                          <BiRun className="" size={20} />
-                          <p className="title text-center text-xs">Về sớm</p>
-                        </div>
-                        <div className="value mt-1 text-center text-lg font-medium text-blue-800">
-                          {Math.floor(dateDetail.leaveSoon / 60)
-                            ? Math.floor(dateDetail.leaveSoon / 60) + "H"
-                            : ""}{" "}
-                          {Math.floor(dateDetail.leaveSoon % 60)
-                            ? Math.floor(dateDetail.leaveSoon % 60) + "M"
-                            : ""}
-                        </div>
-                      </div>
-                    ) : null}
-                  </div>
-                </>
-              ) : null}
-              {/* <div className="card-1 flex -skew-x-3 flex-col justify-between rounded-lg p-2 shadow shadow-indigo-600">
+                      ) : null}
+                    </div>
+                  </>
+                ) : null}
+                {/* <div className="card-1 flex -skew-x-3 flex-col justify-between rounded-lg p-2 shadow shadow-indigo-600">
               <div className="flex items-center justify-between px-1 text-blue-400">
                 <FaArrowAltCircleUp className="" size={20} />
                 <p className="title text-center text-xs">Tăng ca</p>
@@ -645,7 +717,7 @@ export default function CalendarNew(props: ICalendarNewProps) {
                 2H 30P
               </div>
             </div> */}
-              {/* <div className="card-1 flex flex-col gap-1 rounded-lg p-2 shadow shadow-indigo-800">
+                {/* <div className="card-1 flex flex-col gap-1 rounded-lg p-2 shadow shadow-indigo-800">
               <div className="flex items-center justify-between px-1">
                 <p>ic</p>
                 <p className="title text-center text-xs text-indigo-600">
@@ -656,11 +728,12 @@ export default function CalendarNew(props: ICalendarNewProps) {
                 2H 30P
               </div>
             </div> */}
-            </div>
-          </>
-        ) : (
-          <Empty />
-        )}
+              </div>
+            </>
+          ) : (
+            <Empty />
+          )}
+        </div>
 
         <div className="content-sub flex"></div>
         <div className="button"></div>
@@ -686,7 +759,7 @@ const CalendarMark = (props: CalendarMarkProps) => {
   return (
     <div className="flex w-full items-center justify-center px-[15%]">
       <div
-        className={`h-1 w-full overflow-hidden rounded-lg bg-transparent shadow ${Number(props?.data?.shift) === 2 ? "flex shadow-primary-8" : ""}`}
+        className={`h-[3px] w-full overflow-hidden rounded-lg bg-transparent shadow ${Number(props?.data?.shift) === 2 ? "flex shadow-primary-8" : ""}`}
       >
         {!haveSomething && <div className="h-full flex-1 bg-green-400" />}
         {props.data.data.some((item) => {

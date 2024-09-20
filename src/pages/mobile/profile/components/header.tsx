@@ -51,7 +51,7 @@ export default function MobileProfileHeader({
           <Image
             className="w-[30vw] rounded-full"
             // size="large"
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+            src={user.avatar}
             alt="avatar"
           />
         </div>
@@ -66,7 +66,7 @@ export default function MobileProfileHeader({
             Mail: {user.EMAIL_ADDR}
           </p>
           <p className="line-clamp-1 flex-1 font-[auto] text-[#666]">
-            Chức vụ: {user.MINOR_NM} - {user.DEPT_NM}
+            Chức vụ: {user.chucvi} - {user.DEPT_NM}
           </p>
           {/* <p className="line-clamp-1 flex-1">Bộ phận:</p> */}
           {/* <p className="line-clamp-1 flex-1">

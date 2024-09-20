@@ -1,16 +1,18 @@
 import * as React from "react";
 import { UserInfoType } from "../interface";
+import { useTranslation } from "react-i18next";
 
 export interface ICompanyProfileProps {
   user: UserInfoType;
 }
 
 export default function CompanyProfile({ user }: ICompanyProfileProps) {
+  const { t } = useTranslation();
   return (
     <div>
       <div className="basic-info">
         <p className="header pl-2 text-sm font-medium italic text-rose-400">
-          Thông tin cơ bản
+          {t("profile.detail.seftInfo.basicInfo")}
         </p>
 
         <table className="w-full rounded-lg bg-white p-2 text-xs text-gray-800 shadow shadow-slate-400 [&_td]:border-0 [&_td]:border-b [&_td]:border-solid [&_td]:border-gray-300">
@@ -18,7 +20,7 @@ export default function CompanyProfile({ user }: ICompanyProfileProps) {
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Mã công ty:
+                  {t("profile.detail.companyInfo.companyCode")}:
                 </p>
               </td>
               <td className="py-0.5 font-medium">{user.COMP_CD}</td>
@@ -26,7 +28,7 @@ export default function CompanyProfile({ user }: ICompanyProfileProps) {
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Tên công ty:
+                  {t("profile.detail.companyInfo.companyName")}:
                 </p>
               </td>
               <td className="py-0.5 font-medium">{user.BIZ_AREA_NM}</td>
@@ -34,23 +36,23 @@ export default function CompanyProfile({ user }: ICompanyProfileProps) {
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Nơi kinh doanh khai báo:
+                  {t("profile.detail.companyInfo.placeOfBusiness")}:
                 </p>
               </td>
-              <td className="py-0.5 font-medium">Hỏi chấm</td>
+              <td className="py-0.5 font-medium">{user.BIZ_AREA_NM}</td>
             </tr>
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Khu vực làm việc:
+                  {t("profile.detail.companyInfo.workingArea")}:
                 </p>
               </td>
-              <td className="py-0.5 font-medium">Chẩm hói</td>
+              <td className="py-0.5 font-medium">{user.WK_AREA_CD}</td>
             </tr>
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Nơi làm việc:
+                  {t("profile.detail.companyInfo.workingPlace")}:
                 </p>
               </td>
               <td className="py-0.5 font-medium">{user.DOMI}</td>
@@ -58,15 +60,15 @@ export default function CompanyProfile({ user }: ICompanyProfileProps) {
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Mã bộ phận nội bộ:
+                  {t("profile.detail.companyInfo.internalDepartmentCode")}:
                 </p>
               </td>
-              <td className="py-0.5 font-medium">{user.INTERNAL_CD} ??</td>
+              <td className="py-0.5 font-medium">{user.INTERNAL_CD}</td>
             </tr>
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Mã bộ phận:
+                  {t("profile.detail.companyInfo.departmentCode")}:
                 </p>
               </td>
               <td className="py-0.5 font-medium">
@@ -76,31 +78,31 @@ export default function CompanyProfile({ user }: ICompanyProfileProps) {
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Chức vụ:
+                  {t("profile.detail.companyInfo.position")}:
                 </p>
               </td>
-              <td className="py-0.5 font-medium">{user.MINOR_NM}</td>
+              <td className="py-0.5 font-medium">{user.chucvu}</td>
             </tr>
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Chức trách:
+                  {t("profile.detail.companyInfo.responsibility")}:
                 </p>
               </td>
-              <td className="py-0.5 font-medium">Hỏi chấm</td>
+              <td className="py-0.5 font-medium">{user.chuctrach}</td>
             </tr>
-            <tr>
+            {/* <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
                   Thâm niên:
                 </p>
               </td>
               <td className="py-0.5 font-medium">Chẩm hói</td>
-            </tr>
+            </tr> */}
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Bậc lương:
+                  {t("profile.detail.companyInfo.wageRank")}:
                 </p>
               </td>
               <td className="py-0.5 font-medium">{user.PAY_GRD1}</td>
@@ -108,7 +110,7 @@ export default function CompanyProfile({ user }: ICompanyProfileProps) {
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Hệ số lương:
+                  {t("profile.detail.companyInfo.wageScale")}:
                 </p>
               </td>
               <td className="py-0.5">{user.PAY_GRD2}</td>
@@ -119,7 +121,7 @@ export default function CompanyProfile({ user }: ICompanyProfileProps) {
 
       <div className="detail-info mt-4">
         <p className="header pl-2 text-sm font-medium italic text-rose-400">
-          Thông tin khác
+          {t("profile.detail.companyInfo.title")}:
         </p>
 
         <table className="w-full rounded-lg bg-white p-2 text-xs text-gray-800 shadow shadow-slate-400 [&_td]:border-0 [&_td]:border-b [&_td]:border-solid [&_td]:border-gray-300">
@@ -127,7 +129,7 @@ export default function CompanyProfile({ user }: ICompanyProfileProps) {
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Ngày vào tập đoàn:
+                  {t("profile.detail.companyInfo.joinGroupDate")}:
                 </p>
               </td>
               <td className="py-0.5 font-medium">{user.ENTR_DT}</td>
@@ -135,7 +137,7 @@ export default function CompanyProfile({ user }: ICompanyProfileProps) {
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Ngày vào công ty:
+                  {t("profile.detail.companyInfo.joinCompanyDate")}:
                 </p>
               </td>
               <td className="py-0.5 font-medium">{user.ENTR_DT}</td>
@@ -143,7 +145,7 @@ export default function CompanyProfile({ user }: ICompanyProfileProps) {
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Ngày kết thúc thử việc:
+                  {t("profile.detail.companyInfo.trialEndDate")}:
                 </p>
               </td>
               <td className="py-0.5 font-medium">{user.INTERN_DT}</td>
@@ -151,34 +153,34 @@ export default function CompanyProfile({ user }: ICompanyProfileProps) {
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Ngày biến đồng nhân sự:
+                  {t("profile.detail.companyInfo.changeToFullTimeDate")}:
                 </p>
               </td>
-              <td className="py-0.5 font-medium">Ủa, Ủa dì dợ?</td>
+              <td className="py-0.5 font-medium">{user.ORDER_CHANGE_DT}</td>
             </tr>
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Xác nhận kinh nghiệm:
+                  {t("profile.detail.companyInfo.confirmExperience")}:
                 </p>
               </td>
-              <td className="py-0.5 font-medium">Chưa có em ây</td>
+              <td className="py-0.5 font-medium">{user.CAREER_MM}</td>
             </tr>
             <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
-                  Ngày thay đổi gần đây:
+                  {t("profile.detail.companyInfo.lastChangeDate")}:
                 </p>
               </td>
               <td className="py-0.5 font-medium">{user.RESENT_PROMOTE_DT}</td>
             </tr>
-            <tr>
+            {/* <tr>
               <td>
                 <p className="text-nowrap pr-2 text-xs font-light text-gray-700">
                   Ngày thôi việc:
                 </p>
               </td>
-              <td className="py-0.5 font-medium">Chưa có dữ liệu</td>
+              <td className="py-0.5 font-medium">{user.RESENT_PROMOTE_DT}</td>
             </tr>
             <tr>
               <td>
@@ -187,7 +189,7 @@ export default function CompanyProfile({ user }: ICompanyProfileProps) {
                 </p>
               </td>
               <td className="py-0.5 font-medium">Vất vãi ò</td>
-            </tr>
+            </tr> */}
           </tbody>
         </table>
       </div>

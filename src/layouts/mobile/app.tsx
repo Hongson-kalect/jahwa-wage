@@ -26,7 +26,15 @@ export default function MobileAppLayout(props: IMobileAppLayoutProps) {
       console.log("qqqq");
       try {
         const res = await httpGet("verify");
-        if (res.data?.[0].EMP_NO === getCookie("emp")) setUser(res.data?.[0]);
+        if (res.data?.[0].EMP_NO === getCookie("emp"))
+          setUser(
+            res.data?.[0]
+              ? {
+                  ...res.data?.[0],
+                  avatar: `https://gw.jahwa.co.kr/Photo/VNERP%2F${res.data?.[0].EMP_NO}.JPG`,
+                }
+              : {},
+          );
         else {
           navigate("/");
         }

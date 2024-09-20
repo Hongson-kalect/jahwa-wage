@@ -75,7 +75,7 @@ export default function LanguageChanger(props: ILanguageChangerProps) {
   return (
     <Dropdown menu={{ items }} placement="bottomLeft">
       <Avatar
-        // size={"large"}
+        size={"small"}
         onClick={() => setChangeLang(true)}
         src={
           language === "vi"

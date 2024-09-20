@@ -75,7 +75,7 @@ export default function MobileWageHeader(props: IMobileWageHeaderProps) {
             // className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/3"
             width={80}
             height={80}
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+            src={user.avatar}
           />
         </div>
         <div className="info mt-9"></div>
@@ -89,7 +89,7 @@ export default function MobileWageHeader(props: IMobileWageHeaderProps) {
               {t("profile.seft.duty")}
             </p>
             <p className="mt-1 text-sm font-medium text-primary-4 dark:text-primary-3">
-              {user.MINOR_NM}
+              {user.chucvi}
             </p>
           </div>
           <div>
