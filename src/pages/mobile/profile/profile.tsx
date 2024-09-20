@@ -5,7 +5,7 @@ import MobileProfileContent from "./components/content";
 import { UserInfoType } from "./interface";
 import "./profile.css";
 import { useUserInfoStore } from "../../../store/userinfo";
-import { HeaderNew } from "../calendar-new/components/header";
+import { HeaderNew } from "../calendar-new/ui/header";
 import ContentWrap from "../../../components/common/contentWrap";
 import ProfileSelector from "./components/profileSelector";
 import PersonalProfile from "./components/personalTab";

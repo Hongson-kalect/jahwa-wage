@@ -30,7 +30,7 @@ export default function MobileAppBottom(props: IMobileAppBottomProps) {
 
   React.useLayoutEffect(() => {
     if (
-      // ["home", "wage", "day-off", "day-check", "profile"].includes(selectedApp)
+      // ["home", "wage", "day-off", "calendar", "profile"].includes(selectedApp)
       true
     ) {
       navigate(`/m/${routerMainPath.app}/${selectedApp}`);
@@ -59,7 +59,7 @@ export default function MobileAppBottom(props: IMobileAppBottomProps) {
         />
         <BottomNavigationAction
           label={t("sidebar.calendar")}
-          value={"day-check"}
+          value={"calendar"}
           icon={<FaCalendarCheck size={20} />}
         />
         <BottomNavigationAction

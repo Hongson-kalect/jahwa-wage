@@ -1,19 +1,14 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import MobileMainLayout from "../layouts/mobile/main";
-import MAuthLayout from "../layouts/mobile/auth";
-import MSignInPage from "../pages/mobile/auth/signIn";
+import { createBrowserRouter } from "react-router-dom";
 import { routerMainPath, routerParams } from "../config/router";
 import MobileAppLayout from "../layouts/mobile/app";
-import MobileHomePage from "../pages/mobile/home/home";
-import MobileWagePage from "../pages/mobile/wage/wage";
+import MAuthLayout from "../layouts/mobile/auth";
+import MobileMainLayout from "../layouts/mobile/main";
+import MSignInPage from "../pages/mobile/auth/signIn";
+import CalendarNew from "../pages/mobile/calendar-new/calendar";
 import MobileDayOffPage from "../pages/mobile/dayoff/dayOff";
-import MobileProfilePage from "../pages/mobile/profile/profile";
+import MobileHomePage from "../pages/mobile/home/home";
 import HomePageNew from "../pages/mobile/new-home/onepage";
-import MobileDayCheckPage from "../pages/mobile/daycheck/daycheck";
-import MobileHomePage1 from "../pages/mobile/home-1/home";
-import CalendarNew from "../pages/mobile/calendar-new/home";
+import MobileProfilePage from "../pages/mobile/profile/profile";
 import MobileWageNew from "../pages/mobile/wage-new/home";
 import { SpamAlert } from "./blocked_ip";
 
@@ -70,11 +65,11 @@ export const router = createBrowserRouter([
           {
             path: `/m/${routerMainPath.app}/${routerParams.app.home}`,
             // element: <MobileHomePage />,
-            element: <MobileHomePage1 />,
+            element: <MobileHomePage />,
           },
           {
             path: `/m/app/home1`,
-            element: <MobileHomePage1 />,
+            element: <MobileHomePage />,
           },
           {
             path: `/m/app/calendar1`,
@@ -85,7 +80,7 @@ export const router = createBrowserRouter([
             element: <MobileWageNew />,
           },
           {
-            path: `/m/${routerMainPath.app}/${routerParams.app.dayCheck}`,
+            path: `/m/${routerMainPath.app}/${routerParams.app.calendar}`,
             // element: <MobileDayCheckPage />,
             element: <CalendarNew />,
           },

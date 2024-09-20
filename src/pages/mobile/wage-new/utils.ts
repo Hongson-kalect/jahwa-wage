@@ -226,7 +226,14 @@ export const getYearWage = async (id: string, year: string) => {
   }
 };
 
-export const getWageData = async (id: string, date: string) => {
+export const getWageData = async (date: string, id?: string) => {
+  if (!id)
+    return {
+      total: {},
+      income: [],
+      dedux: [],
+      workTime: {},
+    };
   try {
     const dateString =
       date == new Date().toISOString().slice(0, 10)

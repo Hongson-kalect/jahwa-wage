@@ -5,7 +5,7 @@ import MobileDayOffContent from "./components/content";
 import { Empty, Skeleton, Tooltip } from "antd";
 import { useTranslation } from "react-i18next";
 import { useUserInfoStore } from "../../../store/userinfo";
-import { HeaderNew } from "../calendar-new/components/header";
+import { HeaderNew } from "../calendar-new/ui/header";
 import { useQuery } from "@tanstack/react-query";
 import { getDayOff } from "./util";
 

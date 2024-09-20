@@ -4,7 +4,7 @@ import * as React from "react";
 import { IoNotifications } from "react-icons/io5";
 import { useUserInfoStore } from "../../../../store/userinfo";
 import LanguageChanger from "../../../../components/common/languageChange";
-import { HeaderNew } from "../../calendar-new/components/header";
+import { HeaderNew } from "../../calendar-new/ui/header";
 
 export interface IMobileProfileHeaderProps {
   activeTab: string;

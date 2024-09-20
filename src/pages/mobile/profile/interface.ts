@@ -151,4 +151,8 @@ export type UserInfoType = {
   TEL_NO?: string;
   WGT?: number;
   WK_AREA_CD?: string;
+  chucvu?: string;
+  chucvi?: string;
+  chuctrach?: string;
+  avatar?: string;
 };

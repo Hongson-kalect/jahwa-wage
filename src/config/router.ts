@@ -10,7 +10,7 @@ export const routerParams = {
     home: "home",
     wage: "wage",
     dayOff: "day-off",
-    dayCheck: "day-check",
+    calendar: "calendar",
     notify: "notify",
     profile: "profile",
     setting: "setting",

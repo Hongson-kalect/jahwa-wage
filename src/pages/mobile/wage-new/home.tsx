@@ -1,28 +1,16 @@
-import { Avatar, DatePicker, Empty, Image, Skeleton } from "antd";
-import * as React from "react";
-import { FaBarsProgress, FaBarsStaggered } from "react-icons/fa6";
-import { GiHolyGrail } from "react-icons/gi";
-import { GoSun } from "react-icons/go";
-import { IoMoonOutline } from "react-icons/io5";
-import { LiaHandHoldingUsdSolid } from "react-icons/lia";
-import { HiBars3BottomLeft } from "react-icons/hi2";
-import LanguageChanger from "../../../components/common/languageChange";
-import { numberToCurrency } from "../wage/utils";
-import styled from "styled-components";
-import { t } from "i18next";
-import { MdChangeCircle, MdOutlineCurrencyExchange } from "react-icons/md";
-import { FaExchangeAlt } from "react-icons/fa";
-import { HiOutlineSwitchVertical } from "react-icons/hi";
-import dayjs from "dayjs";
 import { useQuery } from "@tanstack/react-query";
-import { getWageData, getYearWage } from "./utils";
-import { useUserInfoStore } from "../../../store/userinfo";
+import { DatePicker, Empty, Skeleton } from "antd";
+import dayjs from "dayjs";
+import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { HeaderNew } from "../calendar-new/components/header";
+import { HiOutlineSwitchVertical } from "react-icons/hi";
+import styled from "styled-components";
+import { useUserInfoStore } from "../../../store/userinfo";
+import { HeaderNew } from "../calendar-new/ui/header";
+import { numberToCurrency } from "../wage/utils";
+import { getWageData, getYearWage } from "./utils";
 
-export interface IMobileWageNewProps {}
-
-export default function MobileWageNew(props: IMobileWageNewProps) {
+export default function MobileWageNew() {
   const { t } = useTranslation();
 
   const [isMonthWage, setIsMonthWage] = React.useState<unknown>(true);
@@ -33,26 +21,21 @@ export default function MobileWageNew(props: IMobileWageNewProps) {
 
   const monthWage = useQuery({
     queryFn: () => {
-      if (user.EMP_NO)
-        return getWageData(user.EMP_NO, date.format("YYYY-MM-DD"));
-      else return { error: "no emp_no found" };
+      return getWageData(date.format("YYYY-MM-DD"), user?.EMP_NO);
     },
     queryKey: ["monthwage", date, user.EMP_NO || "EMP_NO"],
     // placeholderData: keepPreviousData,
   });
 
-  const monthTotalPay = React.useMemo(() => {
-    return monthWage.data?.total || {};
-  }, [monthWage?.data]);
-  const monthIncome = React.useMemo(() => {
-    return monthWage.data?.income || {};
-  }, [monthWage?.data]);
-  const monthDeduct = React.useMemo(() => {
-    return monthWage.data?.dedux || {};
-  }, [monthWage?.data]);
-  const monthWorktime = React.useMemo(() => {
-    return monthWage.data?.workTime?.[0] || {};
-  }, [monthWage?.data]);
+  const [monthTotalPay, monthIncome, monthDeduct, monthWorktime] =
+    React.useMemo(() => {
+      return [
+        monthWage.data?.total || {},
+        monthWage.data?.income || {},
+        monthWage.data?.dedux || {},
+        monthWage.data?.workTime?.[0] || {},
+      ];
+    }, [monthWage?.data]);
 
   const yearWage = useQuery({
     queryFn: () => {
