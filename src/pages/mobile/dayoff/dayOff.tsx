@@ -39,37 +39,12 @@ export default function MobileDayOffPage(props: IMobileDayOffPageProps) {
     <div
       className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden bg-slate-50"
       style={{ height: "calc(100dvh - 44px)" }}
-      // style={{
-      //   background:
-      //     "url(https://th.bing.com/th/id/R.3c489fc3d57210d12875d2a31656771a?rik=5PqU%2bhbZl7gzIQ&riu=http%3a%2f%2fwallpapercave.com%2fwp%2fVbCgf6N.jpg&ehk=%2baaoHfTrbbttD9Wd6ERbUuFre%2fPNv62EdEqfvKIScXw%3d&risl=&pid=ImgRaw&r=0) center center /cover no-repeat",
-      // }}
-      // style={{
-      //   background:
-      //     "url(https://th.bing.com/th/id/OIP.vSx9a0BaAFmBMbNZEDFaJAHaEK?rs=1&pid=ImgDetMain) center center /cover no-repeat",
-      // }}
-      // style={{
-      //   background:
-      //     "url(https://bobthecamper.com/sitebuilder/images/navbarTWObackgroundALT4-254x644.png) center center /cover no-repeat",
-      // }}
     >
-      <div
-        className="header rounded-b-xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-900 px-3 py-2 shadow-sm shadow-indigo-700"
-        // style={{
-        //   background: "#5366f1 ",
-        //   boxShadow:
-        //     "inset 10px 10px 10px #2862ff, inset -12px -12px 10px #2862ff , 0px 6px 9px #606dca",
-        // }}
-        // style={{
-        //   background: `url(https://th.bing.com/th/id/OIP.onJtjFhdkQc9xvZ6EF1zQQHaEo?rs=1&pid=ImgDetMain) center center /cover no-repeat`,
-        // }}
-      >
+      <div className="header rounded-b-xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-900 px-3 py-2 shadow-sm shadow-indigo-900">
         <HeaderNew title={t("common.monthReport")} />
       </div>
-      <div className="content mt-3 flex h-60 flex-1 flex-col px-4">
-        <div
-          className="panel rounded-lg bg-white px-[5%] pb-[4%] pt-2 shadow-md shadow-blue-400"
-          style={{ border: "1px solid #4917d3" }}
-        >
+      <div className="content mt-3 flex flex-1 flex-col px-4">
+        <div className="panel h-[150px] rounded-lg bg-white px-[5%] pb-[4%] pt-[2%] shadow-md shadow-blue-900">
           <div className="main-panel flex h-2/3 items-center justify-center gap-6">
             <div
               className="h-full w-2/5"
@@ -96,7 +71,7 @@ export default function MobileDayOffPage(props: IMobileDayOffPageProps) {
           <div className="panel-content mt-1.5 flex items-center justify-between text-indigo-300">
             <div className="item">
               <p className="pb-1 font-mono text-xs">{t("dayOff.lastYear")}</p>
-              <p className="text-center text-lg text-gray-700">
+              <p className="text-center text-gray-700">
                 {dayOffQuery.isLoading ? (
                   <Skeleton.Button active />
                 ) : (
@@ -106,7 +81,7 @@ export default function MobileDayOffPage(props: IMobileDayOffPageProps) {
             </div>
             <div className="item">
               <p className="pb-1 font-mono text-xs">{t("dayOff.thisYear")}</p>
-              <p className="text-center text-lg text-gray-700">
+              <p className="text-center text-gray-700">
                 {dayOffQuery.isLoading ? (
                   <Skeleton.Button active />
                 ) : (
@@ -116,7 +91,7 @@ export default function MobileDayOffPage(props: IMobileDayOffPageProps) {
             </div>
             <div className="item">
               <p className="pb-1 font-mono text-xs">X-RAY</p>
-              <p className="text-center text-lg text-gray-700">
+              <p className="text-center text-gray-700">
                 {dayOffQuery.isLoading ? (
                   <Skeleton.Button active />
                 ) : (
@@ -126,7 +101,7 @@ export default function MobileDayOffPage(props: IMobileDayOffPageProps) {
             </div>
             <div className="item">
               <p className="pb-1 font-mono text-xs">{t("dayOff.used")}</p>
-              <p className="text-center text-lg text-gray-700">
+              <p className="text-center text-gray-700">
                 {dayOffQuery.isLoading ? (
                   <Skeleton.Button active />
                 ) : (
@@ -136,7 +111,7 @@ export default function MobileDayOffPage(props: IMobileDayOffPageProps) {
             </div>
             <div className="item">
               <p className="pb-1 font-mono text-xs">{t("common.offDayLeft")}</p>
-              <p className="text-center text-lg text-gray-700">
+              <p className="text-center text-gray-700">
                 {dayOffQuery.isLoading ? (
                   <Skeleton.Button active />
                 ) : (
@@ -145,48 +120,11 @@ export default function MobileDayOffPage(props: IMobileDayOffPageProps) {
               </p>
             </div>
           </div>
-          {/* <div className="pt-2">
-                <div className="panel-content flex items-center justify-between text-indigo-300">
-                  <div className="item">
-                    <p className="pb-1 font-mono text-xs">Ngày làm</p>
-                    <p className="text-center text-lg text-gray-700">
-                      {monthWorktime.tot_day ? (
-                        Number(monthWorktime.tot_day)
-                      ) : (
-                        <Skeleton.Button size="small" active />
-                      )}
-                    </p>
-                  </div>
-                  <div className="item">
-                    <p className="pb-1 font-mono text-xs">Số giờ</p>
-                    <p className="text-center text-lg text-gray-700">
-                      {monthWorktime.tot_day ? (
-                        Number(monthWorktime.tot_day)
-                      ) : (
-                        <Skeleton.Button size="small" active />
-                      )}
-                    </p>
-                  </div>
-                  <div className="item">
-                    <p className="pb-1 font-mono text-xs">Tăng ca</p>
-                    <p className="text-center text-lg text-gray-700">
-                      {monthWorktime.tot_day ? (
-                        Number(monthWorktime.tot_day) + "H"
-                      ) : (
-                        <Skeleton.Button size="small" active />
-                      )}
-                    </p>
-                  </div>
-                  <div className="item">
-                    <p className="pb-1 font-mono text-xs">Bậc lương</p>
-                    <p className="text-center text-lg text-gray-700">
-                      {" "}
-                      {`${user.PAY_GRD1} ${user.PAY_GRD2}`}
-                    </p>
-                  </div>
-                </div>
-              </div> */}
         </div>
+
+        <div className="h-1"></div>
+      </div>
+      <div className="px-4">
         <div className="content-options mt-4 flex justify-between py-2">
           <div className="option text-2xl font-medium text-indigo-800">
             {t("common.detail")}
@@ -251,8 +189,6 @@ export default function MobileDayOffPage(props: IMobileDayOffPageProps) {
           <div className="content-sub flex"></div>
           <div className="button"></div>
         </div>
-
-        <div className="h-1"></div>
       </div>
     </div>
   );

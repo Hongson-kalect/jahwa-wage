@@ -30,7 +30,7 @@ export default function SumaryStatistic(props: IStatisticProps) {
       }}
     >
       <p className="text-sm">{props.title}</p>
-      <p className="p-2 pb-0 text-center text-3xl font-medium">{props.value}</p>
+      <p className="p-2 pb-0 text-center text-2xl font-medium">{props.value}</p>
     </div>
   );
 }

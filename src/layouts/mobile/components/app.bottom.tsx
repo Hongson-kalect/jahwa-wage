@@ -42,10 +42,10 @@ export default function MobileAppBottom(props: IMobileAppBottomProps) {
     <StyledPaper
       sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
       elevation={3}
-      className="z-10 h-10 overflow-hidden px-2 shadow shadow-primary-5 dark:[&>div]:bg-black dark:[&_.Mui-selected]:!text-blue-500"
+      className="z-10 h-10 overflow-hidden px-8 shadow shadow-primary-5 dark:[&>div]:bg-black dark:[&_.Mui-selected]:!text-blue-500"
     >
       <BottomNavigation
-        className="h-10"
+        className="h-10 px-2"
         showLabels
         value={selectedApp}
         onChange={(event, newValue) => {

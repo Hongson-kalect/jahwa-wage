@@ -32,10 +32,10 @@ export default function HomeHeader({
 
   return (
     <div>
-      <div className="header h-[165px] rounded-b-xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-900 px-3 py-2 shadow-md shadow-indigo-700">
+      <div className="header h-[140px] rounded-b-xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-900 px-3 py-2 shadow-md shadow-indigo-700">
         <HeaderNew title={t("common.monthReport")} />
       </div>
-      <div className="content -mt-24 flex-1 px-4">
+      <div className="content -mt-20 flex-1 px-4">
         <div
           className="panel h-[180px] rounded-3xl bg-white px-[18px] py-[12px] shadow-sm shadow-blue-800"
           style={{

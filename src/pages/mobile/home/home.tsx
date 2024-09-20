@@ -181,9 +181,9 @@ export default function MobileHomePage() {
         workTime={workTime}
         overTime={overTime}
       />
-      <div className="content-wrap px-2">
+      <div className="content-wrap px-4">
         <div className="content-options mt-4 flex justify-between py-2">
-          <div className="option text-2xl font-medium text-indigo-900">
+          <div className="option text-xl font-medium text-indigo-900">
             {t("common.detail")}
           </div>
         </div>

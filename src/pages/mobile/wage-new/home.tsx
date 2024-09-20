@@ -99,7 +99,7 @@ export default function MobileWageNew() {
             title={
               <>
                 <div className="page-name flex flex-1 items-center justify-center gap-2 pr-4 text-center text-sm text-gray-50">
-                  <div className="ml-12 flex-1">Bảng lương năm</div>
+                  <div className="ml-12 flex-1">Lương năm</div>
                   <div className="flex items-center justify-center rounded-full bg-white px-1 py-0.5">
                     <HiOutlineSwitchVertical
                       size={16}
@@ -112,7 +112,7 @@ export default function MobileWageNew() {
             }
           />
         </div>
-        <div className="content relative mt-8 h-60 flex-1 px-4">
+        <div className="content relative mt-8 flex-1 px-4">
           <div className="absolute -top-5 left-0 right-0 flex w-full items-center justify-end pr-5">
             <DatePicker
               picker="year"
@@ -132,13 +132,10 @@ export default function MobileWageNew() {
               )}
             </p> */}
           </div>
-          <div
-            className="panel h-[120px] rounded-lg bg-white px-[5%] pb-[4%] shadow-md shadow-blue-400"
-            style={{ border: "1px solid #4917d3" }}
-          >
+          <div className="panel h-[120px] rounded-lg bg-white px-[5%] py-[4%] shadow-md shadow-blue-900">
             <div className="main-panel flex h-full items-center justify-center gap-6">
               <div
-                className="h-full w-2/5"
+                className="h-full w-2/5 shadow-inner"
                 style={{
                   background: `url('${user.avatar}') center center / contain no-repeat`,
                 }}
@@ -159,53 +156,13 @@ export default function MobileWageNew() {
                 </p>
               </div>
             </div>
-            {/* <div className="pt-2">
-        <div className="panel-content flex items-center justify-between text-indigo-300">
-          <div className="item">
-            <p className="pb-1 font-mono text-xs">Ngày làm</p>
-            <p className="text-center text-lg text-gray-700">
-              {monthWorktime.tot_day ? (
-                Number(monthWorktime.tot_day)
-              ) : (
-                <Skeleton.Button size="small" active />
-              )}
-            </p>
-          </div>
-          <div className="item">
-            <p className="pb-1 font-mono text-xs">Số giờ</p>
-            <p className="text-center text-lg text-gray-700">
-              {monthWorktime.tot_day ? (
-                Number(monthWorktime.tot_day)
-              ) : (
-                <Skeleton.Button size="small" active />
-              )}
-            </p>
-          </div>
-          <div className="item">
-            <p className="pb-1 font-mono text-xs">Tăng ca</p>
-            <p className="text-center text-lg text-gray-700">
-              {monthWorktime.tot_day ? (
-                Number(monthWorktime.tot_day) + "H"
-              ) : (
-                <Skeleton.Button size="small" active />
-              )}
-            </p>
-          </div>
-          <div className="item">
-            <p className="pb-1 font-mono text-xs">Bậc lương</p>
-            <p className="text-center text-lg text-gray-700">
-              {" "}
-              {`${user.PAY_GRD1} ${user.PAY_GRD2}`}
-            </p>
           </div>
         </div>
-      </div> */}
-          </div>
-
+        <div className="px-4">
           <div className="content-main mt-2 grid grid-cols-[52%_45%] gap-4 py-2">
-            <div className="item rounded-3xl bg-blue-500 px-4 pt-3 text-white shadow shadow-blue-300">
+            <div className="item rounded-2xl bg-blue-500 px-2 pt-1.5 text-white shadow shadow-blue-300">
               <p className="text-xs">Chi trả</p>
-              <div className="py-2 text-center text-xl font-medium">
+              <div className="py-1 text-center text-xl font-medium">
                 {yearWageTotal?.[0]?.tongluongchitra ? (
                   numberToCurrency(Number(yearWageTotal?.[0].tongluongchitra))
                 ) : (
@@ -213,7 +170,7 @@ export default function MobileWageNew() {
                 )}
               </div>
             </div>
-            <div className="item rounded-3xl bg-rose-400 px-4 pt-3 text-white shadow-md shadow-[#fe4f6f88]">
+            <div className="item rounded-2xl bg-rose-400 px-2 pt-1.5 text-white shadow-md shadow-[#fe4f6f88]">
               <p className="text-xs">Khấu trừ</p>
               <div className="py-2 text-center text-xl font-medium">
                 {yearWageTotal?.[0]?.tongluongkhautru ? (
@@ -223,14 +180,9 @@ export default function MobileWageNew() {
                 )}
               </div>
             </div>
-
-            {/* <div className="item rounded-3xl bg-rose-400 px-4 pt-3 text-white shadow-md shadow-[#fe4f6f88]">
-        <p className="text-xs">CN</p>
-        <p className="py-2 text-center text-xl font-bold">3</p>
-      </div> */}
           </div>
           <div className="content-main gap-4 py-2">
-            <div className="item rounded-3xl bg-indigo-700 px-4 pt-3 text-white shadow shadow-indigo-400">
+            <div className="item rounded-2xl bg-indigo-700 px-2 pt-1.5 text-white shadow shadow-indigo-400">
               <p className="text-sm">Chi trả thực tế</p>
               <div className="py-2 text-center text-2xl font-bold">
                 {yearWageTotal?.[0]?.tongluongthucnhan ? (
@@ -371,7 +323,7 @@ export default function MobileWageNew() {
           }
         />
       </div>
-      <div className="content relative mt-8 h-60 flex-1 px-4">
+      <div className="content relative mt-8 flex-1 px-4">
         <div className="absolute -top-5 left-0 right-0 m-0 flex w-full items-center justify-between px-5">
           <div className="text-xs italic text-indigo-900">
             {t("newLang.payAt")}:{" "}
@@ -396,15 +348,13 @@ export default function MobileWageNew() {
             className="w-28 rounded-none border-none py-0 font-bold text-indigo-900 outline-none [&_*::placeholder]:text-gray-200 [&_*]:text-sm [&_*]:font-medium"
           />
         </div>
-        <div
-          className="panel h-[180px] rounded-lg bg-white px-[5%] pb-[4%] shadow-md shadow-blue-400"
-          style={{ border: "1px solid #4917d3" }}
-        >
-          <div className="main-panel flex h-2/3 items-center justify-center gap-6">
+        <div className="panel h-[150px] rounded-lg bg-white px-[5%] pb-[4%] pt-[2%] shadow-md shadow-blue-900">
+          <div className="main-panel flex h-[90px] items-center justify-center gap-6">
             <div
               className="h-full w-2/5"
               style={{
-                background: `url('${user.avatar}') center center / contain no-repeat`,
+                background: `url('${user.avatar}') center top / cover no-repeat`,
+                border: "1px solid gray",
               }}
             />
 
@@ -427,7 +377,7 @@ export default function MobileWageNew() {
             <div className="panel-content flex items-center justify-between text-indigo-300">
               <div className="item">
                 <p className="pb-1 font-mono text-xs">{t("common.dayCount")}</p>
-                <div className="text-center text-lg text-gray-700">
+                <div className="text-center text-gray-700">
                   {monthWorktime.tot_day ? (
                     Number(monthWorktime.tot_day)
                   ) : (
@@ -439,7 +389,7 @@ export default function MobileWageNew() {
                 <p className="pb-1 font-mono text-xs">
                   {t("common.hourCount")}
                 </p>
-                <div className="text-center text-lg text-gray-700">
+                <div className="text-center text-gray-700">
                   {monthWorktime.tot_day ? (
                     Number(monthWorktime.tot_day)
                   ) : (
@@ -451,7 +401,7 @@ export default function MobileWageNew() {
                 <p className="pb-1 font-mono text-xs">
                   {t("common.overTimeCount")}
                 </p>
-                <div className="text-center text-lg text-gray-700">
+                <div className="text-center text-gray-700">
                   {monthWorktime.tot_day ? (
                     Number(monthWorktime.tot_day) + "H"
                   ) : (
@@ -461,7 +411,7 @@ export default function MobileWageNew() {
               </div>
               <div className="item">
                 <p className="pb-1 font-mono text-xs">{t("work.salaryRank")}</p>
-                <p className="text-center text-lg text-gray-700">
+                <p className="text-center text-gray-700">
                   {" "}
                   {`${user.PAY_GRD1} ${user.PAY_GRD2}`}
                 </p>
