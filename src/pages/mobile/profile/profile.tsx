@@ -42,7 +42,7 @@ export default function MobileProfilePage(props: IMobileProfilePageProps) {
 
   return (
     <div
-      className="h-full w-full overflow-y-auto overflow-x-hidden bg-slate-50"
+      className="h-full w-full overflow-y-auto overflow-x-hidden bg-slate-300"
       style={{ height: "calc(100% - 44px)" }}
     >
       <div
@@ -58,7 +58,7 @@ export default function MobileProfilePage(props: IMobileProfilePageProps) {
       </div>
       <div className="content mt-2 flex-1 px-4">
         <div
-          className="panel flex h-[150px] items-center gap-2 rounded-3xl bg-white px-[18px] py-[12px] shadow shadow-indigo-900"
+          className="panel flex h-[150px] items-center gap-2 rounded-xl bg-white px-[18px] py-[12px] shadow shadow-indigo-900"
           style={{
             animation:
               "0.3s cubic-bezier(0.22, 0.61, 0.36, 1) 0s 1 normal none running bottomFloatIn",

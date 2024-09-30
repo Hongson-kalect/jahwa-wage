@@ -41,7 +41,7 @@ export default function MSignInPage(props: IMSignInPageProps) {
               }
             : {},
         );
-        navigate("/m/app/home");
+        navigate("/home");
         setCheckingUser(false);
       } catch (error) {
         toast.error("Login season expired, please login again!");
@@ -118,7 +118,7 @@ const SignInForm = () => {
       await fetchUserData(username);
       setIsLogin(true);
       setEmp_no(username);
-      navigate("/m/app/home");
+      navigate("/home");
     },
     onError: (error: AxiosError) => {
       console.log("asdlkasd", error);

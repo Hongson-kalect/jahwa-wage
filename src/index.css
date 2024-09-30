@@ -4,16 +4,14 @@
 
 html {
   font-size: 16px;
-  font-family: "roboto", sans-serif, Arial, Helvetica, sans-serif;
+  font-family: "system-ui","roboto", sans-serif, Arial, Helvetica, sans-serif;
 }
 
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  /* transition: background-color 3s ease-in-out !important; */
-  /* transition: all 0.3s ease-in-out; */
-  /* animation:; */
+  /* animation: fadeOn 0.3s linear */
 }
 
 .dropdown-select__control.dropdown-select__control--is-focused {
@@ -37,6 +35,18 @@ input[type="week"],
 select:focus,
 textarea {
   font-size: 16px;
+}
+
+@keyframes fadeOn {
+  0%{
+    opacity: 0;
+  }
+  50%{
+    opacity: 0.2;
+  }
+  100%{
+    opacity: 1;
+  }
 }
 
 @keyframes bellRing {

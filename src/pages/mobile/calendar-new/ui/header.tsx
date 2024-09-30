@@ -15,7 +15,11 @@ import { CgSmileMouthOpen } from "react-icons/cg";
 import { useTranslation } from "react-i18next";
 import DarkmodeSwitch from "../../../../components/common/darkmodeSwitch";
 import jahwaIcon from "../../../../assets/images/icon3.png";
-import { removeCookie } from "../../../../lib/utlis";
+import {
+  deleteAllCookies,
+  handleLogout,
+  removeCookie,
+} from "../../../../lib/utlis";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useUserInfoStore } from "../../../../store/userinfo";
@@ -32,11 +36,6 @@ export default function HomeHeader(props: IHomeHeaderProps) {
   const navigate = useNavigate();
   const { user } = useUserInfoStore();
   console.log(user);
-
-  const handleLogout = () => {
-    removeCookie("auth");
-    navigate("/m");
-  };
 
   const [headerUserOptions] = React.useState([
     {
@@ -97,14 +96,7 @@ export default function HomeHeader(props: IHomeHeaderProps) {
 }
 
 const AvatarItem = () => {
-  const navigate = useNavigate();
   const { user } = useUserInfoStore();
-
-  const logout = (params) => {
-    removeCookie("auth");
-    removeCookie("emp");
-    navigate("/");
-  };
 
   return (
     <div className="shadow shadow-red-400">
@@ -147,7 +139,7 @@ const AvatarItem = () => {
         {user.chucvi} - {user.DEPT_NM}
         <div>{user.EMP_NO}</div>
         <Button
-          onClick={logout}
+          onClick={handleLogout}
           block
           danger
           type="primary"
@@ -167,7 +159,7 @@ export const HeaderNew = ({ title }: { title: React.ReactNode }) => {
   const { user } = useUserInfoStore();
   return (
     <div className="flex items-center gap-3">
-      <div className="nav-bar" onClick={() => navigate("/m/app/home")}>
+      <div className="nav-bar" onClick={() => navigate("/home")}>
         {/* <FaBarsStaggered color="white" size={20} className="h-7" /> */}
         <img src={jahwaIcon3} alt="jahwa" className="h-5" />
       </div>

@@ -2,6 +2,10 @@ import { create } from "zustand";
 import i18n from "../locales/i18n";
 
 type Props = {
+  device: "phone" | "pc";
+  setDevice: (type: "phone" | "pc") => void;
+  header: string;
+  setHeader: (header: string) => void;
   darkmode: boolean;
   setDarkmode: (darkmode: boolean) => void;
   language: string;
@@ -11,6 +15,11 @@ type Props = {
 };
 
 export const useMobileAppStore = create<Props>((set) => ({
+  device: "phone",
+  setDevice: (type) => set({ device: type }),
+  header: "",
+  setHeader: (header: string) => set({ header }),
+
   darkmode: false,
   setDarkmode: (darkmode: boolean) =>
     set(() => {
@@ -24,6 +33,6 @@ export const useMobileAppStore = create<Props>((set) => ({
       localStorage.setItem("language", lang);
       return { language: lang };
     }),
-  selectedApp: window.location.pathname.split("/")[3] || "home",
+  selectedApp: window.location.pathname.split("/")[1] || "home",
   setSelectedApp: (app: string) => set({ selectedApp: app }),
 }));

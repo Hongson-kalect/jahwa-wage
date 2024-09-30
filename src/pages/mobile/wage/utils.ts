@@ -121,6 +121,24 @@ export function numberToCurrency(number: number) {
   }).format(number);
 }
 
+export function numberToCurrency2(
+  input: number | string,
+  gap: number = 3,
+  symbol: string = ",",
+) {
+  let result = "";
+
+  const text = input.toString();
+  let i = 0;
+  while (i < text.length) {
+    if (i !== 0 && (text.length - i) % gap === 0) result += symbol + text[i];
+    else result += text[i];
+    i++;
+  }
+
+  return result;
+}
+
 export const notificationItems = Array.from({ length: 10 }, (_, i) => ({
   id: i + 1,
   title: `Tin nóng hệ social qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe ${

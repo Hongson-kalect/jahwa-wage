@@ -37,7 +37,7 @@ export default function MobileDayOffPage(props: IMobileDayOffPageProps) {
 
   return (
     <div
-      className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden bg-slate-50"
+      className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden bg-slate-300"
       style={{ height: "calc(100dvh - 44px)" }}
     >
       <div className="header rounded-b-xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-900 px-3 py-2 shadow-sm shadow-indigo-900">
@@ -125,8 +125,8 @@ export default function MobileDayOffPage(props: IMobileDayOffPageProps) {
         <div className="h-1"></div>
       </div>
       <div className="px-4">
-        <div className="content-options mt-4 flex justify-between py-2">
-          <div className="option text-2xl font-medium text-indigo-800">
+        <div className="content-options mt-4 flex justify-between pt-2">
+          <div className="option text-xl font-medium text-indigo-800">
             {t("common.detail")}
           </div>
           {/* <div className="option text-red-500">View all</div> */}

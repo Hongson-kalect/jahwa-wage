@@ -33,9 +33,9 @@ export default function MobileAppBottom(props: IMobileAppBottomProps) {
       // ["home", "wage", "day-off", "calendar", "profile"].includes(selectedApp)
       true
     ) {
-      navigate(`/m/${routerMainPath.app}/${selectedApp}`);
+      navigate(`/${selectedApp}`);
     } else {
-      navigate(`/m/${routerMainPath.app}/home`);
+      navigate(`/`);
     }
   }, [selectedApp]);
   return (

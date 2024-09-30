@@ -83,7 +83,7 @@ export default function CalendarDetail({
         />
       </div>
 
-      <div className="pt-2">
+      <div className="mt-2 rounded-lg bg-white px-2 py-1">
         <div
           onClick={() => setShowNote(!showNote)}
           className="flex w-full items-center gap-4 py-2 text-left text-[10px] text-xs text-rose-400"

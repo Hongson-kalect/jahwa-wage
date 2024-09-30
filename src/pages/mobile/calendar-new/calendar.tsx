@@ -126,7 +126,7 @@ export default function CalendarNew(props: ICalendarNewProps) {
 
   return (
     <div
-      className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden bg-slate-100"
+      className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden bg-slate-300"
       style={{ height: "calc(100% - 44px)" }}
     >
       <div className="header rounded-b-xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-900 px-3 py-2 shadow-sm shadow-indigo-700">
@@ -143,8 +143,8 @@ export default function CalendarNew(props: ICalendarNewProps) {
       </div>
 
       <div className="content px-2.5">
-        <div className="flex justify-between py-2">
-          <div className="option text-2xl font-medium text-indigo-800">
+        <div className="flex items-center justify-between pt-5">
+          <div className="option text-xl font-medium text-indigo-800">
             {t("common.detail")}
           </div>
           <div

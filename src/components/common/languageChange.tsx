@@ -73,21 +73,22 @@ export default function LanguageChanger(props: ILanguageChangerProps) {
   }, []);
 
   return (
-    <Dropdown menu={{ items }} placement="bottomLeft">
-      <Avatar
-        size={"small"}
-        onClick={() => setChangeLang(true)}
-        src={
-          language === "vi"
-            ? vnFlag
-            : language === "kr"
-              ? krFlag
-              : language === "cn"
-                ? cnFlag
-                : enFlag
-        }
-        className="ml-0.5"
-      ></Avatar>
+    <Dropdown menu={{ items }} placement="bottomLeft" className="px-2">
+      <div className="pl-4">
+        <div
+          className="h-8 w-8 rounded-full shadow-inner shadow-gray-900"
+          style={{
+            background: `url(${languageBG[language]}) center center / cover no-repeat`,
+          }}
+        ></div>
+      </div>
     </Dropdown>
   );
 }
+
+const languageBG = {
+  vi: vnFlag,
+  kr: krFlag,
+  cn: cnFlag,
+  en: enFlag,
+};
