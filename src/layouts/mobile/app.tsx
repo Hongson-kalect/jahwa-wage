@@ -2,7 +2,7 @@ import * as React from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import MobileAppBottom from "./components/app.bottom";
 import { useUserInfoStore } from "../../store/userinfo";
-import { httpGet } from "../../api/axios";
+import { httpGet, httpPost } from "../../api/axios";
 import { getCookie, getRawCookie, handleLogout } from "../../lib/utlis";
 import { checkCookieNSession } from "./utils";
 import { useMobileAppStore } from "../../store/mobile.app";
@@ -12,6 +12,26 @@ export interface IMobileAppLayoutProps {}
 export default function MobileAppLayout(props: IMobileAppLayoutProps) {
   const { user, setUser } = useUserInfoStore();
   const [authening, setAuthening] = React.useState(false);
+
+  const getWageData = async () => {
+    try {
+      const res = await httpPost("https://jhapi.jahwa.co.kr/MSelectList/", {
+        DIV: "202406",
+        Data: "",
+        EntCode: "VN536",
+        EmpCode: "V22111014",
+      });
+      console.log("get wage", res.data);
+      return res.data;
+    } catch (error) {
+      console.log("get wage", error);
+      return {};
+    }
+  };
+
+  // React.useEffect(() => {
+  getWageData();
+  // }, []);
 
   const verifyUser = async () => {
     setAuthening(true);
@@ -72,7 +92,7 @@ export default function MobileAppLayout(props: IMobileAppLayoutProps) {
   };
 
   React.useEffect(() => {
-    verifyUser();
+    // verifyUser();
   }, []);
 
   if (authening) return <div>Cheking cookie</div>;

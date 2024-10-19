@@ -1,8 +1,8 @@
 import * as React from "react";
-import { HeaderNew } from "../../calendar-new/ui/header";
 import { useTranslation } from "react-i18next";
 import VietnameseDate from "vietnamese-date";
 import { WorkTime } from "../interface";
+import { HeaderNew } from "../../../../components/mobile/header";
 
 export interface IHomeHeaderProps {
   workTime: WorkTime;

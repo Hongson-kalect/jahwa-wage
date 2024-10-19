@@ -1,32 +1,47 @@
 import * as React from "react";
 import PayItem from "../components/payItem";
+import { useTranslation } from "react-i18next";
 
 export interface IDeDuctDetailProps {}
 
 export default function DeDuctDetail(props: IDeDuctDetailProps) {
+  const { t } = useTranslation();
   return (
     <div className="mt-8">
-      <p className="font-medium text-red-700">Chi tiết khấu trừ</p>
+      <p className="font-medium text-red-700">{t("wage.deductDetail")}</p>
       <div className="mt-4 flex flex-col gap-3">
-        <PayItem isDeDuct name="Hỗ trợ ăn đêm" value={6767} />
-        <PayItem isDeDuct name="Thưởng chuyên cần" value={78678} />
-        <PayItem isDeDuct name="P/C di chuyển" value={90678} />
-        <PayItem isDeDuct name="P/C con nhỏ" value={456456} />
+        <PayItem isDeDuct name={t("wage.label.T1")} time="8H" value={6300000} />
         <PayItem
           isDeDuct
-          name="P/C làm ngày lễ"
+          name={t("wage.label.T2")}
           time="12H30"
-          value={234245324}
+          value={123124}
         />
         <PayItem
           isDeDuct
-          name="P/C tăng ca ngày lễ"
+          name={t("wage.label.T3")}
           time="12H30"
-          value={4534634}
+          value={124312354}
+        />
+        <PayItem
+          isDeDuct
+          name={t("wage.label.T4")}
+          time="12H30"
+          value={345345}
+        />
+        <PayItem
+          isDeDuct
+          name={t("wage.label.T5")}
+          time="12H30"
+          value={45645}
+        />
+        <PayItem
+          isDeDuct
+          name={t("wage.label.T6")}
+          time="12H30"
+          value={23423}
         />
       </div>
-      {/* <PayItem name="" time="12H30" value={12345678} /> */}
-      {/* <PayItem name="P/C tăng ca CN" time="12H30" value={12345678} /> */}
     </div>
   );
 }

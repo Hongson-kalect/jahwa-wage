@@ -3,13 +3,16 @@ import { Outlet, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useUserInfoStore } from "../../store/userinfo";
 import { getRawCookie, handleLogout } from "../../lib/utlis";
-import { httpGet } from "../../api/axios";
+import { httpGet, httpPost } from "../../api/axios";
 import { checkCookieNSession } from "./utils";
 import MobileAppBottom from "./components/app.bottom";
 import { ImCoinPound } from "react-icons/im";
 import LanguageChanger from "../../components/common/languageChange";
 import { SidebarToggle } from "../../pages/mobile/wage-1/components/sidebarToggle";
 import { useMobileAppStore } from "../../store/mobile.app";
+import { Navbar } from "./components/nav";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 export interface IMobileMainLayoutProps {}
 
@@ -27,6 +30,114 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
 
   const { setDevice } = useMobileAppStore();
   const [authening, setAuthening] = React.useState(true);
+
+  const getWageMonth = async () => {
+    try {
+      console.log("vao day");
+      axios({
+        method: "POST",
+        url: "https://jhapi.jahwa.co.kr/MSelectList",
+        data: {
+          DIV: "PAY_YYMM",
+          Data: "",
+          EntCode: "VN532",
+          EmpCode: "K20604007",
+        },
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "POST",
+        },
+      }).then((res) => {
+        console.log("day :>> ");
+        console.log("new axios request", res);
+        // setData(res.data.Table);
+      });
+    } catch (error) {
+      console.log("vao day 2");
+      console.log("new axios request", error);
+      // const res = await fetch("https://jhapi.jahwa.co.kr/MSelectList/", {
+      //   DIV: "202406",
+      //   Data: "",
+      //   EntCode: "V22111014",
+      // });
+      toast.error("Failed to get database");
+      return {};
+    }
+  };
+  const getWageType = async () => {
+    try {
+      const res = await httpPost("https://jhapi.jahwa.co.kr/MSelectList", {
+        DIV: "PROV_TYPE",
+        Data: "202406",
+        EntCode: "VN532",
+        EmpCode: "V22111014",
+      });
+      console.log("get wage", res.data);
+      return res.data;
+    } catch (error) {
+      console.log("get wage", error);
+      // const res = await fetch("https://jhapi.jahwa.co.kr/MSelectList/", {
+      //   DIV: "202406",
+      //   Data: "",
+      //   EntCode: "V22111014",
+      // });
+      toast.error("Failed to get database");
+      return {};
+    }
+  };
+  const getWageData = async () => {
+    try {
+      const res = await httpPost(
+        "https://jhapi.jahwa.co.kr/MSalaryInformation",
+        {
+          PayYYMM: "202406",
+          ProvType: "1",
+          EntCode: "VN532",
+          EmpCode: "V22111014",
+        },
+      );
+      console.log("get wage", res.data);
+      return res.data;
+    } catch (error) {
+      console.log("get wage", error);
+      // const res = await fetch("https://jhapi.jahwa.co.kr/MSelectList/", {
+      //   DIV: "202406",
+      //   Data: "",
+      //   EntCode: "V22111014",
+      // });
+      toast.error("Failed to get database");
+      return {};
+    }
+  };
+
+  const testPythonAPI = async () => {
+    try {
+      // const res = await httpPost(
+      //   "https://jhapi.jahwa.co.kr/MSalaryInformation",
+      //   {
+      //     PayYYMM: "202406",
+      //     PROVTYPE: "1",
+      //     EntCode: "VN532",
+      //     EmpCode: "V22111014",
+      //   },
+      // );
+      const res = await httpPost("https://172.16.151.177:5000/api/login", {
+        emp_no: "V22111014",
+        password: "jahwa.123",
+      });
+      console.log("get wage", res.data);
+      return res.data;
+    } catch (error) {
+      console.log("get wage", error);
+      // const res = await fetch("https://jhapi.jahwa.co.kr/MSelectList/", {
+      //   DIV: "202406",
+      //   Data: "",
+      //   EntCode: "V22111014",
+      // });
+      toast.error("Failed to get database");
+      return {};
+    }
+  };
 
   const verifyUser = async () => {
     try {
@@ -79,6 +190,13 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
   }, []);
 
   React.useEffect(() => {
+    getWageMonth();
+    // getWageType();
+    // getWageData();
+    // testPythonAPI();
+  }, []);
+
+  React.useEffect(() => {
     verifyUser();
   }, []);
 
@@ -116,137 +234,5 @@ const Header = () => {
         }}
       />
     </>
-  );
-};
-
-const Navbar = ({
-  showNav,
-  onClose,
-}: {
-  showNav: boolean;
-  onClose: () => void;
-}) => {
-  return (
-    <div
-      className={`fixed inset-0 flex w-screen duration-300 ${!showNav ? "translate-x-[-100%]" : "translate-x-0"} z-[100]`}
-    >
-      <div
-        className={`relative left-0 top-0 z-[100] h-screen w-96 bg-white`}
-        style={{ maxWidth: "80vw" }}
-      >
-        <div className="" style={{ borderBottom: "1px solid #ddd" }}>
-          <div className="relative flex items-center justify-between px-4 pt-2">
-            <p className="text-2xl font-medium text-blue-900">Diệp Hồng Sơn</p>
-            <div className="rounded-lgfont-medium absolute right-1 top-2 flex -skew-x-6 items-center justify-center italic text-white">
-              <LanguageChanger />
-            </div>
-          </div>
-          <div className="px-2 text-right text-sm italic text-gray-700">
-            Q6 - E2
-          </div>
-          <div className="flex items-start gap-4 px-2 pt-4">
-            <div
-              className="flex h-[62px] w-[62px] items-center justify-center rounded-full bg-white"
-              style={{ border: "2px solid #888" }}
-            >
-              <p className="text-3xl">A</p>
-            </div>
-            <div>
-              <p className="mt-1 text-xl font-semibold text-blue-900">
-                V22406013
-              </p>
-              <p className="mt-1 font-medium text-gray-600">
-                Nhân viên IT - 330700
-              </p>
-            </div>
-          </div>
-          <div className="mb-2 mt-5 flex justify-between px-2 text-gray-500">
-            <p>Quản lý EMVC</p>
-            <p>dh.son@jahwa.co.kr</p>
-          </div>
-          <div></div>
-        </div>
-
-        <div className="mt-4 flex flex-col gap-1">
-          <NavItem
-            icon={<ImCoinPound size={32} />}
-            title="Bảng lương"
-            link="/wage1"
-            onChange={onClose}
-          />
-          <NavItem
-            icon={<ImCoinPound size={32} />}
-            title="Thời gian đi làm"
-            link="/home"
-            onChange={onClose}
-          />
-          <NavItem
-            icon={<ImCoinPound size={32} />}
-            title="Thông tin phép năm"
-            link="/profile"
-            onChange={onClose}
-          />
-          <NavItem
-            icon={<ImCoinPound size={32} />}
-            title="Quản lý tài sản"
-            link="/calendar"
-            onChange={onClose}
-          />
-          {/* <NavItem
-            icon={<ImCoinPound size={32} color="#aaa" />}
-            title="Bảng lương"
-            link="/wage"
-          /> */}
-        </div>
-      </div>
-      <div
-        className={`flex-1 duration-500 ${showNav ? "bg-[#00000088]" : "max-w-0 bg-white"} `}
-        onClick={onClose}
-      ></div>
-    </div>
-  );
-};
-
-type NavItemType = {
-  icon?: React.ReactNode;
-  title?: string;
-  link?: string;
-  onChange: () => void;
-};
-
-const NavItem = (props: NavItemType) => {
-  const navigate = useNavigate();
-  const active = React.useMemo(() => {
-    const linkTo = props.link?.split("/")?.[1];
-    if (linkTo) {
-      if (window.location.pathname.split("/")?.[1] === linkTo) return true;
-    }
-    return false;
-  }, [window.location.pathname, props.link]);
-
-  const handlenavigate = () => {
-    const linkTo = props.link?.split("/")?.[1];
-    if (window.location.pathname.split("/")?.[1] !== linkTo) {
-      props.link && navigate(props.link);
-      props.onChange();
-    }
-  };
-
-  return (
-    <div
-      className={`flex items-center gap-4 px-4 py-3 duration-200 ${active ? "bg-blue-600 pl-5" : ""}`}
-      onClick={handlenavigate}
-    >
-      <div
-        className={`flex items-center ${active ? "text-white" : "text-gray-400"}`}
-      >
-        {props.icon}
-      </div>
-      <p
-        className={`text-lg font-medium ${active ? "text-white" : "text-gray-500"}`}
-      >
-        {props.title}
-      </p>
-    </div>
   );
 };

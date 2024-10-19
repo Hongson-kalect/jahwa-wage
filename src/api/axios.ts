@@ -11,14 +11,24 @@ const api = axios.create({
   timeout: 5000,
   // headers: {
   //   Authentication: "Bearer " + getCookie("auth"),
+  //   "Content-Type": "application/json",
   // },
 });
+
+// api.defaults.headers.common["Content-Type"] =
+//   `application/x-www-form-urlencoded`;
+api.defaults.headers.common["Content-Type"] = `application/json`;
+
+api.defaults.headers.common["Accept"] = `*/*`;
+// api.defaults.headers.common["Content-Encoding"] = `gzip`;
+
+// api.defaults.headers.common["database"] = `${getCookie("server")}`;
 
 api.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    config.headers.Authentication = "Bearer " + getCookie("auth");
-    config.headers.database = getCookie("server");
+    // config.headers.Authentication = "Bearer " + getCookie("auth");
+    // config.headers.database = getCookie("server");
     return config;
   },
   function (error) {

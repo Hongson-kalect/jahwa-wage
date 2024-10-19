@@ -132,14 +132,14 @@ export async function checkCookieNSession() {
     console.log("Mài dà hú :>> ", "Mài dà hú");
   }
 
-  try {
-    const res = await httpPost(
-      "https://sso.jahwa.co.kr/Common/Util/CheckCookieNSession.aspx",
-    );
-    console.log("check cookie result :>> ", res);
-  } catch (error) {
-    console.log("check cookie fail :>> ", error);
-  }
+  // try {
+  //   const res = await httpPost(
+  //     "https://sso.jahwa.co.kr/Common/Util/CheckCookieNSession.aspx",
+  //   );
+  //   console.log("check cookie result :>> ", res);
+  // } catch (error) {
+  //   console.log("check cookie fail :>> ", error);
+  // }
   // return !res.data;
 
   return ""; // Do bị cors nên đang mặc định cookie hợp lệ

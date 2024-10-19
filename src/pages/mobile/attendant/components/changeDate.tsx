@@ -1,8 +1,4 @@
-import { DatePicker, Select } from "antd";
-import dayjs, { Dayjs } from "dayjs";
 import * as React from "react";
-import { RiEdit2Line } from "react-icons/ri";
-import styled from "styled-components";
 import { GrPowerCycle } from "react-icons/gr";
 import { FaAnglesLeft, FaAnglesRight, FaPen } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
@@ -13,6 +9,7 @@ export interface IChangeDateProps {
 }
 
 export default function ChangeDate({ isYear, setIsYear }: IChangeDateProps) {
+  // const [isYear, setIsYear] = React.useState(false);
   const [date, setDate] = React.useState(new Date());
 
   return (
@@ -43,41 +40,15 @@ const TimeTypeChanger = ({
   return (
     <div className="relative flex justify-end" onClick={onTypeChange}>
       {/* <div className="h-12 w-24 rounded-full bg-blue-900"></div> */}
-      <div className="line-[10px] w-20 rounded-[50%] bg-blue-900 px-4 py-2 text-center text-white">
-        {/* <p style={{ animation: "fadeInScale 0.3s ease-out" }}> */}
-        {isYear ? (
-          <p style={{ animation: "topFloatIn 0.2s ease-out" }}>
-            {t("common.year")}
-          </p>
-        ) : (
-          <div style={{ animation: "topFloatIn 0.2s ease-out" }}>
-            {t("common.month")}
-          </div>
-        )}
-        {/* </p> */}
-      </div>
+      <p className="line-[10px] w-20 rounded-[50%] bg-blue-900 px-4 py-2 text-center text-white">
+        {isYear ? t("common.year") : t("common.month")}
+      </p>
       <div className="icon absolute -top-2 right-[75px]">
         <GrPowerCycle className="text-blue-900" />
       </div>
-
-      {isYear ? (
-        <p
-          className="icon absolute -top-1 right-24 text-gray-300"
-          style={{ animation: "rightFloatIn 0.2s ease-out" }}
-        >
-          {t("common.month")}
-        </p>
-      ) : (
-        <div
-          className="icon absolute -top-1 right-24 text-gray-300"
-          style={{ animation: "rightFloatIn 0.2s ease-out" }}
-        >
-          {t("common.year")}
-        </div>
-      )}
-      {/* <p className="icon absolute -top-1 right-24 -rotate-12 text-gray-300">
-        {isYear ? "Tháng" : "Năm"}
-      </p> */}
+      <p className="icon absolute -top-1 right-24 -rotate-12 text-gray-300">
+        {isYear ? t("common.month") : t("common.year")}
+      </p>
     </div>
   );
 };
@@ -101,30 +72,22 @@ const TimeSelect = ({
   return (
     <>
       <div
-        className="relative h-20 pt-2 text-blue-900"
+        className="relative h-20 text-blue-900"
         onClick={() => setOpenDatePicker(true)}
       >
         {isYear ? (
-          <div
-            style={{ animation: "topFloatIn 0.2s ease-out" }}
-            className="pt-4 text-4xl"
-          >
-            {date.getFullYear()}
-          </div>
+          <div className="pt-4 text-5xl">{date.getFullYear()}</div>
         ) : (
           <>
-            <p
-              style={{ animation: "bottomFloatIn 0.2s ease-out" }}
-              className="float-end pr-12 text-5xl"
-            >
-              {date.getMonth() + 1}
-            </p>
+            <p className="float-end pr-12 text-6xl">{date.getMonth() + 1}</p>
             <div className="icon absolute -left-6 top-0">
               <FaPen className="flip scale-x-[-1]" />
             </div>
 
             <p className="absolute bottom-2 right-10 text-xl">/</p>
-            <p className="text-right text-gray-300">{date.getFullYear()}</p>
+            <p className="absolute bottom-0 right-1 text-right text-gray-500">
+              {date.getFullYear()}
+            </p>
           </>
         )}
       </div>
@@ -175,9 +138,7 @@ const DateSelecter = ({
   date: Date;
   onChange: (date?: Date) => void;
 }) => {
-  const [month, setMonth] = React.useState(
-    date?.getMonth() || new Date().getMonth(),
-  );
+  const [month] = React.useState(date?.getMonth() || new Date().getMonth());
   const [year, setYear] = React.useState(
     date?.getFullYear() || new Date().getFullYear(),
   );
@@ -195,10 +156,7 @@ const DateSelecter = ({
         className="overlay h-full w-full bg-[#00000088]"
         onClick={() => onChange()}
       ></div>
-      <div
-        className="absolute left-[5vw] right-[5vw] top-[10vh] z-10 rounded-lg border-gray-500 bg-white p-2"
-        style={{ animation: "fadeInScale 0.3s ease-out" }}
-      >
+      <div className="absolute left-[5vw] right-[5vw] top-[10vh] z-10 rounded-lg border-gray-500 bg-white p-2">
         {isYear ? (
           <>
             <div

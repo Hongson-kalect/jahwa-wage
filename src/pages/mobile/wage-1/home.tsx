@@ -19,15 +19,16 @@ import { useNavigate } from "react-router-dom";
 import { useMobileAppStore } from "../../../store/mobile.app";
 import { useQuery } from "@tanstack/react-query";
 import { httpPost } from "../../../api/axios";
+import { useTranslation } from "react-i18next";
 
 export interface IMobileWage1Props {}
 
 export default function MobileWage1(props: IMobileWage1Props) {
   const { setHeader, device } = useMobileAppStore();
-
+  const { t } = useTranslation();
   const getWageData = async () => {
     try {
-      const res = await httpPost("https://jhapi.jahwa.co.kr/MSelectList", {
+      const res = await httpPost("https://jhapi.jahwa.co.kr/MSelectList/", {
         DIV: "202406",
         Data: "",
         EntCode: "V22111014",
@@ -46,14 +47,17 @@ export default function MobileWage1(props: IMobileWage1Props) {
   });
 
   React.useEffect(() => {
-    setHeader("Bảng lương");
-  }, []);
+    setHeader(t("header.wage"));
+  }, [t]);
 
   if (device === "phone") return <MobilePage />;
   return <PcPage />;
 }
 
 const MobilePage = () => {
+  const [isYear, setIsYear] = React.useState(false);
+  const { t } = useTranslation();
+
   return (
     <div className="flex h-screen w-full flex-col overflow-auto">
       {/* <Header /> */}
@@ -61,7 +65,20 @@ const MobilePage = () => {
         className="flex-1 overflow-scroll px-2 pt-14"
         style={{ height: "calc(100dvh - 40px)", scrollSnapType: "y proximity" }}
       >
-        <ChangeDate />
+        <div className="flex items-end justify-between pt-2">
+          <div className="">
+            <p className="font-medium text-gray-700">{t("common.realGet")}</p>
+            <div className="relative mt-2 text-blue-900">
+              <p className="pr-3 text-3xl font-medium">12.765.987</p>
+              <p className="absolute right-0 top-0 font-medium">đ</p>
+            </div>
+            <p className="font-light text-gray-300">
+              {t("wage.payAt")}: 10-06-2024
+            </p>
+          </div>
+
+          <ChangeDate isYear={isYear} setIsYear={setIsYear} />
+        </div>
         <Overview />
         {/* <Payment /> */}
         <PayDetail />

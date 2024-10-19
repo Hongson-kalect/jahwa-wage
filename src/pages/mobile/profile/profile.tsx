@@ -1,18 +1,15 @@
-import * as React from "react";
-import { MobileAppWrapper } from "../../../components/mobile/appWrapper";
-import MobileProfileHeader from "./components/header";
-import MobileProfileContent from "./components/content";
-import { UserInfoType } from "./interface";
-import "./profile.css";
-import { useUserInfoStore } from "../../../store/userinfo";
-import { HeaderNew } from "../calendar-new/ui/header";
-import ContentWrap from "../../../components/common/contentWrap";
-import ProfileSelector from "./components/profileSelector";
-import PersonalProfile from "./components/personalTab";
-import CompanyProfile from "./components/companyTab";
-import InfoProfile from "./components/infoTab";
 import { Image } from "antd";
+import * as React from "react";
 import { useTranslation } from "react-i18next";
+import { MobileAppWrapper } from "../../../components/mobile/appWrapper";
+import { useUserInfoStore } from "../../../store/userinfo";
+// import { HeaderNew } from "../calendar-new/ui/header";
+import CompanyProfile from "./components/companyTab";
+import MobileProfileContent from "./components/content";
+import MobileProfileHeader from "./components/header";
+import PersonalProfile from "./components/personalTab";
+import ProfileSelector from "./components/profileSelector";
+import "./profile.css";
 
 export interface IMobileProfilePageProps {}
 
@@ -54,7 +51,7 @@ export default function MobileProfilePage(props: IMobileProfilePageProps) {
         // }}
       >
         {/* <p>Thông tin cá nhân</p> */}
-        <HeaderNew title={t("profile.detail.seftInfo.title")} />
+        {/* <HeaderNew title={t("profile.detail.seftInfo.title")} /> */}
       </div>
       <div className="content mt-2 flex-1 px-4">
         <div
