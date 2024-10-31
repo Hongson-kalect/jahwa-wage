@@ -52,7 +52,7 @@ export default function MSignInPage(props: IMSignInPageProps) {
   };
 
   React.useLayoutEffect(() => {
-    refreshUserInfo();
+    // refreshUserInfo();
   }, []);
 
   if (checkingUser)
@@ -115,7 +115,7 @@ const SignInForm = () => {
       await setCookie("auth", res.data.token, 1);
       if (saveAccount) setCookie("emp", username, 9999);
       // await setCookie("emp_no", username, 1);
-      await fetchUserData(username);
+      // await fetchUserData(username);
       setIsLogin(true);
       setEmp_no(username);
       navigate("/home");

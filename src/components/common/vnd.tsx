@@ -6,10 +6,10 @@ export interface IVNDONGProps {
 }
 
 export default function VNDONG(props: IVNDONGProps) {
-  const value = React.useMemo(
-    () => numberToCurrency2(props.value, 3, ","),
-    [props.value],
-  );
+  const value = React.useMemo(() => {
+    if (props.value.toString().includes(",")) return props.value.toString();
+    return numberToCurrency2(props.value, 3, ",");
+  }, [props.value]);
   return (
     <div className="relative pr-2.5">
       <div className="text-right">{value}</div>

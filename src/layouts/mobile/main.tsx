@@ -17,12 +17,12 @@ import axios from "axios";
 export interface IMobileMainLayoutProps {}
 
 const MainLayout = styled.div`
-  height: 100dvh;
+  /* height: 100dvh; */
   width: 100vw;
   /* border: 1px solid gray; */
   /* margin: -1px; */
   /* border-radius: 20px; */
-  overflow: hidden;
+  /* overflow: hidden; */
 `;
 
 export default function MobileMainLayout(props: IMobileMainLayoutProps) {
@@ -30,114 +30,6 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
 
   const { setDevice } = useMobileAppStore();
   const [authening, setAuthening] = React.useState(true);
-
-  const getWageMonth = async () => {
-    try {
-      console.log("vao day");
-      axios({
-        method: "POST",
-        url: "https://jhapi.jahwa.co.kr/MSelectList",
-        data: {
-          DIV: "PAY_YYMM",
-          Data: "",
-          EntCode: "VN532",
-          EmpCode: "K20604007",
-        },
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "POST",
-        },
-      }).then((res) => {
-        console.log("day :>> ");
-        console.log("new axios request", res);
-        // setData(res.data.Table);
-      });
-    } catch (error) {
-      console.log("vao day 2");
-      console.log("new axios request", error);
-      // const res = await fetch("https://jhapi.jahwa.co.kr/MSelectList/", {
-      //   DIV: "202406",
-      //   Data: "",
-      //   EntCode: "V22111014",
-      // });
-      toast.error("Failed to get database");
-      return {};
-    }
-  };
-  const getWageType = async () => {
-    try {
-      const res = await httpPost("https://jhapi.jahwa.co.kr/MSelectList", {
-        DIV: "PROV_TYPE",
-        Data: "202406",
-        EntCode: "VN532",
-        EmpCode: "V22111014",
-      });
-      console.log("get wage", res.data);
-      return res.data;
-    } catch (error) {
-      console.log("get wage", error);
-      // const res = await fetch("https://jhapi.jahwa.co.kr/MSelectList/", {
-      //   DIV: "202406",
-      //   Data: "",
-      //   EntCode: "V22111014",
-      // });
-      toast.error("Failed to get database");
-      return {};
-    }
-  };
-  const getWageData = async () => {
-    try {
-      const res = await httpPost(
-        "https://jhapi.jahwa.co.kr/MSalaryInformation",
-        {
-          PayYYMM: "202406",
-          ProvType: "1",
-          EntCode: "VN532",
-          EmpCode: "V22111014",
-        },
-      );
-      console.log("get wage", res.data);
-      return res.data;
-    } catch (error) {
-      console.log("get wage", error);
-      // const res = await fetch("https://jhapi.jahwa.co.kr/MSelectList/", {
-      //   DIV: "202406",
-      //   Data: "",
-      //   EntCode: "V22111014",
-      // });
-      toast.error("Failed to get database");
-      return {};
-    }
-  };
-
-  const testPythonAPI = async () => {
-    try {
-      // const res = await httpPost(
-      //   "https://jhapi.jahwa.co.kr/MSalaryInformation",
-      //   {
-      //     PayYYMM: "202406",
-      //     PROVTYPE: "1",
-      //     EntCode: "VN532",
-      //     EmpCode: "V22111014",
-      //   },
-      // );
-      const res = await httpPost("https://172.16.151.177:5000/api/login", {
-        emp_no: "V22111014",
-        password: "jahwa.123",
-      });
-      console.log("get wage", res.data);
-      return res.data;
-    } catch (error) {
-      console.log("get wage", error);
-      // const res = await fetch("https://jhapi.jahwa.co.kr/MSelectList/", {
-      //   DIV: "202406",
-      //   Data: "",
-      //   EntCode: "V22111014",
-      // });
-      toast.error("Failed to get database");
-      return {};
-    }
-  };
 
   const verifyUser = async () => {
     try {
@@ -148,7 +40,7 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
         handleLogout();
       }
 
-      await fetchUserData();
+      // await fetchUserData();
       setAuthening(false);
     } catch (error) {
       alert(JSON.stringify(error));
@@ -189,12 +81,12 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
     };
   }, []);
 
-  React.useEffect(() => {
-    getWageMonth();
-    // getWageType();
-    // getWageData();
-    // testPythonAPI();
-  }, []);
+  // React.useEffect(() => {
+  //   getWageMonth();
+  //   getWageType();
+  //   getWageData();
+  // testPythonAPI();
+  // }, []);
 
   React.useEffect(() => {
     verifyUser();
@@ -203,8 +95,8 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
   if (authening) return <div>Cheking cookie</div>;
 
   return (
-    <MainLayout className="flex h-screen flex-col">
-      <div className="flex flex-1 overflow-auto">
+    <MainLayout className="">
+      <div className="">
         <Header />
         <Outlet />
         <div className="bottom-space mt-2"></div>

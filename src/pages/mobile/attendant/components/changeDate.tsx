@@ -179,7 +179,7 @@ const DateSelecter = ({
               {monthVal.map((item, index) => {
                 return (
                   <div
-                    className={`rounded-md py-3 text-center ${year - yearRange === index ? "bg-blue-500 text-white" : ""}`}
+                    className={`py-3 text-center ${year - yearRange === index ? "bg-blue-500 text-white" : ""}`}
                     key={index}
                     onClick={() =>
                       onChange(new Date(`${yearRange + index}-01-01`))
@@ -201,9 +201,11 @@ const DateSelecter = ({
                 className="text-gray-500"
                 onClick={() => setYear((prev) => prev - 1)}
               />
+              {/* {year} */}
               <input
                 className="w-16 border-none bg-transparent text-center text-lg font-medium outline-none"
                 value={year}
+                onChange={() => {}}
               />
               <FaAnglesRight
                 className="text-gray-500"
@@ -214,7 +216,7 @@ const DateSelecter = ({
               {monthVal.map((item, index) => {
                 return (
                   <div
-                    className={`rounded-md py-2 text-center ${month === index ? "bg-blue-500 text-white" : ""}`}
+                    className={`py-2 text-center ${month === index ? "bg-blue-500 text-white" : ""}`}
                     key={index}
                     onClick={() => {
                       onChange(new Date(`${year}-${index + 1}-01`));

@@ -13,21 +13,21 @@ export default function MobileAppLayout(props: IMobileAppLayoutProps) {
   const { user, setUser } = useUserInfoStore();
   const [authening, setAuthening] = React.useState(false);
 
-  const getWageData = async () => {
-    try {
-      const res = await httpPost("https://jhapi.jahwa.co.kr/MSelectList/", {
-        DIV: "202406",
-        Data: "",
-        EntCode: "VN536",
-        EmpCode: "V22111014",
-      });
-      console.log("get wage", res.data);
-      return res.data;
-    } catch (error) {
-      console.log("get wage", error);
-      return {};
-    }
-  };
+  // const getWageData = async () => {
+  //   try {
+  //     const res = await httpPost("https://jhapi.jahwa.co.kr/MSelectList/", {
+  //       DIV: "202406",
+  //       Data: "",
+  //       EntCode: "VN536",
+  //       EmpCode: "V22111014",
+  //     });
+  //     console.log("get wage", res.data);
+  //     return res.data;
+  //   } catch (error) {
+  //     console.log("get wage", error);
+  //     return {};
+  //   }
+  // };
 
   // React.useEffect(() => {
   getWageData();
@@ -41,7 +41,7 @@ export default function MobileAppLayout(props: IMobileAppLayoutProps) {
       handleLogout();
     }
 
-    await fetchUserData();
+    // await fetchUserData();
     setAuthening(false);
   };
 

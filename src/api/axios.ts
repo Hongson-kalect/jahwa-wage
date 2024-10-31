@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 // const backendDomain = "172.16.151.129:5000";
 
 const api = axios.create({
-  baseURL: "https://vina.jahwa.co.kr:5000/api",
+  // baseURL: "https://jhapi.jahwa.co.kr",
   // baseURL: "/api",
   timeout: 5000,
   // headers: {

@@ -38,6 +38,8 @@ export function deleteCookies() {
     }
   }
 }
+
+
 export function setSessionCookie(c_name, value, domain) {
   var c_value = escape(value) + " ; domain=" + domain + ";path=/";
   document.cookie = c_name + "=" + c_value;
@@ -129,7 +131,10 @@ export async function checkCookieNSession() {
     //   "https://sso.jahwa.co.kr/Common/Util/CheckCookieNSession.aspx",
     // );
     // return !res.data;
-    console.log("Mài dà hú :>> ", "Mài dà hú");
+    console.log(
+      "This call an api or file to check cookie :>> ",
+      "Not available yet",
+    );
   }
 
   // try {

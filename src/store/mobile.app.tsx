@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import i18n from "../locales/i18n";
+import { getRawCookie } from "../lib/utlis";
 
 type Props = {
   device: "phone" | "pc";
@@ -12,9 +13,13 @@ type Props = {
   setLanguage: (app: string) => void;
   selectedApp: string;
   setSelectedApp: (app: string) => void;
+  empCode: string;
+  entCode: string;
 };
 
 export const useMobileAppStore = create<Props>((set) => ({
+  empCode: getRawCookie("EmpCode") || "null",
+  entCode: getRawCookie("EntCode") || "null",
   device: "phone",
   setDevice: (type) => set({ device: type }),
   header: "",

@@ -14,7 +14,10 @@ export default function PayItem(props: IPayItemProps) {
   //     return text.slice(0, text.length - 1);
   //   });
   return (
-    <div className="flex h-14 w-full items-center justify-between rounded-lg px-4 shadow-md shadow-gray-300">
+    <div
+      className="flex h-14 w-full items-center justify-between rounded-lg px-4 shadow-md shadow-gray-300"
+      style={{ animation: "rightFloatIn 0.2s ease" }}
+    >
       <div
         className={`type h-10 w-10 rounded-full ${props.isDeDuct ? "bg-red-700" : "bg-green-700"}`}
       />

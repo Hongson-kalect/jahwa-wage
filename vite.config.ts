@@ -15,12 +15,13 @@ export default defineConfig({
     },
   },
   server: {
-    https: {
-      key: "./lib/https/172.16.151.251-key.pem",
-      cert: "./lib/https/172.16.151.251.pem",
+    proxy: {
+      "/api": {
+        target: "https://jhapi.jahwa.co.kr",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
     },
-    host: "172.16.151.251",
-    port: 5173,
   },
   define: {
     SECRET_KEY: `"${process.env.REACT_APP_SECRET_KEY}"`, // wrapping in "" since it's a string

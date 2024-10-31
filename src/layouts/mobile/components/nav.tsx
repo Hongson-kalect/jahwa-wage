@@ -4,6 +4,13 @@ import { useNavigate } from "react-router-dom";
 import LanguageChanger from "../../../components/common/languageChange";
 import { getRawCookie, handleLogout } from "../../../lib/utlis";
 import { useTranslation } from "react-i18next";
+import { FaCalendarDays, FaSackDollar } from "react-icons/fa6";
+import { RiComputerLine, RiLogoutBoxFill } from "react-icons/ri";
+import { AiOutlineDollar } from "react-icons/ai";
+import { MdOutlineCalendarToday } from "react-icons/md";
+import { IoCalendarOutline } from "react-icons/io5";
+import { SlLogout } from "react-icons/sl";
+import { useUserInfoStore } from "../../../store/userinfo";
 
 export interface INavBarProps {}
 
@@ -15,6 +22,8 @@ export const Navbar = ({
   onClose: () => void;
 }) => {
   const { t } = useTranslation();
+  const { user } = useUserInfoStore();
+  console.log("user :>> ", user);
 
   return (
     <div
@@ -26,12 +35,12 @@ export const Navbar = ({
       >
         <div className="" style={{ borderBottom: "1px solid #ddd" }}>
           <div className="relative flex items-center justify-between px-1 pt-1">
-            <p className="text-sm text-gray-400">Nhân viên IT - 330700</p>
+            <p className="text-sm text-gray-400">
+              {user?.positionKorean} - {user?.additionalInfo}
+            </p>
             <div className="absolute right-1 top-2 flex -skew-x-6 flex-col items-center justify-center rounded-lg font-medium italic text-white">
               <LanguageChanger />
-              <div className="mt- px-2 text-right text-xs italic text-gray-400">
-                Q6 - E2
-              </div>
+              <div className="mt- px-1 text-right text-xs italic text-gray-400"></div>
             </div>
           </div>
           <div className="flex items-start gap-4 px-2 pt-4">
@@ -46,14 +55,14 @@ export const Navbar = ({
             </div>
             <div>
               <p className="mt-1 text-xl font-semibold text-blue-900">
-                V22406013
+                {getRawCookie("EmpCode")}
               </p>
-              <p className="mt-1 font-medium text-gray-600">Diệp Hồng Sơn</p>
+              <p className="mt-1 font-medium text-gray-600"> {user?.name}</p>
             </div>
           </div>
           <div className="mb-2 mt-5 flex justify-between px-2 text-gray-500">
-            <p>Quản lý EMVC</p>
-            <p>dh.son@jahwa.co.kr</p>
+            <p className="text-sm">{user?.positionVietnamese}</p>
+            <p className="text-sm">{user?.department}</p>
           </div>
           <div></div>
         </div>
@@ -63,19 +72,19 @@ export const Navbar = ({
             <div className="flex-1 overflow-auto">
               <div className="pt-2">
                 <NavItem
-                  icon={<ImCoinPound size={32} />}
+                  icon={<AiOutlineDollar size={28} />}
                   title={t("sidebar.wage")}
                   link="/wage1"
                   onChange={onClose}
                 />
                 <NavItem
-                  icon={<ImCoinPound size={32} />}
+                  icon={<IoCalendarOutline size={28} />}
                   title={t("sidebar.attendance")}
                   link="/attendant"
                   onChange={onClose}
                 />
                 <NavItem
-                  icon={<ImCoinPound size={32} />}
+                  icon={<RiComputerLine size={28} />}
                   title={t("sidebar.asset")}
                   link="/asset"
                   onChange={onClose}
@@ -84,9 +93,9 @@ export const Navbar = ({
             </div>
             <div className="" style={{ borderTop: "1px solid #ffc5c5" }}>
               <NavItem
-                icon={<ImCoinPound size={32} />}
+                icon={<RiLogoutBoxFill size={32} />}
                 title={t("common.logout")}
-                link="/asset"
+                // link="/asset"
                 danger
                 onChange={handleLogout}
               />

@@ -1,4 +1,93 @@
+import axios from "axios";
 import { httpPost } from "../../../api/axios";
+import { toast } from "react-toastify";
+
+import { useMobileAppStore as userInfo } from "../../../store/mobile.app";
+import { WorkMonth, WorkType } from "./interface";
+
+export const getWageMonth = async () => {
+  try {
+    const res = await httpPost("api/MSelectList", {
+      DIV: "PAY_YYMM",
+      Data: "",
+      EntCode: userInfo.getState().entCode,
+      EmpCode: userInfo.getState().empCode,
+    });
+    return res.data;
+  } catch (error) {
+    toast.error("Failed to get database");
+    return {};
+  }
+
+  // try {
+  //   console.log("vao day");
+  //   axios<WorkMonth>({
+  //     method: "POST",
+  //     url: "api/MSelectList",
+  //     data: {
+  //       DIV: "PAY_YYMM",
+  //       Data: "",
+  //       EntCode: userInfo.getState().entCode,
+  //       EmpCode: userInfo.getState().empCode,
+  //     },
+  //     headers: {
+  //       "Access-Control-Allow-Origin": "*",
+  //       "Access-Control-Allow-Methods": "POST",
+  //     },
+  //   }).then((res) => {
+  //     console.log("day :>> ");
+  //     console.log("new axios request", res);
+  //     // setData(res.data.Table);
+  //   });
+  // } catch (error) {
+  //   console.log("vao day 2");
+  //   console.log("new axios request", error);
+  //   // const res = await fetch("api/MSelectList/", {
+  //   //   DIV: "202406",
+  //   //   Data: "",
+  //   //   EntCode: "V22111014",
+  //   // });
+  //   toast.error("Failed to get database");
+  //   return {};
+  // }
+};
+export const getWageType = async (month: string) => {
+  try {
+    const res = await httpPost("api/MSelectList", {
+      DIV: "PROV_TYPE",
+      Data: month, //"202406",
+      EntCode: userInfo.getState().entCode,
+      EmpCode: userInfo.getState().empCode,
+    });
+    console.log("get wage", res.data);
+    return res.data;
+  } catch (error) {
+    console.log("get wage", error);
+    toast.error("Failed to get database");
+    return {};
+  }
+};
+export const getWageData = async (month: string) => {
+  try {
+    const res = await httpPost("api/MSalaryInformation", {
+      PayYYMM: month, //"202406",
+      ProvType: "1",
+      EntCode: userInfo.getState().entCode,
+      EmpCode: userInfo.getState().empCode,
+    });
+    console.log("get wage", res.data);
+    return res.data;
+  } catch (error) {
+    console.log("get wage", error);
+    // const res = await fetch("api/MSelectList/", {
+    //   DIV: "202406",
+    //   Data: "",
+    //   EntCode: "V22111014",
+    // });
+    toast.error("Failed to get database");
+    return {};
+  }
+};
 
 export const getWorkData = async (emp_no: string, month?: string) => {
   if (month?.slice(0, 4) === "2000") month = undefined;
@@ -160,24 +249,6 @@ export function numberToCurrency(number: number) {
   }).format(number);
 }
 
-export const notificationItems = Array.from({ length: 10 }, (_, i) => ({
-  id: i + 1,
-  title: `Tin nóng hệ social qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe qwe ${
-    i + 1
-  }`,
-  description:
-    "Nội dung này thường chỉ show cho mấy máy màn hình to v beep để có cái nhìn lướt qua về cái tin mới của nó. Còn mấy máy màn hình lỏ lỏ thì mút tay ấy mà đọc?",
-  uploader: `Bởi bộ tài nguyên và môi trường, cầm đầu bởi Hùng ${i + 1}`,
-  image: `https://wallup.net/wp-content/uploads/2016/01/111509-landscape-nature.jpg?${
-    i + 1
-  }`,
-  content: "JAHWA NƯƠNG",
-  date: new Date(Date.now() - i * 1000 * 3600 * 24).toISOString().split("T")[0],
-  type: ["social", "company", "temporary", "picture"][
-    Math.floor(Math.random() * 4)
-  ],
-}));
-
 export const getTotalWay = async (id: string, date?: string) => {
   try {
     const res = await httpPost("luongchinh", { emp_no: id, pay_yymm: date });
@@ -221,36 +292,6 @@ export const getYearWage = async (id: string, year: string) => {
       pay_yymm: dateString,
     });
     return res.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getWageData = async (date: string, id?: string) => {
-  if (!id)
-    return {
-      total: {},
-      income: [],
-      dedux: [],
-      workTime: {},
-    };
-  try {
-    const dateString =
-      date == new Date().toISOString().slice(0, 10)
-        ? undefined
-        : date.slice(0, 4) + date.slice(5, 7);
-    const [total, income, dedux, workTime] = await Promise.all([
-      getTotalWay(id, dateString),
-      getIncome(id, dateString),
-      getDedux(id, dateString),
-      getWorkTime(id, dateString),
-    ]);
-    return {
-      total: total || {},
-      income: income || [],
-      dedux: dedux || [],
-      workTime: workTime || {},
-    };
   } catch (error) {
     console.log(error);
   }

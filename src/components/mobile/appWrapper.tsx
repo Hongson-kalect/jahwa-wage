@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Styled = styled.div`
-  height: calc(100dvh - 40px); /* bottom bar height */
+  /* height: calc(100dvh - 40px); bottom bar height */
   /* background-color: red; */
   display: flex;
   flex-direction: column;

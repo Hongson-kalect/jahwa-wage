@@ -123,6 +123,10 @@ textarea {
   }
 }
 
+.url-bar {
+  display: none;
+}
+
 @keyframes topFloatIn {
   from {
     opacity: 0;

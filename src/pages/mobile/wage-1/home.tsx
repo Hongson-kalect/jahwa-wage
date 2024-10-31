@@ -1,65 +1,65 @@
 import * as React from "react";
-import { SidebarToggle } from "./components/sidebarToggle";
-import { Avatar, DatePicker, Select } from "antd";
-import LanguageChanger from "../../../components/common/languageChange";
-import styled from "styled-components";
-import { RiEdit2Line } from "react-icons/ri";
-import dayjs from "dayjs";
-import { monthNames } from "../../../lib/utlis";
-import { numberToCurrency } from "./utils";
-import { BiDetail } from "react-icons/bi";
-import { ImCoinPound } from "react-icons/im";
+import { getWageData, getWageMonth, getWageType } from "./utils";
 
-import Overview from "./ui/overview";
-import Payment from "./ui/payment";
-import PayDetail from "./ui/payDetail";
-import DeDuctDetail from "./ui/deductDetail";
-import ChangeDate from "./ui/changeDate";
-import { useNavigate } from "react-router-dom";
-import { useMobileAppStore } from "../../../store/mobile.app";
 import { useQuery } from "@tanstack/react-query";
-import { httpPost } from "../../../api/axios";
 import { useTranslation } from "react-i18next";
+import { useMobileAppStore } from "../../../store/mobile.app";
+import ChangeDate from "./ui/changeDate";
+import DeDuctDetail from "./ui/deductDetail";
+import Overview from "./ui/overview";
+import PayDetail from "./ui/payDetail";
+import { WorkData, WorkMonth, WorkType } from "./interface";
+import { Skeleton } from "antd";
 
 export interface IMobileWage1Props {}
 
 export default function MobileWage1(props: IMobileWage1Props) {
-  const { setHeader, device } = useMobileAppStore();
-  const { t } = useTranslation();
-  const getWageData = async () => {
-    try {
-      const res = await httpPost("https://jhapi.jahwa.co.kr/MSelectList/", {
-        DIV: "202406",
-        Data: "",
-        EntCode: "V22111014",
-      });
-      console.log("get wage", res.data);
-      return res.data;
-    } catch (error) {
-      console.log("get wage", error);
-      return {};
-    }
-  };
-
-  const wageData = useQuery({
-    queryFn: getWageData,
-    queryKey: ["getWageData"],
-  });
-
-  React.useEffect(() => {
-    setHeader(t("header.wage"));
-  }, [t]);
+  const { device } = useMobileAppStore();
 
   if (device === "phone") return <MobilePage />;
   return <PcPage />;
 }
 
 const MobilePage = () => {
-  const [isYear, setIsYear] = React.useState(false);
+  const { setHeader, empCode, entCode } = useMobileAppStore();
   const { t } = useTranslation();
 
+  const [date, setDate] = React.useState(
+    new Date(
+      new Date().getFullYear(),
+      new Date().getMonth() - 1,
+      new Date().getDate(),
+    ),
+  );
+  const [isYear, setIsYear] = React.useState(false);
+
+  const wageMonth = useQuery<WorkMonth>({
+    queryFn: () => getWageMonth(),
+    queryKey: ["getWageMonth"],
+  });
+
+  const wageType = useQuery<WorkType>({
+    queryFn: () =>
+      getWageType(
+        date.getFullYear() + (date.getMonth() + 1).toString().padStart(2, "0"),
+      ),
+    queryKey: ["getWageType", date],
+  });
+
+  const wageData = useQuery<WorkData>({
+    queryFn: () =>
+      getWageData(
+        date.getFullYear() + (date.getMonth() + 1).toString().padStart(2, "0"),
+      ),
+    queryKey: ["getWageData", date],
+  });
+
+  React.useEffect(() => {
+    setHeader(t("header.wage"));
+  }, [t]);
+
   return (
-    <div className="flex h-screen w-full flex-col overflow-auto">
+    <div className="flex min-h-screen w-full flex-col overflow-auto">
       {/* <Header /> */}
       <div
         className="flex-1 overflow-scroll px-2 pt-14"
@@ -69,21 +69,38 @@ const MobilePage = () => {
           <div className="">
             <p className="font-medium text-gray-700">{t("common.realGet")}</p>
             <div className="relative mt-2 text-blue-900">
-              <p className="pr-3 text-3xl font-medium">12.765.987</p>
-              <p className="absolute right-0 top-0 font-medium">đ</p>
+              <div className="relative mt-2 text-blue-900">
+                {wageData.isPending ? (
+                  <Skeleton.Input className="mr-2 h-7" active />
+                ) : wageData.data?.Table3?.[0]?.REAL_PROV_AMT ? (
+                  <>
+                    <p className="pr-3 text-3xl font-medium">
+                      {wageData.data?.Table3?.[0]?.REAL_PROV_AMT}
+                    </p>
+                    <p className="absolute right-0 top-0 font-medium">đ</p>
+                  </>
+                ) : (
+                  <p>\ \ \ \ \ \ \ \ \ \ \ \</p>
+                )}
+              </div>
             </div>
             <p className="font-light text-gray-300">
               {t("wage.payAt")}: 10-06-2024
             </p>
           </div>
 
-          <ChangeDate isYear={isYear} setIsYear={setIsYear} />
+          <ChangeDate
+            date={date}
+            setDate={setDate}
+            isYear={isYear}
+            setIsYear={setIsYear}
+          />
         </div>
-        <Overview />
+        <Overview wageData={wageData.data} />
         {/* <Payment /> */}
-        <PayDetail />
+        <PayDetail isLoading={wageData.isPending} wageData={wageData.data} />
 
-        <DeDuctDetail />
+        <DeDuctDetail isLoading={wageData.isLoading} wageData={wageData.data} />
         <div className="h-4"></div>
       </div>
     </div>

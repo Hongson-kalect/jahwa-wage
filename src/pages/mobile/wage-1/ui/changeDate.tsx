@@ -6,15 +6,23 @@ import styled from "styled-components";
 import { GrPowerCycle } from "react-icons/gr";
 import { FaAnglesLeft, FaAnglesRight, FaPen } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
+import { WorkMonth } from "../interface";
+import { useQuery } from "@tanstack/react-query";
+import { getWageMonth } from "../utils";
 
 export interface IChangeDateProps {
+  date: Date;
+  setDate: React.Dispatch<React.SetStateAction<Date>>;
   isYear: boolean;
   setIsYear: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function ChangeDate({ isYear, setIsYear }: IChangeDateProps) {
-  const [date, setDate] = React.useState(new Date());
-
+export default function ChangeDate({
+  isYear,
+  setIsYear,
+  date,
+  setDate,
+}: IChangeDateProps) {
   return (
     <div>
       <TimeTypeChanger isYear={isYear} onChange={() => setIsYear(!isYear)} />
@@ -189,6 +197,11 @@ const DateSelecter = ({
     );
   });
 
+  const workMonth = useQuery<WorkMonth>({
+    queryFn: () => getWageMonth(),
+    queryKey: ["getWageMonth"],
+  });
+
   return (
     <div className="fixed inset-0 z-10 flex items-center justify-center">
       <div
@@ -219,11 +232,16 @@ const DateSelecter = ({
             </div>
             <div className="month grid grid-cols-3 py-2">
               {monthVal.map((item, index) => {
+                const available = workMonth.data?.Table.some(
+                  (item) => item.Code.slice(0, 4) === `${yearRange + index}`,
+                );
+                const selected = yearRange + index === year;
                 return (
                   <div
-                    className={`rounded-md py-3 text-center ${year - yearRange === index ? "bg-blue-500 text-white" : ""}`}
+                    className={`rounded-md py-3 text-center ${selected ? "bg-blue-500 !text-white" : ""} ${available ? "text-blue-800 shadow-inner" : "bg-gray-100 text-gray-400"}`}
                     key={index}
                     onClick={() =>
+                      available &&
                       onChange(new Date(`${yearRange + index}-01-01`))
                     }
                   >
@@ -246,6 +264,7 @@ const DateSelecter = ({
               <input
                 className="w-16 border-none bg-transparent text-center text-lg font-medium outline-none"
                 value={year}
+                onChange={() => {}}
               />
               <FaAnglesRight
                 className="text-gray-500"
@@ -253,18 +272,25 @@ const DateSelecter = ({
               />
             </div>
             <div className="month grid grid-cols-3">
-              {monthVal.map((item, index) => {
+              {monthVal?.map((item, index) => {
+                const available = workMonth.data?.Table.some(
+                  (item) =>
+                    item.Code ===
+                    `${year + (index + 1).toString().padStart(2, "0")}`,
+                );
+                const selected = date.getMonth() === index;
                 return (
                   <div
-                    className={`rounded-md py-2 text-center ${month === index ? "bg-blue-500 text-white" : ""}`}
+                    className={`rounded-md py-2 text-center ${selected ? "bg-blue-500 !text-white" : ""} ${available ? "text-blue-800 shadow-inner" : "text-gray-200"}`}
                     key={index}
                     onClick={() => {
-                      onChange(new Date(`${year}-${index + 1}-01`));
+                      available &&
+                        onChange(new Date(`${year}-${index + 1}-01`));
                     }}
                   >
                     <p className="text-2xl">{index + 1}</p>
                     <p
-                      className={`font-light duration-200 ${month === index ? "text-gray-200" : "text-gray-400"}`}
+                    // className={`font-light duration-200 ${month === index ? "text-gray-200" : "text-gray-400"}`}
                     >
                       {item}
                     </p>
