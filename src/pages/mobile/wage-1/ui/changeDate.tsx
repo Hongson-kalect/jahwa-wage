@@ -125,7 +125,7 @@ const TimeSelect = ({
               style={{ animation: "bottomFloatIn 0.2s ease-out" }}
               className="float-end pr-12 text-5xl"
             >
-              {date.getMonth() + 1}
+              {date.getMonth() ? date.getMonth() + 1 : 12}
             </p>
             <div className="icon absolute -left-6 top-0">
               <FaPen className="flip scale-x-[-1]" />

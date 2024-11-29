@@ -22,7 +22,7 @@ const mapWorkData = {
 export default function PayDetail({ wageData, isLoading }: IPayDetailProps) {
   const mergeData = React.useMemo(() => {
     if (!wageData) return [];
-    const temp = wageData.Table.map((item, index) => {
+    const temp = wageData.Table?.map((item, index) => {
       const diligItem =
         wageData.Table1.find(
           // (dilig) => dilig.DILIG_CD === mapWorkData?.[item.ALLOW_CD],
@@ -40,7 +40,7 @@ export default function PayDetail({ wageData, isLoading }: IPayDetailProps) {
       <div className="mt-4 flex flex-col gap-3">
         {isLoading ? (
           <Skeleton active />
-        ) : mergeData.length ? (
+        ) : mergeData?.length ? (
           mergeData.map((item) => {
             return (
               <PayItem

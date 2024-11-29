@@ -10,6 +10,7 @@ import HomePageNew from "../pages/mobile/new-home/onepage";
 import MobileProfilePage from "../pages/mobile/profile/profile";
 import MobileWage1 from "../pages/mobile/wage-1/home";
 import { SpamAlert } from "./blocked_ip";
+import WagePage2 from "../pages/mobile/wage2/page";
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
       {
         path: `/${routerParams.app.wage}1`,
         element: <MobileWage1 />,
+      },
+      {
+        path: `/${routerParams.app.wage}2`,
+        element: <WagePage2 />,
       },
       {
         path: `/attendant`,

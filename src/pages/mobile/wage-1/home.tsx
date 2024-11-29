@@ -25,11 +25,7 @@ const MobilePage = () => {
   const { t } = useTranslation();
 
   const [date, setDate] = React.useState(
-    new Date(
-      new Date().getFullYear(),
-      new Date().getMonth() - 1,
-      new Date().getDate(),
-    ),
+    new Date(new Date().getFullYear(), new Date().getMonth() - 1),
   );
   const [isYear, setIsYear] = React.useState(false);
 
@@ -41,7 +37,8 @@ const MobilePage = () => {
   const wageType = useQuery<WorkType>({
     queryFn: () =>
       getWageType(
-        date.getFullYear() + (date.getMonth() + 1).toString().padStart(2, "0"),
+        date.getFullYear() +
+          (date.getMonth() || 12).toString().padStart(2, "0"),
       ),
     queryKey: ["getWageType", date],
   });
@@ -49,7 +46,10 @@ const MobilePage = () => {
   const wageData = useQuery<WorkData>({
     queryFn: () =>
       getWageData(
-        date.getFullYear() + (date.getMonth() + 1).toString().padStart(2, "0"),
+        date.getFullYear() +
+          (date.getMonth() ? date.getMonth() + 1 : 12)
+            .toString()
+            .padStart(2, "0"),
       ),
     queryKey: ["getWageData", date],
   });

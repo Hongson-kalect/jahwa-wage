@@ -4,13 +4,20 @@ import { FaAnglesLeft, FaAnglesRight, FaPen } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
 
 export interface IChangeDateProps {
+  date: Date;
+  setDate: React.Dispatch<React.SetStateAction<Date>>;
   isYear: boolean;
   setIsYear: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function ChangeDate({ isYear, setIsYear }: IChangeDateProps) {
+export default function ChangeDate({
+  date,
+  setDate,
+  isYear,
+  setIsYear,
+}: IChangeDateProps) {
   // const [isYear, setIsYear] = React.useState(false);
-  const [date, setDate] = React.useState(new Date());
+  // const [date, setDate] = React.useState(new Date());
 
   return (
     <div>
@@ -34,8 +41,7 @@ const TimeTypeChanger = ({
   const { t } = useTranslation();
   const onTypeChange = () => {
     // xu ly animation
-
-    onChange();
+    // onChange();
   };
   return (
     <div className="relative flex justify-end" onClick={onTypeChange}>
@@ -43,19 +49,18 @@ const TimeTypeChanger = ({
       <p className="line-[10px] w-20 rounded-[50%] bg-blue-900 px-4 py-2 text-center text-white">
         {isYear ? t("common.year") : t("common.month")}
       </p>
-      <div className="icon absolute -top-2 right-[75px]">
+      {/* <div className="icon absolute -top-2 right-[75px]">
         <GrPowerCycle className="text-blue-900" />
       </div>
       <p className="icon absolute -top-1 right-24 -rotate-12 text-gray-300">
         {isYear ? t("common.month") : t("common.year")}
-      </p>
+      </p> */}
     </div>
   );
 };
 
 const TimeSelect = ({
   date,
-  // setDate
   isYear,
   onChange,
 }: {
@@ -76,17 +81,17 @@ const TimeSelect = ({
         onClick={() => setOpenDatePicker(true)}
       >
         {isYear ? (
-          <div className="pt-4 text-5xl">{date.getFullYear()}</div>
+          <div className="pt-4 text-5xl">{date?.getFullYear()}</div>
         ) : (
           <>
-            <p className="float-end pr-12 text-6xl">{date.getMonth() + 1}</p>
+            <p className="float-end pr-12 text-6xl">{date?.getMonth() + 1}</p>
             <div className="icon absolute -left-6 top-0">
               <FaPen className="flip scale-x-[-1]" />
             </div>
 
             <p className="absolute bottom-2 right-10 text-xl">/</p>
             <p className="absolute bottom-0 right-1 text-right text-gray-500">
-              {date.getFullYear()}
+              {date?.getFullYear()}
             </p>
           </>
         )}

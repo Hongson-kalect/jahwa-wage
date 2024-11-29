@@ -73,6 +73,12 @@ export const Navbar = ({
               <div className="pt-2">
                 <NavItem
                   icon={<AiOutlineDollar size={28} />}
+                  title={t("sidebar.wage") + " Mobile UI"}
+                  link="/wage2"
+                  onChange={onClose}
+                />
+                <NavItem
+                  icon={<AiOutlineDollar size={28} />}
                   title={t("sidebar.wage")}
                   link="/wage1"
                   onChange={onClose}
@@ -144,7 +150,7 @@ const NavItem = (props: NavItemType) => {
 
   return (
     <div
-      className={`flex items-center gap-4 px-4 py-3 ${active ? "bg-blue-600 pl-5" : ""} ${props.danger ? "bg-red-50 [&>*]:text-red-600" : ""}`}
+      className={`flex cursor-pointer items-center gap-4 px-4 py-3 ${active ? "bg-blue-600 pl-5" : ""} ${props.danger ? "bg-red-50 [&>*]:text-red-600" : ""}`}
       onClick={handlenavigate}
     >
       <div
@@ -153,7 +159,7 @@ const NavItem = (props: NavItemType) => {
         {props.icon}
       </div>
       <p
-        className={`text-lg font-medium ${active ? "text-white" : "text-gray-500"}`}
+        className={`line-clamp-1 text-lg font-medium ${active ? "text-white" : "text-gray-500"}`}
       >
         {props.title}
       </p>

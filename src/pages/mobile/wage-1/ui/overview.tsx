@@ -24,7 +24,7 @@ export default function Overview({ wageData }: IOverviewProps) {
         </div>
       ) : (
         <>
-          <div className="flex justify-around py-4">
+          {/* <div className="flex justify-around py-4">
             <div className="flex flex-col items-center justify-center">
               <p className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 text-xl font-medium text-white shadow shadow-blue-400">
                 28
@@ -49,9 +49,12 @@ export default function Overview({ wageData }: IOverviewProps) {
                 {t("wage.overtimeCount")}
               </p>
             </div>
-          </div>
+          </div> */}
 
-          <div className="flex" style={{ borderTop: "1px solid #ddd" }}>
+          <div
+            className="flex rounded-lg"
+            style={{ borderTop: "1px solid #ddd" }}
+          >
             <div
               className="flex flex-1 flex-col items-center pb-2"
               style={{ borderRight: "1px solid #ddd" }}

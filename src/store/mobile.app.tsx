@@ -14,12 +14,16 @@ type Props = {
   selectedApp: string;
   setSelectedApp: (app: string) => void;
   empCode: string;
+  setEmpCode: (id: string) => void;
   entCode: string;
+  setEntCode: (id: string) => void;
 };
 
 export const useMobileAppStore = create<Props>((set) => ({
   empCode: getRawCookie("EmpCode") || "null",
+  setEmpCode: (id) => set({ empCode: id }),
   entCode: getRawCookie("EntCode") || "null",
+  setEntCode: (id) => set({ entCode: id }),
   device: "phone",
   setDevice: (type) => set({ device: type }),
   header: "",
