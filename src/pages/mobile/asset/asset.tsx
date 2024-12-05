@@ -41,7 +41,7 @@ export default function Asset(props: IAssetProps) {
   };
 
   return (
-    <div className="w-full">
+    <div className="h-full w-full bg-blue-100">
       <div className="mt-14"></div>
       <div className="mt-4">
         <div className="flex items-start justify-between pt-4">
@@ -127,7 +127,7 @@ const AssetInfo = () => {
         </div>
         <div
           onClick={onAccessClick}
-          className="flex h-10 items-center justify-between rounded-lg px-2 shadow shadow-gray-400"
+          className="flex h-10 items-center justify-between rounded-lg bg-white px-2 shadow shadow-gray-400"
         >
           <div className="flex items-center justify-center gap-2">
             <div
@@ -143,7 +143,7 @@ const AssetInfo = () => {
         </div>
         <div
           onClick={onAccessClick}
-          className="flex h-10 items-center justify-between rounded-lg px-2 shadow shadow-gray-400"
+          className="flex h-10 items-center justify-between rounded-lg bg-white px-2 shadow shadow-gray-400"
         >
           <div className="flex items-center justify-center gap-2">
             <div
@@ -159,7 +159,7 @@ const AssetInfo = () => {
         </div>
         <div
           onClick={onAccessClick}
-          className="flex h-10 items-center justify-between rounded-lg px-2 shadow shadow-gray-400"
+          className="flex h-10 items-center justify-between rounded-lg bg-white px-2 shadow shadow-gray-400"
         >
           <div className="flex items-center justify-center gap-2">
             <div

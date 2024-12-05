@@ -20,20 +20,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: `/`,
-        element: <MobileWage1 />,
+        element: <WagePage2 />,
         // element: <MobileHomePage />,
       },
       {
-        path: `/${routerParams.app.home}`,
-        // element: <MobileHomePage />,
-        element: <MobileHomePage />,
-      },
-      {
-        path: `/${routerParams.app.wage}1`,
-        element: <MobileWage1 />,
-      },
-      {
-        path: `/${routerParams.app.wage}2`,
+        path: `/${routerParams.app.wage}`,
         element: <WagePage2 />,
       },
       {
@@ -44,32 +35,15 @@ export const router = createBrowserRouter([
         path: `/asset`,
         element: <Asset />,
       },
-      {
-        path: `/${routerParams.app.profile}`,
-        element: <MobileProfilePage />,
-      },
-      {
-        path: `/spam_alert`,
-        element: (
-          <MAuthLayout>
-            <SpamAlert />,
-          </MAuthLayout>
-        ),
-      },
 
-      {
-        path: "test",
-        element: <HomePageNew />,
-      },
+      // {
+      //   path: `/spam_alert`,
+      //   element: (
+      //     <MAuthLayout>
+      //       <SpamAlert />,
+      //     </MAuthLayout>
+      //   ),
+      // },
     ],
-  },
-  {
-    path: "/",
-    element: (
-      <MAuthLayout>
-        {" "}
-        <MSignInPage />
-      </MAuthLayout>
-    ),
   },
 ]);

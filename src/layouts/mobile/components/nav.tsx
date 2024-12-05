@@ -35,34 +35,36 @@ export const Navbar = ({
       >
         <div className="" style={{ borderBottom: "1px solid #ddd" }}>
           <div className="relative flex items-center justify-between px-1 pt-1">
-            <p className="text-sm text-gray-400">
-              {user?.positionKorean} - {user?.additionalInfo}
-            </p>
+            <div className="flex items-start gap-4 px-2">
+              <div
+                className="flex h-[62px] w-[62px] items-center justify-center rounded-full"
+                style={{
+                  border: "2px solid #888",
+                  background: `url('https://gw.jahwa.co.kr/Photo/VNERP/${getRawCookie("EmpCode")}.JPG') center top / cover no-repeat`,
+                }}
+              >
+                {/* <p className="text-3xl">A</p> */}
+              </div>
+              <div>
+                <p className="mt-1 text-lg font-semibold text-blue-900">
+                  {user?.NAME}
+                </p>
+                <p className="text-sm font-medium text-gray-600">
+                  {" "}
+                  {user?.EMP_NO}
+                </p>
+                <p className="text-xs text-gray-600"> {user?.EMAIL_ADDR}</p>
+              </div>
+            </div>
             <div className="absolute right-1 top-2 flex -skew-x-6 flex-col items-center justify-center rounded-lg font-medium italic text-white">
               <LanguageChanger />
               <div className="mt- px-1 text-right text-xs italic text-gray-400"></div>
             </div>
           </div>
-          <div className="flex items-start gap-4 px-2 pt-4">
-            <div
-              className="flex h-[62px] w-[62px] items-center justify-center rounded-full"
-              style={{
-                border: "2px solid #888",
-                background: `url('https://gw.jahwa.co.kr/Photo/VNERP/${getRawCookie("EmpCode")}.JPG') center center / cover no-repeat`,
-              }}
-            >
-              {/* <p className="text-3xl">A</p> */}
-            </div>
-            <div>
-              <p className="mt-1 text-xl font-semibold text-blue-900">
-                {getRawCookie("EmpCode")}
-              </p>
-              <p className="mt-1 font-medium text-gray-600"> {user?.name}</p>
-            </div>
-          </div>
+
           <div className="mb-2 mt-5 flex justify-between px-2 text-gray-500">
-            <p className="text-sm">{user?.positionVietnamese}</p>
-            <p className="text-sm">{user?.department}</p>
+            <p className="text-sm">{user?.ROLE_CD_NM}</p>
+            <p className="text-sm">{user?.DEPT_NM}</p>
           </div>
           <div></div>
         </div>
@@ -73,34 +75,36 @@ export const Navbar = ({
               <div className="pt-2">
                 <NavItem
                   icon={<AiOutlineDollar size={28} />}
-                  title={t("sidebar.wage") + " Mobile UI"}
-                  link="/wage2"
+                  title={t("sidebar.payRoll")}
+                  link="/wage"
                   onChange={onClose}
                 />
-                <NavItem
+                {/* <NavItem
                   icon={<AiOutlineDollar size={28} />}
                   title={t("sidebar.wage")}
                   link="/wage1"
                   onChange={onClose}
-                />
+                /> */}
                 <NavItem
                   icon={<IoCalendarOutline size={28} />}
                   title={t("sidebar.attendance")}
                   link="/attendant"
                   onChange={onClose}
                 />
-                <NavItem
+
+                {/* Cái này đến trang quản lý tài sản nè */}
+                {/* <NavItem
                   icon={<RiComputerLine size={28} />}
                   title={t("sidebar.asset")}
                   link="/asset"
                   onChange={onClose}
-                />
+                /> */}
               </div>
             </div>
             <div className="" style={{ borderTop: "1px solid #ffc5c5" }}>
               <NavItem
                 icon={<RiLogoutBoxFill size={32} />}
-                title={t("common.logout")}
+                title={t("sidebar.logout")}
                 // link="/asset"
                 danger
                 onChange={handleLogout}

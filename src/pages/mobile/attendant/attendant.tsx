@@ -89,7 +89,7 @@ export default function Attendant(props: IAttendantProps) {
   });
 
   React.useEffect(() => {
-    setHeader(t("attendance.workTable"));
+    setHeader(t("attendantPage.title1"));
     getThang();
   }, []);
 
@@ -113,7 +113,7 @@ export default function Attendant(props: IAttendantProps) {
   return (
     <div className="flex w-screen overflow-auto">
       <div className="h-screen w-full">
-        <div className="h-14 w-full">Hế lu</div>
+        <div className="h-14 w-full"> </div>
         <div>
           <div className="mt-2 px-4">
             <p className="text-right font-medium text-gray-400">Phép năm</p>
@@ -158,7 +158,7 @@ export default function Attendant(props: IAttendantProps) {
         </div>
       </div>
       <div className="h-full w-full">
-        <div className="h-14 w-full">Hế lu</div>
+        <div className="h-14 w-full"> </div>
         <div>
           <div className="mt-2 px-4">
             <p className="text-right font-medium text-gray-400">Phép năm</p>

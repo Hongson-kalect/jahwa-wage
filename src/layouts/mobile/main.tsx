@@ -27,6 +27,7 @@ const MainLayout = styled.div`
 
 export default function MobileMainLayout(props: IMobileMainLayoutProps) {
   const { user, setUser } = useUserInfoStore();
+  const { empCode, entCode } = useMobileAppStore();
 
   const { setDevice } = useMobileAppStore();
   const [authening, setAuthening] = React.useState(true);
@@ -38,6 +39,18 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
       console.log("result :>> ", result);
       if (result !== "") {
         handleLogout();
+      } else {
+        const userData = await axios.post("/api/MPersonalInformationERP", {
+          empCode,
+          entCode,
+        });
+
+        if (userData.data.Table[0]) {
+          setUser(userData.data.Table[0]);
+        } else {
+          toast.error("Failed to get user data");
+          handleLogout();
+        }
       }
 
       // await fetchUserData();
@@ -95,8 +108,8 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
   if (authening) return <div>Cheking cookie</div>;
 
   return (
-    <MainLayout className="">
-      <div className="">
+    <MainLayout className="h-screen w-screen bg-blue-300">
+      <div className="h-full">
         <Header />
         <Outlet />
         <div className="bottom-space mt-2"></div>

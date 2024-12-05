@@ -2,13 +2,14 @@ import { t } from "i18next";
 import * as React from "react";
 import { Attendance } from "../ui/interface";
 import { Empty } from "antd";
+import { useTranslation } from "react-i18next";
 
 export interface IBangCongProps {
   list: Attendance[];
 }
 
 export default function BangCong({ list }: IBangCongProps) {
-  console.log("list :>> ", list);
+  const { t } = useTranslation();
 
   if (list?.length === 0) return <Empty description={t("common.noData")} />;
   return (
@@ -20,16 +21,16 @@ export default function BangCong({ list }: IBangCongProps) {
             style={{ borderBottom: "1px solid red" }}
           >
             <th className="px-2 py-1.5 font-medium text-gray-800">
-              {t("common.weekDate")}
+              {t("attendantPage.weekday")}
             </th>
             <th className="px-2 py-1.5 font-medium text-gray-800">
-              {t("common.date")}
+              {t("attendantPage.date")}
             </th>
             <th className="px-2 py-1.5 font-medium text-gray-800">
-              {t("work.timeIn")}
+              {t("attendantPage.start")}
             </th>
             <th className="px-2 py-1.5 font-medium text-gray-800">
-              {t("work.timeOut")}
+              {t("attendantPage.finish")}
             </th>
             {/* <th></th> */}
           </tr>
@@ -75,7 +76,7 @@ export default function BangCong({ list }: IBangCongProps) {
               return (
                 <tr
                   key={index}
-                  className={`${item.END_TIME ? "" : "bg-red-200"}`}
+                  className={`${item.END_TIME ? "" : "bg-gray-100"}`}
                 >
                   <td
                     style={{ borderBottom: "1px solid #eee" }}
@@ -83,16 +84,16 @@ export default function BangCong({ list }: IBangCongProps) {
                   >
                     <div className="flex items-center justify-center">
                       <div
-                        className={`flex h-6 w-12 items-center justify-center rounded-[50%] bg-blue-500 text-xs font-medium ${item.HOLI_TYPE === "H" ? "bg-red-500 text-white" : "text-white"}`}
+                        className={`flex h-6 w-12 items-center justify-center rounded-[50%] bg-blue-500 text-xs font-medium ${item.HOLI_TYPE === "H" ? "text-white" : "text-white"}`}
                       >
-                        {item.WEEK_DAY}
+                        {t("date." + item.WEEK_DAY)}
                       </div>
                     </div>
                   </td>
                   <td style={{ borderBottom: "1px solid #eee" }}>
                     <div className="flex items-center justify-center">
                       <div
-                        className={`${item.HOLI_TYPE === "H" ? "text-red-600" : ""} h-6 w-8 text-center`}
+                        className={`${item.HOLI_TYPE === "H" ? "text-red-500" : ""} h-6 w-8 text-center`}
                       >
                         {item.DATE.slice(8, 10)}
                       </div>
@@ -100,14 +101,14 @@ export default function BangCong({ list }: IBangCongProps) {
                   </td>
                   <td style={{ borderBottom: "1px solid #eee" }}>
                     <p
-                      className={`${isLate ? "font-medium text-red-400" : "text-sm opacity-60"}`}
+                      className={`${isLate ? "font-medium" : "text-sm opacity-60"}`}
                     >
                       {item.STRT_TIME}
                     </p>
                   </td>
                   <td
                     style={{ borderBottom: "1px solid #eee" }}
-                    className={`${isOT ? "font-medium text-blue-600" : isQuitSoon ? "font-bold text-red-400" : "text-sm"}`}
+                    className={`${isOT ? "" : isQuitSoon ? "" : "text-sm"}`}
                   >
                     {item.END_TIME}
                   </td>

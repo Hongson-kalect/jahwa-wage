@@ -24,15 +24,18 @@ export default function BangNghi({ list }: IBangNghiProps) {
             className="rounded-t-xl text-blue-800"
             style={{ borderBottom: "1px solid red" }}
           >
-            <th className="px-2 py-1.5 text-sm font-medium italic">Stt</th>
+            <th className="px-2 py-1.5 text-sm font-medium italic">
+              {t("attendantPage.index")}
+            </th>
             <th className="px-2 py-1.5 text-sm font-medium italic">
               {/* {t("Lo")} */}
-              {t("common.date")}
+              {t("attendantPage.date")}
             </th>
-            <th className="px-2 py-1.5 text-sm font-medium italic">Giờ</th>
             <th className="px-2 py-1.5 text-sm font-medium italic">
-              {/* {t("work.timeOut")} */}
-              Ghi chú
+              {t("attendantPage.hour")}
+            </th>
+            <th className="px-2 py-1.5 text-sm font-medium italic">
+              {t("attendantPage.note")}
             </th>
             {/* <th></th> */}
           </tr>
@@ -41,7 +44,7 @@ export default function BangNghi({ list }: IBangNghiProps) {
               return (
                 <tr
                   key={index}
-                  className={`${item.DILIG_HH < 8 ? "bg-red-200" : ""}`}
+                  className={`${item.DILIG_HH < 8 ? "bg-gray-100" : ""}`}
                 >
                   <td className="text-xs font-bold italic text-gray-600">
                     {index + 1}
@@ -67,7 +70,7 @@ export default function BangNghi({ list }: IBangNghiProps) {
                   </td> */}
                   <td
                     style={{ borderBottom: "1px solid #eee" }}
-                    className="font-semibold text-red-400"
+                    className="font-medium text-gray-800"
                   >
                     <div className="flex items-center justify-center">
                       <div className={`h-6 w-8 text-center`}>

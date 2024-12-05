@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import { useMobileAppStore as userInfo } from "../../../../store/mobile.app";
 
 export const getAttendance = async (year: string, month: string) => {
+  console.log("year,month :>> ", year, month);
   const { firstDay, lastDay } = getFirstAndLastDayOfMonth(year, month);
   const res = await axios.post("api/MAttendanceInformation", {
     FrDate: firstDay,
