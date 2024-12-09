@@ -3,7 +3,10 @@
     "payRoll": "工资单",
     "attendance": "出勤表",
     "asset": "资产管理",
-    "logout": "登出"
+    "logout": "登出",
+    "infomation": "人事信息",
+    "gw": "电子审批",
+    "outlook": "前往 Outlook"
   },
 
   "wagePage": {
@@ -38,6 +41,34 @@
     "note": "备注"
   },
   "assetPage": {},
+
+  "infomationPage": {
+    "title": "人事信息",
+    "code": "法人",
+    "depart": "部门",
+    "emp": "员工代码",
+    "name": "姓名",
+    "krName": "汉字名",
+    "engName": "英文名",
+    "role": "职位",
+    "role2": "职务",
+    "carrer": "职业",
+    "job": "工作",
+    "type": "分类",
+    "entryGrDate": "集团入职日期",
+    "entryDate": "公司入职日期",
+    "endDate": "试用期结束日期",
+    "quitDate": "离职日期",
+    "gender": "性别",
+    "zipCode": "邮政编码",
+    "address": "地址",
+    "crZipCode": "现邮政编码",
+    "crAddress": "现地址",
+    "phone": "电话号码",
+    "phoneOffice": "办公室电话",
+    "email": "电子邮件",
+    "phone_no": "手机号码"
+  },
 
   "date": {
     "MON": "周一",

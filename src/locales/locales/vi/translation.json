@@ -3,7 +3,10 @@
     "payRoll": "Bảng lương",
     "attendance": "Lịch đi làm",
     "asset": "Quản lý tài sản",
-    "logout": "Đăng xuất"
+    "logout": "Đăng xuất",
+    "infomation": "Thông tin nhân sự",
+    "gw": "Phê duyệt điện tử",
+    "outlook": "Đến Outlook"
   },
 
   "wagePage": {
@@ -38,6 +41,34 @@
     "note": "Ghi chú"
   },
   "assetPage": {},
+
+  "infomationPage": {
+    "title": "Thông tin nhân sự",
+    "code": "Pháp nhân",
+    "depart": "Bộ Phận",
+    "emp": "Mã Nhân Viên",
+    "name": "Tên",
+    "krName": "Tên Hán Hàn",
+    "engName": "Tên Tiếng Anh",
+    "role": "Chức Vụ",
+    "role2": "Chức Trách",
+    "carrer": "Nghề Nghiệp",
+    "job": "Công Việc",
+    "type": "Phận Loại",
+    "entryGrDate": "Ngày Vào Tập Đoàn",
+    "entryDate": "Ngày Vào Công Ty",
+    "endDate": "Ngày Kết Thúc Thử Việc",
+    "quitDate": "Ngày Thôi Việc",
+    "gender": "Giới Tính",
+    "zipCode": "Mã Bưu Điện",
+    "address": "Địa Chỉ",
+    "crZipCode": "Mã Bưu Điện Hiện Tại",
+    "crAddress": "Địa Chỉ Hiện Tại",
+    "phone": "Số Điện Thoại",
+    "phoneOffice": "SĐT Văn Phòng",
+    "email": "Email",
+    "phone_no": "SĐT Di Động"
+  },
 
   "date": {
     "MON": "T2",

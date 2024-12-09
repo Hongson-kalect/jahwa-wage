@@ -3,7 +3,10 @@
     "payRoll": "급여 명세서",
     "attendance": "출근 일정",
     "asset": "자산 관리",
-    "logout": "로그아웃"
+    "logout": "로그아웃",
+    "infomation": "인사 정보",
+    "gw": "전자 승인",
+    "outlook": "Outlook으로 이동"
   },
 
   "wagePage": {
@@ -15,6 +18,7 @@
     "deductDetail": "공제 세부 사항",
     "sumary": "요약"
   },
+
   "attendantPage": {
     "title1": "출근 일정",
     "title2": "연차",
@@ -37,7 +41,36 @@
     "hour": "시간",
     "note": "비고"
   },
+
   "assetPage": {},
+
+  "infomationPage": {
+    "title": "인사 정보",
+    "code": "법인",
+    "depart": "부서",
+    "emp": "직원 코드",
+    "name": "이름",
+    "krName": "한자 이름",
+    "engName": "영문 이름",
+    "role": "직위",
+    "role2": "직책",
+    "carrer": "직업",
+    "job": "업무",
+    "type": "분류",
+    "entryGrDate": "그룹 입사일",
+    "entryDate": "회사 입사일",
+    "endDate": "수습 종료일",
+    "quitDate": "퇴사일",
+    "gender": "성별",
+    "zipCode": "우편번호",
+    "address": "주소",
+    "crZipCode": "현재 우편번호",
+    "crAddress": "현재 주소",
+    "phone": "전화번호",
+    "phoneOffice": "사무실 전화번호",
+    "email": "이메일",
+    "phone_no": "휴대폰 번호"
+  },
 
   "date": {
     "MON": "월",

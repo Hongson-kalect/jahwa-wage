@@ -11,6 +11,8 @@ import { MdOutlineCalendarToday } from "react-icons/md";
 import { IoCalendarOutline } from "react-icons/io5";
 import { SlLogout } from "react-icons/sl";
 import { useUserInfoStore } from "../../../store/userinfo";
+import { BsFillPersonCheckFill } from "react-icons/bs";
+import { PiMicrosoftOutlookLogoFill } from "react-icons/pi";
 
 export interface INavBarProps {}
 
@@ -24,6 +26,11 @@ export const Navbar = ({
   const { t } = useTranslation();
   const { user } = useUserInfoStore();
   console.log("user :>> ", user);
+
+  const imgUrl = React.useMemo(() => {
+    return decodeURIComponent(getRawCookie("Photo") || "");
+  }, []);
+  console.log("imgUrl", imgUrl);
 
   return (
     <div
@@ -40,7 +47,7 @@ export const Navbar = ({
                 className="flex h-[62px] w-[62px] items-center justify-center rounded-full"
                 style={{
                   border: "2px solid #888",
-                  background: `url('https://gw.jahwa.co.kr/Photo/VNERP/${getRawCookie("EmpCode")}.JPG') center top / cover no-repeat`,
+                  background: `url('https://gw.jahwa.co.kr/Photo/${imgUrl}') center top / cover no-repeat`,
                 }}
               >
                 {/* <p className="text-3xl">A</p> */}
@@ -89,6 +96,33 @@ export const Navbar = ({
                   icon={<IoCalendarOutline size={28} />}
                   title={t("sidebar.attendance")}
                   link="/attendant"
+                  onChange={onClose}
+                />
+                <NavItem
+                  icon={<BsFillPersonCheckFill size={28} />}
+                  title={t("sidebar.infomation")}
+                  link="/infomation"
+                  onChange={onClose}
+                />
+                <NavItem
+                  icon={
+                    <div className="flex h-5 w-8 -skew-x-6 items-center justify-center rounded-[50%] bg-green-700 text-[11px] font-bold italic text-white">
+                      GW
+                    </div>
+                  }
+                  title={t("sidebar.gw")}
+                  link="https://gw.jahwa.co.kr/"
+                  onChange={onClose}
+                />
+                <NavItem
+                  icon={
+                    <PiMicrosoftOutlookLogoFill
+                      size={28}
+                      className="text-[#185abd]"
+                    />
+                  }
+                  title={t("sidebar.outlook")}
+                  link="https://outlook.office365.com/"
                   onChange={onClose}
                 />
 
@@ -145,10 +179,14 @@ const NavItem = (props: NavItemType) => {
   }, [window.location.pathname, props.link]);
 
   const handlenavigate = () => {
-    const linkTo = props.link?.split("/")?.[1];
-    if (window.location.pathname.split("/")?.[1] !== linkTo) {
-      props.link && navigate(props.link);
-      props.onChange();
+    if (props.link?.includes("http")) {
+      window.open(props.link, "_blank");
+    } else {
+      const linkTo = props.link?.split("/")?.[1];
+      if (window.location.pathname.split("/")?.[1] !== linkTo) {
+        props.link && navigate(props.link);
+        props.onChange();
+      }
     }
   };
 

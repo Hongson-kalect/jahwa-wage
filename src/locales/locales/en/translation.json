@@ -3,7 +3,10 @@
     "payRoll": "Payroll",
     "attendance": "Attendance",
     "asset": "Asset Management",
-    "logout": "Logout"
+    "logout": "Logout",
+    "infomation": "Seft Infomation",
+    "gw": "To Groupware",
+    "outlook": "To Outlook"
   },
 
   "wagePage": {
@@ -37,7 +40,35 @@
     "hour": "Hour",
     "note": "Note"
   },
+
   "assetPage": {},
+  "infomationPage": {
+    "title": "Personnel Information",
+    "code": "Legal Entity",
+    "depart": "Department",
+    "emp": "Employee Code",
+    "name": "Name",
+    "krName": "Korean Name",
+    "engName": "English Name",
+    "role": "Position",
+    "role2": "Responsibility",
+    "carrer": "Career",
+    "job": "Job",
+    "type": "Classification",
+    "entryGrDate": "Group Entry Date",
+    "entryDate": "Company Entry Date",
+    "endDate": "Probation End Date",
+    "quitDate": "Resignation Date",
+    "gender": "Gender",
+    "zipCode": "Postal Code",
+    "address": "Address",
+    "crZipCode": "Current Postal Code",
+    "crAddress": "Current Address",
+    "phone": "Phone Number",
+    "phoneOffice": "Office Phone",
+    "email": "Email",
+    "phone_no": "Mobile Phone Number"
+  },
 
   "date": {
     "MON": "Mon",
