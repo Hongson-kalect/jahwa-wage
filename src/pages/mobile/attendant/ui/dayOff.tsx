@@ -10,6 +10,8 @@ import { getDayOff } from "./api";
 import { scrollToId } from "../../../../lib/utlis";
 import BangNghi from "../components/bangnghi";
 import { LuCalendarMinus } from "react-icons/lu";
+import { MdCalendarMonth } from "react-icons/md";
+import { FaBed } from "react-icons/fa";
 
 export interface IDayOffProps {}
 
@@ -42,80 +44,75 @@ export default function DayOff(props: IDayOffProps) {
   }, []);
 
   return (
-    <div className="h-screen min-w-[100vw] snap-start overflow-auto" id="nghi">
-      <div className="h-14 w-full"> </div>
-      <div>
-        <div className="m-2 rounded-md bg-blue-200 py-4">
-          <div className="mx-4 rounded-md bg-white px-2 py-1">
-            <div className="flex h-10 items-center justify-between gap-2">
-              <div className="flex items-end justify-between font-medium text-gray-400">
-                <div
-                  onClick={() => {
-                    scrollToId("di-lam");
-                    setHeader(t("attendantPage.title1"));
-                  }}
-                  className="flex items-center justify-center gap-2 bg-blue-600 py-2 pl-4 pr-2 text-sm text-white opacity-80"
-                >
-                  <BiSolidLeftArrow size={18} />
-                  <p>{t("attendantPage.attendance")}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <p className="flex-1">{t("attendantPage.year")}:</p>
-                <select
-                  className="h-8 w-24 px-1 text-lg"
-                  value={dayOffYear}
-                  onChange={(event) =>
-                    setDayOffYear(event.target.value.toString())
-                  }
-                >
-                  {years?.map((item, viTri) => {
-                    return (
-                      <option
-                        key={viTri}
-                        value={item}
-                        className="text-sm text-gray-700"
-                      >
-                        {item}
-                      </option>
-                    );
-                  })}
-                </select>
-              </div>
+    <div
+      className="flex h-full min-w-[100vw] snap-start flex-col overflow-auto"
+      id="nghi"
+    >
+      <div className="bg-white py-2">
+        <div className="mx-4 rounded-md bg-white px-2 py-1">
+          <div className="flex h-10 items-center justify-between gap-2">
+            <div className="flex items-center gap-3">
+              {/* <p className="flex-1">{t("attendantPage.year")}:</p> */}
+              <MdCalendarMonth size={32} className="text-blue-600" />
+              <select
+                className="h-8 w-24 border-none px-1 text-lg outline-none"
+                value={dayOffYear}
+                onChange={(event) =>
+                  setDayOffYear(event.target.value.toString())
+                }
+              >
+                {years?.map((item, viTri) => {
+                  return (
+                    <option
+                      key={viTri}
+                      value={item}
+                      className="text-sm text-gray-700"
+                    >
+                      {item}
+                    </option>
+                  );
+                })}
+              </select>
             </div>
-          </div>
-        </div>
 
-        <div className="mx-2 mb-2 mt-4 rounded-lg bg-blue-200 px-1 py-2">
-          <div className="ml-4 flex items-start gap-2 py-1">
-            <BiInfoCircle size={18} className="text-blue-500" />
-            <p className="font-bold italic text-gray-600">
-              {t("attendantPage.leaveInfo")}
+            <p className="flex items-center gap-2 text-lg font-medium text-blue-600">
+              <FaBed size={28} /> {getDayOffs?.data?.Table2?.length}{" "}
+              {t("common.day")}
             </p>
           </div>
+        </div>
+      </div>
 
-          <div className="mx-2 mt-2 rounded-lg bg-white px-4 py-2 text-center">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <p className="text-sm">{t("attendantPage.leaveTotal")}:</p>
-                <p>{getDayOffs?.data?.Table[0]?.YEAR_SAVE}</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <p className="text-sm">{t("attendantPage.leaveUsed")}:</p>
-                <p className="text-red-500">
-                  {getDayOffs?.data?.Table[0]?.YEAR_SAVE_TOT}
-                </p>
-              </div>
+      <div className="mt-2 bg-white px-2 py-3">
+        <div className="flex items-start gap-2 py-1">
+          <BiInfoCircle size={24} className="text-blue-500" />
+          <p className="font-medium text-gray-600">
+            {t("attendantPage.leaveInfo")}
+          </p>
+        </div>
+
+        <div className="mx-2 mt-2 text-center">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <p className="text-sm">{t("attendantPage.leaveTotal")}:</p>
+              <p>{getDayOffs?.data?.Table[0]?.YEAR_SAVE}</p>
             </div>
-            <div className="mt-2 flex items-center gap-2">
-              <p className="text-sm">{t("attendantPage.leaveRemnant")}:</p>
+            <div className="flex items-center gap-2">
+              <p className="text-sm">{t("attendantPage.leaveUsed")}:</p>
               <p className="text-red-500">
-                {getDayOffs?.data?.Table[0]?.MAX_YEAR_CNT}
+                {getDayOffs?.data?.Table[0]?.YEAR_SAVE_TOT}
               </p>
             </div>
           </div>
+          <div className="mt-2 flex items-center gap-2">
+            <p className="text-sm">{t("attendantPage.leaveRemnant")}:</p>
+            <p className="text-red-500">
+              {getDayOffs?.data?.Table[0]?.MAX_YEAR_CNT}
+            </p>
+          </div>
+        </div>
 
-          {/* {getDayOffs.isLoading ? (
+        {/* {getDayOffs.isLoading ? (
             <>
               <Skeleton className="mt-4" active />
               <Skeleton className="mt-4" active />
@@ -123,24 +120,21 @@ export default function DayOff(props: IDayOffProps) {
           ) : (
             
           )} */}
-        </div>
+      </div>
 
-        <div className="mx-2 mb-2 mt-4 rounded-lg bg-blue-200 px-1 py-2">
-          <div className="ml-4 flex items-start gap-2 py-1">
-            <LuCalendarMinus size={18} className="mt-0.5 text-blue-500" />
-            <p className="font-bold italic text-gray-600">
-              {t("attendantPage.leaveTable")}
-            </p>
-          </div>
-          {getDayOffs.isLoading ? (
-            <>
-              <Skeleton className="mt-4" active />
-              <Skeleton className="mt-4" active />
-            </>
-          ) : (
-            <BangNghi list={getDayOffs?.data?.Table2.reverse()} />
-          )}
+      <div className="mt-2 min-h-0 flex-1 bg-white px-1 py-2">
+        <div className="ml-4 flex items-start gap-2 py-1">
+          <LuCalendarMinus size={18} className="mt-0.5 text-blue-500" />
+          <p className="text-gray-600">{t("attendantPage.leaveTable")}</p>
         </div>
+        {getDayOffs.isLoading ? (
+          <>
+            <Skeleton className="mt-4" active />
+            <Skeleton className="mt-4" active />
+          </>
+        ) : (
+          <BangNghi list={getDayOffs?.data?.Table2.reverse()} />
+        )}
       </div>
     </div>
   );

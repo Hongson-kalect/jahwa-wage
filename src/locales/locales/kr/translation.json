@@ -9,6 +9,15 @@
     "outlook": "Outlook으로 이동"
   },
 
+  "navbar": {
+    "payRoll": "급여 명세서",
+    "attendance": "출근 일정",
+    "dayOff": "연차",
+    "infomation": "인사 정보",
+    "gw": "전자 승인",
+    "outlook": "Outlook으로 이동"
+  },
+
   "wagePage": {
     "title": "급여 명세서",
     "payRollMonth": "지급 월",
@@ -69,7 +78,8 @@
     "phone": "전화번호",
     "phoneOffice": "사무실 전화번호",
     "email": "이메일",
-    "phone_no": "휴대폰 번호"
+    "phone_no": "휴대폰 번호",
+    "contact": "연락처"
   },
 
   "date": {
@@ -208,6 +218,7 @@
 
   "common": {
     "name": "이름",
+    "day": "일",
     "ammount": "금액",
     "times": "횟수",
     "hour": "시간",

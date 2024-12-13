@@ -28,13 +28,15 @@ export const Navbar = ({
   console.log("user :>> ", user);
 
   const imgUrl = React.useMemo(() => {
-    return decodeURIComponent(getRawCookie("Photo") || "");
+    return (
+      "https://gw.jahwa.co.kr/Photo/" +
+      decodeURIComponent(getRawCookie("Photo") || "")
+    );
   }, []);
-  console.log("imgUrl", imgUrl);
 
   return (
     <div
-      className={`fixed inset-0 flex w-screen duration-300 ${!showNav ? "translate-x-[-100%]" : "translate-x-0"} z-[100]`}
+      className={`fixed inset-0 flex w-screen duration-300 ${!showNav ? "translate-x-[-100%]" : "translate-x-0"} z-[999]`}
     >
       <div
         className={`relative left-0 top-0 z-[100] flex h-screen w-96 flex-col bg-white`}
@@ -47,7 +49,7 @@ export const Navbar = ({
                 className="flex h-[62px] w-[62px] items-center justify-center rounded-full"
                 style={{
                   border: "2px solid #888",
-                  background: `url('https://gw.jahwa.co.kr/Photo/${imgUrl}') center top / cover no-repeat`,
+                  background: `url('${imgUrl}') center top / cover no-repeat`,
                 }}
               >
                 {/* <p className="text-3xl">A</p> */}
@@ -80,19 +82,19 @@ export const Navbar = ({
           <div className="flex h-full flex-col overflow-auto">
             <div className="flex-1 overflow-auto">
               <div className="pt-2">
-                <NavItem
+                {/* <NavItem
                   icon={<AiOutlineDollar size={28} />}
                   title={t("sidebar.payRoll")}
                   link="/wage"
                   onChange={onClose}
-                />
+                /> */}
                 {/* <NavItem
                   icon={<AiOutlineDollar size={28} />}
                   title={t("sidebar.wage")}
                   link="/wage1"
                   onChange={onClose}
                 /> */}
-                <NavItem
+                {/* <NavItem
                   icon={<IoCalendarOutline size={28} />}
                   title={t("sidebar.attendance")}
                   link="/attendant"
@@ -103,7 +105,7 @@ export const Navbar = ({
                   title={t("sidebar.infomation")}
                   link="/infomation"
                   onChange={onClose}
-                />
+                /> */}
                 <NavItem
                   icon={
                     <div className="flex h-5 w-8 -skew-x-6 items-center justify-center rounded-[50%] bg-green-700 text-[11px] font-bold italic text-white">

@@ -9,6 +9,15 @@
     "outlook": "To Outlook"
   },
 
+  "navbar": {
+    "payRoll": "Payroll",
+    "attendance": "Attendance",
+    "dayOff": "Annual Leave",
+    "infomation": "Seft Info",
+    "gw": "To Groupware",
+    "outlook": "To Outlook"
+  },
+
   "wagePage": {
     "title": "Payroll",
     "payRollMonth": "Payroll Month",
@@ -67,7 +76,8 @@
     "phone": "Phone Number",
     "phoneOffice": "Office Phone",
     "email": "Email",
-    "phone_no": "Mobile Phone Number"
+    "phone_no": "Mobile Phone Number",
+    "contact": "Contact"
   },
 
   "date": {
@@ -206,6 +216,7 @@
 
   "common": {
     "name": "Name",
+    "day": "Day",
     "ammount": "Amount",
     "times": "Times",
     "hour": "Hour",

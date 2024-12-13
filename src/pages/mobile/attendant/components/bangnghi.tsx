@@ -21,20 +21,20 @@ export default function BangNghi({ list }: IBangNghiProps) {
       <table className="w-full text-center">
         <tbody className="w-full">
           <tr
-            className="rounded-t-xl text-blue-800"
+            className="rounded-t-xl text-blue-500"
             style={{ borderBottom: "1px solid red" }}
           >
-            <th className="px-2 py-1.5 text-sm font-medium italic">
+            <th className="px-2 py-1.5 text-sm font-medium">
               {t("attendantPage.index")}
             </th>
-            <th className="px-2 py-1.5 text-sm font-medium italic">
+            <th className="px-2 py-1.5 text-sm font-medium">
               {/* {t("Lo")} */}
               {t("attendantPage.date")}
             </th>
-            <th className="px-2 py-1.5 text-sm font-medium italic">
+            <th className="px-2 py-1.5 text-sm font-medium">
               {t("attendantPage.hour")}
             </th>
-            <th className="px-2 py-1.5 text-sm font-medium italic">
+            <th className="px-2 py-1.5 text-sm font-medium">
               {t("attendantPage.note")}
             </th>
             {/* <th></th> */}
@@ -46,7 +46,10 @@ export default function BangNghi({ list }: IBangNghiProps) {
                   key={index}
                   className={`${item.DILIG_HH < 8 ? "bg-gray-100" : ""}`}
                 >
-                  <td className="text-xs font-bold italic text-gray-600">
+                  <td
+                    style={{ borderBottom: "1px solid #eee" }}
+                    className="text-xs font-bold italic text-gray-600"
+                  >
                     {index + 1}
                   </td>
                   <td
@@ -61,13 +64,7 @@ export default function BangNghi({ list }: IBangNghiProps) {
                       </div>
                     </div>
                   </td>
-                  {/* <td style={{ borderBottom: "1px solid #eee" }}>
-                    <div className="flex items-center justify-center">
-                      <div className={`h-6 w-8 text-center`}>
-                        {item.DILIG_NM}
-                      </div>
-                    </div>
-                  </td> */}
+
                   <td
                     style={{ borderBottom: "1px solid #eee" }}
                     className="font-medium text-gray-800"

@@ -40,15 +40,6 @@ export const router = createBrowserRouter([
         path: `/infomation`,
         element: <Information />,
       },
-
-      // {
-      //   path: `/spam_alert`,
-      //   element: (
-      //     <MAuthLayout>
-      //       <SpamAlert />,
-      //     </MAuthLayout>
-      //   ),
-      // },
     ],
   },
 ]);

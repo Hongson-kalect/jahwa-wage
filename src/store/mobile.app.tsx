@@ -17,6 +17,8 @@ type Props = {
   setEmpCode: (id: string) => void;
   entCode: string;
   setEntCode: (id: string) => void;
+  activeTab: string;
+  setActiveTab: (activeTab: string) => void;
 };
 
 export const useMobileAppStore = create<Props>((set) => ({
@@ -44,4 +46,6 @@ export const useMobileAppStore = create<Props>((set) => ({
     }),
   selectedApp: window.location.pathname.split("/")[1] || "home",
   setSelectedApp: (app: string) => set({ selectedApp: app }),
+  activeTab: "wage",
+  setActiveTab: (activeTab: string) => set({ activeTab }),
 }));

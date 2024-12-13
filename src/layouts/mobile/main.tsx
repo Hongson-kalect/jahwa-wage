@@ -1,18 +1,23 @@
+import axios from "axios";
 import * as React from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { toast } from "react-toastify";
 import styled from "styled-components";
-import { useUserInfoStore } from "../../store/userinfo";
-import { getRawCookie, handleLogout } from "../../lib/utlis";
-import { httpGet, httpPost } from "../../api/axios";
-import { checkCookieNSession } from "./utils";
-import MobileAppBottom from "./components/app.bottom";
-import { ImCoinPound } from "react-icons/im";
+import { httpGet } from "../../api/axios";
 import LanguageChanger from "../../components/common/languageChange";
+import { getRawCookie, handleLogout } from "../../lib/utlis";
 import { SidebarToggle } from "../../pages/mobile/wage-1/components/sidebarToggle";
 import { useMobileAppStore } from "../../store/mobile.app";
+import { useUserInfoStore } from "../../store/userinfo";
 import { Navbar } from "./components/nav";
-import { toast } from "react-toastify";
-import axios from "axios";
+import { checkCookieNSession } from "./utils";
+import WagePage2 from "../../pages/mobile/wage2/page";
+import Attendant from "../../pages/mobile/attendant/attendant";
+import Asset from "../../pages/mobile/asset/asset";
+import Information from "../../pages/mobile/infomation/page";
+import { useSearch } from "../../hooks/useSearch";
+import DayOffPage from "../../pages/mobile/dayoff/dayOff";
+import { t } from "i18next";
 
 export interface IMobileMainLayoutProps {}
 
@@ -26,11 +31,16 @@ const MainLayout = styled.div`
 `;
 
 export default function MobileMainLayout(props: IMobileMainLayoutProps) {
-  const { user, setUser } = useUserInfoStore();
+  const { setUser } = useUserInfoStore();
   const { empCode, entCode } = useMobileAppStore();
 
   const { setDevice } = useMobileAppStore();
   const [authening, setAuthening] = React.useState(true);
+
+  const [paramsObject] = useSearch();
+  const activeTab = React.useMemo(() => {
+    return paramsObject.tab || "wage";
+  }, [paramsObject]);
 
   const verifyUser = async () => {
     try {
@@ -60,23 +70,12 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
     }
   };
 
-  const fetchUserData = async () => {
-    console.log("code asd lsdl ád", getRawCookie("EmpCode"));
-    try {
-      console.log("nàn í", "user/" + getRawCookie("EmpCode"));
-      const res = await httpGet("user/" + getRawCookie("EmpCode"));
-      const data = res.data;
-      setUser(
-        data?.[0]
-          ? {
-              ...data?.[0],
-              avatar: `https://gw.jahwa.co.kr/Photo/VNERP%2F${getRawCookie("EmpCode")}.JPG`,
-            }
-          : {},
-      );
-    } catch (error) {
-      console.log("error", error);
-    }
+  const renderPage = () => {
+    if (activeTab === "wage") return <WagePage2 />;
+    if (activeTab === "attendant") return <Attendant />;
+    if (activeTab === "day-off") return <DayOffPage />;
+    // if (activeTab === "asset") return <Asset />;
+    if (activeTab === "information") return <Information />;
   };
 
   React.useLayoutEffect(() => {
@@ -94,13 +93,6 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
     };
   }, []);
 
-  // React.useEffect(() => {
-  //   getWageMonth();
-  //   getWageType();
-  //   getWageData();
-  // testPythonAPI();
-  // }, []);
-
   React.useEffect(() => {
     verifyUser();
   }, []);
@@ -108,13 +100,14 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
   if (authening) return <div>Cheking cookie</div>;
 
   return (
-    <MainLayout className="h-screen w-screen bg-blue-300">
-      <div className="h-full">
+    <MainLayout className="h-screen w-screen">
+      <div className="flex h-full flex-col">
         <Header />
-        <Outlet />
-        <div className="bottom-space mt-2"></div>
+        <div className="relative flex-1 overflow-auto bg-[#eaeef3]">
+          {renderPage()}
+          {/* <Outlet /> */}
+        </div>
       </div>
-      {/* <MobileAppBottom /> */}
     </MainLayout>
   );
 }
@@ -122,16 +115,76 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
 const Header = () => {
   const [showNav, setShowav] = React.useState(false);
   const { header } = useMobileAppStore();
+
+  const [paramsObject, setSearchParams] = useSearch();
+  const activeTab = React.useMemo(() => {
+    return paramsObject.tab || "wage";
+  }, [paramsObject]);
+
   return (
     <>
-      <div
-        className="fixed left-0 right-0 top-0 z-[10] flex h-14 w-full items-center justify-between bg-[#ffffffbb] px-2 py-1 text-gray-600 backdrop-blur"
-        style={{ borderBottom: "1px solid #9c9c9c" }}
-      >
-        <SidebarToggle color="gray" size={10} onClick={() => setShowav(true)} />
-        <p className="text-lg font-medium uppercase">{header}</p>
-        <LanguageChanger />
+      <div className="flex w-full flex-col">
+        <div className="flex h-14 items-center justify-between bg-white px-2 py-1 text-gray-600">
+          <SidebarToggle
+            color="gray"
+            size={10}
+            onClick={() => setShowav(true)}
+          />
+          <p className="text-lg font-medium uppercase">{header}</p>
+          {/* <p className="text-lg font-medium uppercase">Bố Sơn Muôn Năm</p> */}
+
+          <LanguageChanger />
+        </div>
+
+        <div className="flex h-[52px] items-center justify-between bg-gradient-to-r from-green-500 to-teal-400 px-2 py-0.5 text-sm font-medium text-slate-200">
+          <div
+            onClick={() => {
+              setSearchParams({ tab: "wage" });
+            }}
+            className={`uppercase ${activeTab === "wage" ? "translate-y-0.5 text-white" : "opacity-70"} relative flex h-full items-center justify-center duration-300`}
+          >
+            {t("navbar.payRoll")}
+            {activeTab === "wage" && (
+              <div className="absolute bottom-0 flex h-1 w-full items-center justify-center rounded-lg bg-gray-200" />
+            )}
+          </div>
+          <div
+            onClick={() => {
+              setSearchParams({ tab: "attendant" });
+            }}
+            className={`uppercase ${activeTab === "attendant" ? "translate-y-0.5 text-white" : "opacity-70"} relative flex h-full items-center justify-center duration-300`}
+          >
+            {t("navbar.attendance")}
+            {activeTab === "attendant" && (
+              <div className="absolute bottom-0 flex h-1 w-full items-center justify-center rounded-lg bg-gray-200" />
+            )}
+          </div>
+          <div
+            onClick={() => {
+              setSearchParams({ tab: "day-off" });
+            }}
+            className={`uppercase ${activeTab === "day-off" ? "translate-y-0.5 text-white" : "opacity-70"} relative flex h-full items-center justify-center duration-300`}
+          >
+            {t("navbar.dayOff")}
+            {activeTab === "day-off" && (
+              <div className="absolute bottom-0 flex h-1 w-full items-center justify-center rounded-lg bg-gray-200" />
+            )}
+          </div>
+
+          <div
+            onClick={() => {
+              setSearchParams({ tab: "information" });
+            }}
+            className={`uppercase ${activeTab === "information" ? "translate-y-0.5 text-white" : "opacity-70"} relative flex h-full items-center justify-center duration-300`}
+          >
+            {t("navbar.infomation")}
+            {activeTab === "information" && (
+              <div className="absolute bottom-0 flex h-1 w-full items-center justify-center rounded-lg bg-gray-200" />
+            )}
+          </div>
+        </div>
       </div>
+
       <Navbar
         showNav={showNav}
         onClose={() => {

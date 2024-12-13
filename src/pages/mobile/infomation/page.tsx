@@ -2,6 +2,10 @@ import * as React from "react";
 import { useUserInfoStore } from "../../../store/userinfo";
 import { useMobileAppStore } from "../../../store/mobile.app";
 import { useTranslation } from "react-i18next";
+import { getRawCookie } from "../../../lib/utlis";
+import { MdWork } from "react-icons/md";
+import { LuCalendarSearch } from "react-icons/lu";
+import { RiContactsFill } from "react-icons/ri";
 
 export interface IInformationProps {}
 
@@ -10,7 +14,12 @@ export default function Information(props: IInformationProps) {
   const { t } = useTranslation();
   const { setHeader, entCode } = useMobileAppStore();
 
-  console.log("user :>> ", user);
+  const imgUrl = React.useMemo(() => {
+    return (
+      "https://gw.jahwa.co.kr/Photo/" +
+      decodeURIComponent(getRawCookie("Photo") || "")
+    );
+  }, []);
 
   React.useEffect(() => {
     setHeader(t("infomationPage.title"));
@@ -27,153 +36,124 @@ export default function Information(props: IInformationProps) {
         return "JH VINA";
     }
   };
-  return (
-    <div className="h-full overflow-auto bg-blue-300 px-4 pb-2 pt-16">
-      {/* <h2>Thông tin nhân </h2> */}
-      <div className="h-full rounded-lg bg-blue-200 p-4">
-        <div className="h-full rounded-lg bg-white p-4">
-          <table
-            className="h-full"
-            style={{
-              fontFamily: "none",
-              fontSize: "12px",
-            }}
-          >
-            <tbody>
-              <tr>
-                <td className="">{t("infomationPage.code")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{getCompanyName(entCode)}</td>
-              </tr>
 
-              <tr>
-                <td className="">{t("infomationPage.depart")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.DEPT_NM}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.emp")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.EMP_NO}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.name")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.NAME}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.krName")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.HANJA_NAME}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.engName")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.ENG_NAME}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.role")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.ROLL_PSTN_NM}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.role2")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.ROLE_CD_NM}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.carrer")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.OCPT_TYPE_NM}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.job")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.OCPT_TYPE_NM}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.type")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.ENTR_CD_NM}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.entryGrDate")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.GROUP_ENTR_DT}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.entryDate")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.ENTR_DT}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.endDate")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.INTERN_DT}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.quitDate")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.RETIRE_DT}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.gender")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.SEX_NM}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.zipCode")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.ZIP_CD}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.address")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.ADDR}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.crZipCode")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.CURR_ZIP_CD}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.crAddress")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.CURR_ADDR}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.phone")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.HAND_TEL_NO}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.phoneOffice")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.EM_TEL_NO}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.email")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.EMAIL_ADDR}</td>
-              </tr>
-              <tr>
-                <td className="">{t("infomationPage.phone_no")}</td>
-                <td className="w-8 text-center">:</td>
-                <td>{user?.TEL_NO}</td>
-              </tr>
-            </tbody>
-          </table>
+  const InfoItem = ({ label, value }: { label: string; value?: string }) => (
+    <div className="flex flex-col rounded bg-white p-3">
+      <span className="mb-1 text-xs text-gray-500">{label}</span>
+      <span className="text-sm font-medium text-gray-800">{value || "-"}</span>
+    </div>
+  );
+
+  return (
+    <div className="h-full overflow-auto pb-3">
+      {/* Thông tin cơ bản */}
+      <div className="mb-4">
+        <div className="mb-1 rounded-bl-2xl bg-white p-4 shadow shadow-gray-300">
+          <div className="flex justify-between">
+            <div>
+              <h3 className="mb-2 text-lg font-semibold text-blue-900">
+                {getCompanyName(entCode)}
+              </h3>
+              <div className="flex gap-2">
+                <span className="bg-blue-100 px-2 py-1 text-sm text-blue-800">
+                  {user?.DEPT_NM}
+                </span>
+                <span className="bg-blue-100 px-2 py-1 text-sm text-blue-800">
+                  {user?.EMP_NO}
+                </span>
+              </div>
+            </div>
+            <div
+              style={{
+                background: `url(${imgUrl}) center center / cover no-repeat`,
+              }}
+              className="h-16 w-20 rounded"
+            ></div>
+            {/* <img src={imgUrl} alt="avatar" className="h-full w-20 rounded" /> */}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-1">
+          <InfoItem label={t("infomationPage.name")} value={user?.NAME} />
+          <InfoItem
+            label={t("infomationPage.krName")}
+            value={user?.HANJA_NAME}
+          />
+          <InfoItem
+            label={t("infomationPage.engName")}
+            value={user?.ENG_NAME}
+          />
+          <InfoItem
+            label={t("infomationPage.role")}
+            value={user?.ROLL_PSTN_NM}
+          />
         </div>
       </div>
-      {/* {Object.entries(user).map(([key, user.abc], index) => {
-        return (
-          <div key={index}>
-            <div>
-              {key}: {user.abc}
-            </div>
-          </div>
-        );
-      })} */}
+
+      {/* Thông tin công việc */}
+      <div className="mb-4">
+        <h4 className="mb-1 ml-1 flex items-end gap-2 text-sm font-medium text-blue-600">
+          <MdWork size={20} className="mb-0.5" />
+          {t("infomationPage.carrer")}
+        </h4>
+        <div className="grid grid-cols-2 gap-2">
+          <InfoItem
+            label={t("infomationPage.role2")}
+            value={user?.ROLE_CD_NM}
+          />
+          <InfoItem
+            label={t("infomationPage.job")}
+            value={user?.OCPT_TYPE_NM}
+          />
+          <InfoItem label={t("infomationPage.type")} value={user?.ENTR_CD_NM} />
+        </div>
+      </div>
+
+      {/* Thông tin ngày tháng */}
+      <div className="mb-4">
+        <h4 className="mb-1 ml-1 flex items-end gap-2 text-sm font-medium text-blue-600">
+          <LuCalendarSearch size={20} className="mb-0.5" />
+          {t("infomationPage.entryDate")}
+        </h4>
+        <div className="grid grid-cols-2 gap-2">
+          <InfoItem
+            label={t("infomationPage.entryGrDate")}
+            value={user?.GROUP_ENTR_DT}
+          />
+          <InfoItem
+            label={t("infomationPage.endDate")}
+            value={user?.INTERN_DT}
+          />
+          <InfoItem
+            label={t("infomationPage.quitDate")}
+            value={user?.RETIRE_DT}
+          />
+        </div>
+      </div>
+
+      {/* Thông tin liên hệ */}
+      <div>
+        <h4 className="mb-1 ml-1 flex items-end gap-2 text-sm font-medium text-blue-600">
+          <RiContactsFill size={20} className="mb-0.5" />
+          {t("infomationPage.contact")}
+        </h4>
+        <div className="grid grid-cols-1 gap-2">
+          <InfoItem label={t("infomationPage.phone")} value={user?.TEL_NO} />
+          <InfoItem
+            label={t("infomationPage.phoneOffice")}
+            value={user?.EM_TEL_NO}
+          />
+          <InfoItem
+            label={t("infomationPage.email")}
+            value={user?.EMAIL_ADDR}
+          />
+          <InfoItem
+            label={t("infomationPage.crAddress")}
+            value={user?.CURR_ADDR}
+          />
+          <InfoItem label={t("infomationPage.address")} value={user?.ADDR} />
+        </div>
+      </div>
     </div>
   );
 }

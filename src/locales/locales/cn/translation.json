@@ -9,6 +9,15 @@
     "outlook": "前往 Outlook"
   },
 
+  "navbar": {
+    "payRoll": "工资单",
+    "attendance": "出勤表",
+    "dayOff": "年假",
+    "infomation": "人事信息",
+    "gw": "电子审批",
+    "outlook": "前往 Outlook"
+  },
+
   "wagePage": {
     "title": "工资单",
     "payRollMonth": "支付月份",
@@ -67,7 +76,8 @@
     "phone": "电话号码",
     "phoneOffice": "办公室电话",
     "email": "电子邮件",
-    "phone_no": "手机号码"
+    "phone_no": "手机号码",
+    "contact": "联系信息"
   },
 
   "date": {
@@ -206,6 +216,7 @@
 
   "common": {
     "name": "姓名",
+    "day": "天",
     "ammount": "金额",
     "times": "次数",
     "hour": "小时",

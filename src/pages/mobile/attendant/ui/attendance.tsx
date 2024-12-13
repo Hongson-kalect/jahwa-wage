@@ -13,6 +13,8 @@ import { Attendance } from "./interface";
 import { useUserInfoStore } from "../../../../store/userinfo";
 import { toast } from "react-toastify";
 import { IoTimeOutline } from "react-icons/io5";
+import { MdCalendarMonth } from "react-icons/md";
+import { FaCheckCircle } from "react-icons/fa";
 
 export interface IAttendantProps {}
 
@@ -20,15 +22,6 @@ export default function Attendants(props: IAttendantProps) {
   const { user } = useUserInfoStore();
   const { t } = useTranslation();
   const { setHeader, empCode, entCode } = useMobileAppStore();
-  const [date, setDate] = React.useState(new Date());
-  //   const [final, setFinal] = React.useState(new Date().getFullYear().toString());
-
-  // const [months, setMonths] = React.useState<string[]>([
-  //   new Date().getFullYear() +
-  //     "-" +
-  //     (new Date().getMonth() + 1).toString().padStart(2, "0"),
-  // ]);
-
   const months = React.useMemo<string[]>(() => {
     if (!user?.ENTR_DT) {
       toast.error("cook");
@@ -51,8 +44,6 @@ export default function Attendants(props: IAttendantProps) {
         entriMonth[1] = 1;
         entriMonth[0] += 1;
       }
-
-      console.log("tempMonth :>> ", tempMonth);
     }
 
     return tempMonth;
@@ -91,6 +82,15 @@ export default function Attendants(props: IAttendantProps) {
     ]);
   };
   // const [dayOffYear, setDayOffYear] = React.useState(new Date().getFullYear());
+  const workDate = React.useMemo<number>(() => {
+    return (
+      getAttendances?.data?.Table?.reduce((count, item) => {
+        if (item.END_TIME) count += 1;
+
+        return count;
+      }, 0) || 0
+    );
+  }, [getAttendances?.data?.Table, thang]);
 
   React.useEffect(() => {
     setHeader(t("attendantPage.title1"));
@@ -98,21 +98,21 @@ export default function Attendants(props: IAttendantProps) {
   }, []);
   return (
     <div
-      className="h-screen min-w-[100vw] snap-start overflow-auto"
-      id="di-lam"
+      className="h-full min-w-[100vw] snap-start overflow-auto"
+      // id="di-lam"
     >
-      <div className="h-14 w-full"> </div>
-      <div>
-        <div className="m-2 rounded-md bg-blue-200 py-4">
+      <div className="flex h-full flex-col">
+        <div className="bg-white py-2">
           <div className="mx-4 rounded-md bg-white px-2 py-1">
             <div className="flex h-10 items-center justify-between gap-2">
               <div className="flex items-center gap-3">
-                <p className="flex-1">{t("attendantPage.month")}:</p>
+                {/* <p className="flex-1">{t("attendantPage.month")}:</p> */}
+                <MdCalendarMonth size={32} className="text-blue-600" />
                 {!months ? (
                   <div>Loading...</div>
                 ) : (
                   <select
-                    className="h-8 w-24 px-1"
+                    className="h-8 w-24 border-none px-1 text-lg outline-none"
                     value={thang}
                     onChange={(event) => setThang(event.target.value)}
                   >
@@ -130,26 +130,17 @@ export default function Attendants(props: IAttendantProps) {
                   </select>
                 )}
               </div>
-              <div className="flex items-end justify-between font-medium text-gray-400">
-                <div
-                  onClick={() => {
-                    scrollToId("nghi");
-                    setHeader(t("attendantPage.title2"));
-                  }}
-                  className="flex items-center justify-center gap-2 bg-blue-600 py-2 pl-4 pr-2 text-sm text-white opacity-80"
-                >
-                  <p>{t("attendantPage.leave")}</p>
-                  <BiSolidRightArrow size={18} />
-                </div>
-              </div>
+              <p className="flex items-center gap-2 text-lg font-medium text-blue-600">
+                <FaCheckCircle size={24} /> {workDate} {t("common.day")}
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="mx-2 mb-2 mt-4 rounded-lg bg-blue-200 px-1 py-2">
-          <div className="ml-4 flex items-start gap-2 py-1">
-            <IoTimeOutline size={18} className="mt-0.5 text-blue-400" />
-            <p className="font-bold italic text-gray-600">
+        <div className="mt-2 flex-1 bg-white px-2 py-3">
+          <div className="flex items-center gap-2 py-1">
+            <IoTimeOutline size={24} className="mt-0.5 text-blue-400" />
+            <p className="font-medium text-gray-600">
               {t("attendantPage.attendanceTable")}
             </p>
           </div>

@@ -8,11 +8,19 @@
     "gw": "Phê duyệt điện tử",
     "outlook": "Đến Outlook"
   },
+  "navbar": {
+    "payRoll": "Bảng lương",
+    "attendance": "Chấm công",
+    "dayOff": "Phép năm",
+    "infomation": "Cá nhân",
+    "gw": "Phê duyệt điện tử",
+    "outlook": "Đến Outlook"
+  },
 
   "wagePage": {
     "title": "Bảng lương",
-    "payRollMonth": "Tháng chi trả",
-    "payRollType": "Phân loại lương",
+    "payRollMonth": "Tháng",
+    "payRollType": "Loại",
     "payRollDetail": "Chi tiết chi trả",
     "timeCheckDetail": "Chi tiết chấm công",
     "deductDetail": "Chi tiết khấu trừ",
@@ -67,7 +75,8 @@
     "phone": "Số Điện Thoại",
     "phoneOffice": "SĐT Văn Phòng",
     "email": "Email",
-    "phone_no": "SĐT Di Động"
+    "phone_no": "SĐT Di Động",
+    "contact": "Thông tin liên hệ"
   },
 
   "date": {
@@ -206,6 +215,7 @@
 
   "common": {
     "name": "Tên",
+    "day": "ngày",
     "ammount": "Số tiền",
     "times": "Số lần",
     "hour": "Giờ",
