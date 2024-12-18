@@ -66,6 +66,7 @@
     "type": "分类",
     "entryGrDate": "集团入职日期",
     "entryDate": "公司入职日期",
+    "wageRank": "工资等级",
     "endDate": "试用期结束日期",
     "quitDate": "离职日期",
     "gender": "性别",

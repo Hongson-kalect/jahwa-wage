@@ -98,7 +98,7 @@ export default function Attendants(props: IAttendantProps) {
   }, []);
   return (
     <div
-      className="h-full min-w-[100vw] snap-start overflow-auto"
+      className="h-full w-full snap-start overflow-auto"
       // id="di-lam"
     >
       <div className="flex h-full flex-col">
@@ -139,8 +139,8 @@ export default function Attendants(props: IAttendantProps) {
 
         <div className="mt-2 flex-1 bg-white px-2 py-3">
           <div className="flex items-center gap-2 py-1">
-            <IoTimeOutline size={24} className="mt-0.5 text-blue-400" />
-            <p className="font-medium text-gray-600">
+            <IoTimeOutline size={24} className="mt-0.5" />
+            <p className="font-bold text-gray-900">
               {t("attendantPage.attendanceTable")}
             </p>
           </div>

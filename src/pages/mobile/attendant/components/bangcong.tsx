@@ -17,19 +17,17 @@ export default function BangCong({ list }: IBangCongProps) {
       <table className="w-full text-center">
         <tbody className="w-full">
           <tr
-            className="rounded-t-xl text-sm text-blue-500"
+            className="rounded-t-xl text-sm text-blue-600"
             style={{ borderBottom: "1px solid red" }}
           >
-            <th className="px-2 py-1.5 font-medium">
+            <th className="px-2 py-1.5 font-bold">
               {t("attendantPage.weekday")}
             </th>
-            <th className="px-2 py-1.5 font-medium">
-              {t("attendantPage.date")}
-            </th>
-            <th className="px-2 py-1.5 font-medium">
+            <th className="px-2 py-1.5 font-bold">{t("attendantPage.date")}</th>
+            <th className="px-2 py-1.5 font-bold">
               {t("attendantPage.start")}
             </th>
-            <th className="px-2 py-1.5 font-medium">
+            <th className="px-2 py-1.5 font-bold">
               {t("attendantPage.finish")}
             </th>
             {/* <th></th> */}
@@ -76,21 +74,18 @@ export default function BangCong({ list }: IBangCongProps) {
               return (
                 <tr
                   key={index}
-                  className={`${item.END_TIME ? "" : "shadow shadow-red-100"}`}
+                  className={`${item.END_TIME ? "" : "shadow shadow-gray-100"}`}
                 >
-                  <td
-                    style={{ borderBottom: "1px solid #eee" }}
-                    className="py-2"
-                  >
+                  <td className="py-2">
                     <div className="flex items-center justify-center">
                       <div
-                        className={`${item.WEEK_DAY !== "SUN" ? "shadow-sm shadow-blue-400" : "shadow-sm shadow-red-400"} flex h-6 w-12 items-center justify-center rounded-[50%] text-xs font-medium ${item.HOLI_TYPE === "H" ? "text-gray-800" : "text-gray-800"}`}
+                        className={`${item.WEEK_DAY !== "SUN" ? "shadow-sm shadow-blue-200" : "shadow-sm shadow-red-200"} flex h-6 w-12 items-center justify-center rounded-[50%] text-xs font-bold ${item.HOLI_TYPE === "H" ? "text-gray-800" : "text-gray-800"}`}
                       >
                         {t("date." + item.WEEK_DAY)}
                       </div>
                     </div>
                   </td>
-                  <td style={{ borderBottom: "1px solid #eee" }}>
+                  <td>
                     <div className="flex items-center justify-center">
                       <div
                         className={`${item.HOLI_TYPE === "H" ? "text-red-500" : ""} h-6 w-8 text-center`}
@@ -99,7 +94,7 @@ export default function BangCong({ list }: IBangCongProps) {
                       </div>
                     </div>
                   </td>
-                  <td style={{ borderBottom: "1px solid #eee" }}>
+                  <td>
                     <p
                       className={`${isLate ? "font-medium" : "text-sm opacity-60"}`}
                     >
@@ -107,8 +102,7 @@ export default function BangCong({ list }: IBangCongProps) {
                     </p>
                   </td>
                   <td
-                    style={{ borderBottom: "1px solid #eee" }}
-                    className={`${isOT ? "" : isQuitSoon ? "" : "text-sm"}`}
+                    className={`font-medium ${isOT ? "" : isQuitSoon ? "" : "text-sm"}`}
                   >
                     {item.END_TIME}
                   </td>

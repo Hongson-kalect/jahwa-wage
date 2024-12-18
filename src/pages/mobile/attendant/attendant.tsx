@@ -96,8 +96,8 @@ export default function Attendant(props: IAttendantProps) {
   }, [getAttendances?.data]);
 
   return (
-    <div className="h-full w-screen overflow-scroll">
-      <div className="flex h-full overflow-auto">
+    <div className="h-full w-full">
+      <div className="flex h-full w-full overflow-auto">
         <Attendants />
         {/* <DayOff /> */}
       </div>

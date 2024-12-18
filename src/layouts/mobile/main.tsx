@@ -18,11 +18,16 @@ import Information from "../../pages/mobile/infomation/page";
 import { useSearch } from "../../hooks/useSearch";
 import DayOffPage from "../../pages/mobile/dayoff/dayOff";
 import { t } from "i18next";
+import { PiMicrosoftOutlookLogoFill } from "react-icons/pi";
+import fav from "../../assets/images/favicon.gif";
+import { LuLogOut } from "react-icons/lu";
 
 export interface IMobileMainLayoutProps {}
 
 const MainLayout = styled.div`
   /* height: 100dvh; */
+  /* max-width: 400px; */
+
   width: 100vw;
   /* border: 1px solid gray; */
   /* margin: -1px; */
@@ -34,7 +39,7 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
   const { setUser } = useUserInfoStore();
   const { empCode, entCode } = useMobileAppStore();
 
-  const { setDevice } = useMobileAppStore();
+  const { setDevice, device } = useMobileAppStore();
   const [authening, setAuthening] = React.useState(true);
 
   const [paramsObject] = useSearch();
@@ -100,8 +105,10 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
   if (authening) return <div>Cheking cookie</div>;
 
   return (
-    <MainLayout className="h-screen w-screen">
-      <div className="flex h-full flex-col">
+    <MainLayout
+      className={`flex h-screen w-screen items-center justify-center bg-gray-300 ${device === "pc" ? "py-4" : ""}`}
+    >
+      <div className="relative flex h-full w-full max-w-[420px] flex-col bg-white">
         <Header />
         <div className="relative flex-1 overflow-auto bg-[#eaeef3]">
           {renderPage()}
@@ -125,18 +132,52 @@ const Header = () => {
     <>
       <div className="flex w-full flex-col">
         <div className="flex h-14 items-center justify-between bg-white px-2 py-1 text-gray-600">
-          <SidebarToggle
+          <div
+            style={{ backgroundImage: `url(${fav})` }}
+            className="h-12 w-12 bg-cover bg-center"
+            onClick={() => setShowav(true)}
+          ></div>
+          {/* <SidebarToggle
             color="gray"
             size={10}
             onClick={() => setShowav(true)}
-          />
-          <p className="text-lg font-medium uppercase">{header}</p>
+          /> */}
+          <p className="flex-1 text-center text-lg font-medium uppercase">
+            {header}
+          </p>
+
+          {/* <div className="option flex items-center gap-1">
+            <div
+              onClick={() => {
+                window.open("https://gw.jahwa.co.kr/", "_blank");
+              }}
+              className="flex h-5 w-7 -skew-x-6 items-center justify-center rounded-[50%] bg-gray-700 text-[12px] font-bold text-white"
+            >
+              GW
+            </div>
+            <div className="mt-[1px] w-8">
+              <PiMicrosoftOutlookLogoFill
+                onClick={() => {
+                  window.open("https://outlook.office365.com/", "_blank");
+                }}
+                size={28}
+                className="text-gray-700"
+              />
+            </div>
+            <div className="mt-[1px] w-8" onClick={handleLogout}>
+              <LuLogOut
+                size={24}
+                className="text-pink-700"
+              />
+            </div>
+          </div> */}
           {/* <p className="text-lg font-medium uppercase">Bố Sơn Muôn Năm</p> */}
 
           <LanguageChanger />
         </div>
 
-        <div className="flex h-[52px] items-center justify-between bg-gradient-to-r from-green-500 to-teal-400 px-2 py-0.5 text-sm font-medium text-slate-200">
+        {/* <div className="flex h-[52px] items-center justify-between bg-gradient-to-r from-green-500 to-teal-400 px-2 py-0.5 text-sm font-bold text-slate-200"> */}
+        <div className="flex h-[52px] items-center justify-between bg-gradient-to-r from-gray-500 to-gray-400 px-2 py-0.5 text-sm font-bold text-slate-200">
           <div
             onClick={() => {
               setSearchParams({ tab: "wage" });

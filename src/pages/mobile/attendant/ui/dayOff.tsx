@@ -45,7 +45,7 @@ export default function DayOff(props: IDayOffProps) {
 
   return (
     <div
-      className="flex h-full min-w-[100vw] snap-start flex-col overflow-auto"
+      className="flex h-full w-full snap-start flex-col overflow-auto"
       id="nghi"
     >
       <div className="bg-white py-2">
@@ -85,14 +85,14 @@ export default function DayOff(props: IDayOffProps) {
 
       <div className="mt-2 bg-white px-2 py-3">
         <div className="flex items-start gap-2 py-1">
-          <BiInfoCircle size={24} className="text-blue-500" />
-          <p className="font-medium text-gray-600">
+          <BiInfoCircle size={24} />
+          <p className="font-bold text-gray-900">
             {t("attendantPage.leaveInfo")}
           </p>
         </div>
 
         <div className="mx-2 mt-2 text-center">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between px-2">
             <div className="flex items-center gap-2">
               <p className="text-sm">{t("attendantPage.leaveTotal")}:</p>
               <p>{getDayOffs?.data?.Table[0]?.YEAR_SAVE}</p>
@@ -104,28 +104,21 @@ export default function DayOff(props: IDayOffProps) {
               </p>
             </div>
           </div>
-          <div className="mt-2 flex items-center gap-2">
+          <div className="mt-2 flex items-center gap-2 px-2">
             <p className="text-sm">{t("attendantPage.leaveRemnant")}:</p>
             <p className="text-red-500">
               {getDayOffs?.data?.Table[0]?.MAX_YEAR_CNT}
             </p>
           </div>
         </div>
-
-        {/* {getDayOffs.isLoading ? (
-            <>
-              <Skeleton className="mt-4" active />
-              <Skeleton className="mt-4" active />
-            </>
-          ) : (
-            
-          )} */}
       </div>
 
-      <div className="mt-2 min-h-0 flex-1 bg-white px-1 py-2">
-        <div className="ml-4 flex items-start gap-2 py-1">
-          <LuCalendarMinus size={18} className="mt-0.5 text-blue-500" />
-          <p className="text-gray-600">{t("attendantPage.leaveTable")}</p>
+      <div className="mt-2 min-h-0 flex-1 bg-white px-2 py-2">
+        <div className="flex items-start gap-2 py-1">
+          <LuCalendarMinus size={24} className="text-gray-900" />
+          <p className="font-bold text-gray-900">
+            {t("attendantPage.leaveTable")}
+          </p>
         </div>
         {getDayOffs.isLoading ? (
           <>

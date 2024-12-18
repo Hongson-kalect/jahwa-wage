@@ -16,7 +16,7 @@ export default function DayOffPage(props: IDayOffPageProps) {
   }, []);
 
   return (
-    <div className="h-full w-screen overflow-scroll">
+    <div className="h-full w-full">
       <div className="flex h-full overflow-auto">
         <DayOff />
       </div>

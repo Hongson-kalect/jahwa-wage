@@ -104,7 +104,7 @@ export default function WagePage2(props: ILuongProps) {
 
   return (
     <>
-      <div className="w-screen">
+      <div className="w-full">
         <div>
           <div className="bg-white py-2">
             <div className="mx-4 rounded-md bg-white px-2 py-1">
@@ -118,7 +118,9 @@ export default function WagePage2(props: ILuongProps) {
                   className="h-8 w-8 rounded"
                 ></div>
                 {/* <p>:</p> */}
-                <p className="text-lg text-gray-600">{user?.NAME}</p>
+                <p className="text-lg font-medium text-gray-900">
+                  {user?.NAME}
+                </p>
               </div>
               <div className="mt-2 flex items-center justify-between">
                 <div className="flex h-10 items-center justify-start gap-4">
@@ -128,7 +130,7 @@ export default function WagePage2(props: ILuongProps) {
                     <Skeleton.Input active />
                   ) : (
                     <select
-                      className="h-7 w-24 px-1 font-medium"
+                      className="h-7 w-24 border-none px-1 text-base shadow-none outline-none"
                       value={thangLuong}
                       onChange={(event) => setThangLuong(event.target.value)}
                     >
@@ -188,18 +190,15 @@ export default function WagePage2(props: ILuongProps) {
             <>
               <div className="mt-2 bg-white px-2 py-3">
                 <div className="ml-2 flex items-center gap-2 py-1">
-                  <MdOutlineCreditCard
-                    size={24}
-                    className="mt-[1px] text-cyan-400"
-                  />
-                  <p className="font-medium text-gray-500">
+                  <MdOutlineCreditCard size={24} className="mt-[1px]" />
+                  <p className="font-bold text-gray-900">
                     {t("wagePage.payRollDetail")}
                   </p>
                 </div>
                 <div className="mx-2 bg-white pt-2">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b text-lg font-medium text-blue-400">
+                  <table className="w-full px-2">
+                    {/* <thead>
+                      <tr className="border-b text-lg font-medium text-blue-700">
                         <th className="text-left text-sm">
                           {t("common.name")}
                         </th>
@@ -207,19 +206,19 @@ export default function WagePage2(props: ILuongProps) {
                           {t("common.ammount")}
                         </th>
                       </tr>
-                    </thead>
+                    </thead> */}
                     <tbody>
                       {chitietQuery?.data?.Table?.map((luong, vitri) => (
                         <tr key={vitri}>
                           <td
-                            style={{ borderBottom: "1px solid #eaeaea" }}
-                            className="py-1.5 text-gray-500"
+                            // style={{ borderBottom: "1px solid #eaeaea" }}
+                            className="py-1.5 text-gray-700"
                           >
                             {t("wage." + luong.ALLOW_CD)}
                           </td>
                           <td
-                            style={{ borderBottom: "1px solid #eaeaea" }}
-                            className="font-medium text-gray-500"
+                            // style={{ borderBottom: "1px solid #eaeaea" }}
+                            className="text-right text-gray-700"
                           >
                             {luong.ALLOW}
                           </td>
@@ -232,11 +231,8 @@ export default function WagePage2(props: ILuongProps) {
 
               <div className="mt-2 bg-white px-2 py-3">
                 <div className="ml-2 flex items-center gap-2 py-1">
-                  <MdCalendarMonth
-                    size={24}
-                    className="mt-[1px] text-cyan-400"
-                  />
-                  <p className="font-medium text-gray-500">
+                  <MdCalendarMonth size={24} className="mt-[1px]" />
+                  <p className="font-bold text-gray-900">
                     {t("wagePage.timeCheckDetail")}
                   </p>
                 </div>
@@ -244,28 +240,28 @@ export default function WagePage2(props: ILuongProps) {
                 <div className="mx-2 bg-white pb-2 pt-2">
                   <table className="w-full px-2">
                     <tbody className="">
-                      <tr className="border-b text-sm font-medium text-blue-400">
-                        <td>{t("common.name")}</td>
-                        <td>{t("common.times")}</td>
-                        <td>{t("common.hour")}</td>
-                        <td>{t("common.munite")}</td>
+                      <tr className="border-b text-sm font-medium text-blue-700">
+                        {/* <td>{t("common.name")}</td> */}
+                        <td></td>
+                        <td className="pl-2 text-right">{t("common.times")}</td>
+                        <td className="pl-2 text-right">{t("common.hour")}</td>
+                        <td className="pl-2 text-right">
+                          {t("common.munite")}
+                        </td>
                       </tr>
                       {chitietQuery?.data?.Table1?.map((item, vitri) => {
                         return (
                           <tr key={vitri}>
-                            <td
-                              style={{ borderBottom: "1px solid #eaeaea" }}
-                              className="py-1.5 text-gray-500"
-                            >
+                            <td className="py-1.5 text-gray-700">
                               {t("deduct." + item.DILIG_CD)}
                             </td>
-                            <td style={{ borderBottom: "1px solid #eaeaea" }}>
+                            <td className="pr-1 text-right text-gray-700">
                               {item.DILIG_CNT}
                             </td>
-                            <td style={{ borderBottom: "1px solid #eaeaea" }}>
+                            <td className="pr-1 text-right text-gray-700">
                               {item.DILIG_HH}
                             </td>
-                            <td style={{ borderBottom: "1px solid #eaeaea" }}>
+                            <td className="pr-1 text-right text-gray-700">
                               {item.DILIG_MM}
                             </td>
                           </tr>
@@ -277,35 +273,28 @@ export default function WagePage2(props: ILuongProps) {
               </div>
 
               <div className="mt-2 bg-white px-2 py-3">
-                <div className="ml-4 flex items-center gap-2 py-1">
-                  <MdOutlineCreditCardOff
-                    size={24}
-                    className="mt-[1px] text-cyan-400"
-                  />
-                  <p className="font-medium text-gray-500">
+                <div className="ml-2 flex items-center gap-2 py-1">
+                  <MdOutlineCreditCardOff size={24} className="mt-[1px]" />
+                  <p className="font-bold text-gray-900">
                     {t("wagePage.deductDetail")}
                   </p>
                 </div>
                 <div className="rounded-md"></div>
-                <div className="h-74 mx-4 rounded-md bg-white pb-4 pt-2">
+                <div className="mx-2 rounded-md bg-white pb-4 pt-2">
                   <table className="w-full px-2">
                     <tbody className="">
-                      <tr className="border-b text-sm font-medium text-blue-400">
-                        <td>{t("common.name")}</td>
-                        <td>{t("common.ammount")}</td>
-                      </tr>
                       {chitietQuery?.data?.Table2?.map((item, vitri) => {
                         return (
                           <tr key={vitri}>
                             <td
-                              style={{ borderBottom: "1px solid #eaeaea" }}
-                              className="py-1.5 text-gray-500"
+                              // style={{ borderBottom: "1px solid #eaeaea" }}
+                              className="py-1.5 text-gray-700"
                             >
                               {t("wage." + item.SUB_CD)}
                             </td>
                             <td
-                              style={{ borderBottom: "1px solid #eaeaea" }}
-                              className="font-medium text-gray-500"
+                              // style={{ borderBottom: "1px solid #eaeaea" }}
+                              className="text-right text-gray-700"
                             >
                               {item.SUB_AMT}
                             </td>
@@ -318,15 +307,62 @@ export default function WagePage2(props: ILuongProps) {
               </div>
 
               <div className="mt-2 bg-white px-2 py-3">
-                <div className="ml-4 flex items-center gap-2 py-1">
-                  <FaChartPie size={24} className="mt-[1px] text-blue-400" />
-                  <p className="font-medium text-gray-500">
+                <div className="ml-2 flex items-center gap-2 py-1">
+                  <FaChartPie size={28} className="mt-[1px]" />
+                  <p className="text-lg font-bold uppercase text-gray-900">
                     {t("wagePage.sumary")}
                   </p>
                 </div>
                 <div className="rounded-md"></div>
-                <div className="h-74 mx-4 rounded-md bg-white pb-4 pt-2">
-                  <table className="w-full text-center">
+                <div className="mx-2 rounded-md bg-white pb-4 pt-2">
+                  <table className="w-full px-2">
+                    <tbody className="">
+                      <tr>
+                        <td className="pt-0.5 font-medium uppercase text-gray-800">
+                          {t("common.totalPay")}
+                        </td>
+                        <td className="text-right font-medium text-green-600">
+                          {chitietQuery?.data?.Table3?.[0]?.PROV_TOT_AMT}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="pt-0.5 font-medium uppercase text-gray-800">
+                          {t("common.totalDeduct")}
+                        </td>
+                        <td className="text-right font-medium text-red-600">
+                          {chitietQuery?.data?.Table3?.[0]?.SUB_TOT_AMT}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="pt-0.5 font-medium uppercase text-gray-800">
+                          {t("common.totalPayment")}
+                        </td>
+                        <td className="text-right font-medium text-blue-600">
+                          {chitietQuery?.data?.Table3?.[0]?.REAL_PROV_AMT}
+                        </td>
+                      </tr>
+                      {/* {chitietQuery?.data?.Table3?.[0]?.map((item, vitri) => {
+                        return (
+                          <tr key={vitri}>
+                            <td
+                              // style={{ borderBottom: "1px solid #eaeaea" }}
+                              className="py-1.5 text-gray-700"
+                            >
+                              {t("wage." + item.SUB_CD)}
+                            </td>
+                            <td
+                              // style={{ borderBottom: "1px solid #eaeaea" }}
+                              className="text-right text-gray-700"
+                            >
+                              {item.SUB_AMT}
+                            </td>
+                          </tr>
+                        );
+                      })} */}
+                    </tbody>
+                  </table>
+
+                  {/* <table className="w-full text-center">
                     <tbody className="">
                       <tr className="text-sm font-medium text-blue-600">
                         <td>{t("common.totalPay")}</td>
@@ -349,7 +385,7 @@ export default function WagePage2(props: ILuongProps) {
                         );
                       })}
                     </tbody>
-                  </table>
+                  </table> */}
                 </div>
               </div>
             </>

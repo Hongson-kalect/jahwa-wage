@@ -68,6 +68,7 @@
     "type": "분류",
     "entryGrDate": "그룹 입사일",
     "entryDate": "회사 입사일",
+    "wageRank": "급여 등급",
     "endDate": "수습 종료일",
     "quitDate": "퇴사일",
     "gender": "성별",

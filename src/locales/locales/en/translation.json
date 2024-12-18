@@ -66,6 +66,7 @@
     "type": "Classification",
     "entryGrDate": "Group Entry Date",
     "entryDate": "Company Entry Date",
+    "wageRank": "Wage Rank",
     "endDate": "Probation End Date",
     "quitDate": "Resignation Date",
     "gender": "Gender",
