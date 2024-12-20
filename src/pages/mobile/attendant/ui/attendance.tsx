@@ -103,55 +103,56 @@ export default function Attendants(props: IAttendantProps) {
     >
       <div className="flex h-full flex-col">
         <div className="bg-white py-2">
-          <div className="mx-4 rounded-md bg-white px-2 py-1">
+          <div className="rounded-md bg-white px-2 py-1">
             <div className="flex h-10 items-center justify-between gap-2">
-              <div className="flex items-center gap-3">
-                {/* <p className="flex-1">{t("attendantPage.month")}:</p> */}
-                <MdCalendarMonth size={32} className="text-blue-600" />
-                {!months ? (
-                  <div>Loading...</div>
-                ) : (
-                  <select
-                    className="h-8 w-24 border-none px-1 text-lg outline-none"
-                    value={thang}
-                    onChange={(event) => setThang(event.target.value)}
-                  >
-                    {months?.map((item, viTri) => {
-                      return (
-                        <option
-                          key={viTri}
-                          value={item}
-                          className="text-sm text-gray-700"
-                        >
-                          {item}
-                        </option>
-                      );
-                    })}
-                  </select>
-                )}
+              <div className="flex w-full justify-between rounded-md bg-white px-4 py-2 shadow-inner shadow-gray-800">
+                <div className="flex items-center gap-3">
+                  {/* <p className="flex-1">{t("attendantPage.month")}:</p> */}
+                  <MdCalendarMonth size={32} className="text-gray-600" />
+                  {!months ? (
+                    <div>Loading...</div>
+                  ) : (
+                    <select
+                      className="h-8 w-24 border-none px-1 text-lg outline-none"
+                      value={thang}
+                      onChange={(event) => setThang(event.target.value)}
+                    >
+                      {months?.map((item, viTri) => {
+                        return (
+                          <option
+                            key={viTri}
+                            value={item}
+                            className="text-sm text-gray-600"
+                          >
+                            {item}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  )}
+                </div>
+                <p className="flex items-center gap-2 text-lg font-medium text-gray-600">
+                  <FaCheckCircle size={24} /> {workDate} {t("common.day")}
+                </p>
               </div>
-              <p className="flex items-center gap-2 text-lg font-medium text-blue-600">
-                <FaCheckCircle size={24} /> {workDate} {t("common.day")}
-              </p>
+            </div>
+            <div className="mt-2 flex-1 bg-white px-2 py-3">
+              <div className="flex items-center gap-2 py-1">
+                <IoTimeOutline size={24} />
+                <p className="font-bold">
+                  {t("attendantPage.attendanceTable")}
+                </p>
+              </div>
+              {getAttendances.isLoading ? (
+                <>
+                  <Skeleton className="mt-4" active />
+                  <Skeleton className="mt-4" active />
+                </>
+              ) : (
+                <BangCong list={getAttendances?.data?.Table} />
+              )}
             </div>
           </div>
-        </div>
-
-        <div className="mt-2 flex-1 bg-white px-2 py-3">
-          <div className="flex items-center gap-2 py-1">
-            <IoTimeOutline size={24} className="mt-0.5" />
-            <p className="font-bold text-gray-900">
-              {t("attendantPage.attendanceTable")}
-            </p>
-          </div>
-          {getAttendances.isLoading ? (
-            <>
-              <Skeleton className="mt-4" active />
-              <Skeleton className="mt-4" active />
-            </>
-          ) : (
-            <BangCong list={getAttendances?.data?.Table} />
-          )}
         </div>
       </div>
     </div>

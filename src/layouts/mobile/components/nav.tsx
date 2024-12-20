@@ -40,7 +40,7 @@ export const Navbar = ({
     >
       <div
         className={`relative left-0 top-0 z-[100] flex h-full w-96 flex-col bg-white`}
-        style={{ maxWidth: "80vw" }}
+        style={{ maxWidth: "80%" }}
       >
         <div className="" style={{ borderBottom: "1px solid #ddd" }}>
           <div className="relative flex items-center justify-between px-1 pt-1">

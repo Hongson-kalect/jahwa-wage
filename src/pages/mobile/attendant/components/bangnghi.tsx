@@ -21,7 +21,7 @@ export default function BangNghi({ list }: IBangNghiProps) {
       <table className="w-full text-center">
         <tbody className="w-full">
           <tr
-            className="rounded-t-xl text-blue-700"
+            className="rounded-t-xl text-gray-700"
             style={{ borderBottom: "1px solid red" }}
           >
             <th className="font-font px-2 py-1.5 text-sm">
@@ -46,20 +46,20 @@ export default function BangNghi({ list }: IBangNghiProps) {
                   key={index}
                   className={`${item.DILIG_HH < 8 ? "bg-gray-100" : ""}`}
                 >
-                  <td className="text-xs font-bold text-gray-600">
+                  <td className="text-xs font-bold text-gray-400">
                     {index + 1}
                   </td>
                   <td className="py-2 text-sm">
                     <div className="flex items-center justify-center">
                       <div
-                        className={`flex h-6 w-12 items-center justify-center rounded-full`}
+                        className={`flex h-6 w-12 items-center justify-center rounded-full text-gray-500`}
                       >
                         {item.DILIG_DT.slice(5, 10).replaceAll("-", "/")}
                       </div>
                     </div>
                   </td>
 
-                  <td className="font-medium text-gray-800">
+                  <td className="font-medium text-gray-600">
                     <div className="flex items-center justify-center">
                       <div className={`h-6 w-8 text-center`}>
                         {item.DILIG_HH}
@@ -67,7 +67,7 @@ export default function BangNghi({ list }: IBangNghiProps) {
                     </div>
                   </td>
 
-                  <td className="text-sm">{item.REMARK}</td>
+                  <td className="text-sm text-gray-500">{item.REMARK}</td>
                 </tr>
               );
             })}

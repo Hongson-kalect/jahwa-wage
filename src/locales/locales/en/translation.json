@@ -18,6 +18,13 @@
     "outlook": "To Outlook"
   },
 
+  "homePage": {
+    "news": "News",
+    "wage": "Latest Wage",
+    "attendance": "Latest Attendance",
+    "dayOff": "Latest Day Off"
+  },
+
   "wagePage": {
     "title": "Payroll",
     "payRollMonth": "Payroll Month",

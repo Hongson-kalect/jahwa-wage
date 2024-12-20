@@ -17,6 +17,13 @@
     "outlook": "Đến Outlook"
   },
 
+  "homePage": {
+    "news": "Tin tức",
+    "wage": "Lương gần nhất",
+    "attendance": "Chấm công gần nhất",
+    "dayOff": "Nghỉ gần nhất"
+  },
+
   "wagePage": {
     "title": "Bảng lương",
     "payRollMonth": "Tháng",
@@ -223,6 +230,6 @@
     "munite": "Phút",
     "totalPay": "Tổng chi trả",
     "totalDeduct": "Tổng khấu trừ",
-    "totalPayment": "Tổng chi trả"
+    "totalPayment": "Lương thực lĩnh"
   }
 }

@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import styled from "styled-components";
 import { httpGet } from "../../api/axios";
@@ -21,30 +21,31 @@ import { t } from "i18next";
 import { PiMicrosoftOutlookLogoFill } from "react-icons/pi";
 import fav from "../../assets/images/favicon.gif";
 import { LuLogOut } from "react-icons/lu";
+import { HiHome } from "react-icons/hi";
+import { FaAngleLeft, FaCubes } from "react-icons/fa6";
+import { TiHome } from "react-icons/ti";
+import { BiSolidUser } from "react-icons/bi";
+import { Dropdown, MenuProps } from "antd";
+import { useTranslation } from "react-i18next";
+import MobileHomePage from "../../pages/mobile/home/home";
 
 export interface IMobileMainLayoutProps {}
 
 const MainLayout = styled.div`
-  /* height: 100dvh; */
-  /* max-width: 400px; */
-
   width: 100vw;
-  /* border: 1px solid gray; */
-  /* margin: -1px; */
-  /* border-radius: 20px; */
-  /* overflow: hidden; */
 `;
 
 export default function MobileMainLayout(props: IMobileMainLayoutProps) {
   const { setUser } = useUserInfoStore();
-  const { empCode, entCode } = useMobileAppStore();
+  const { empCode, entCode, setHeader } = useMobileAppStore();
 
   const { setDevice, device } = useMobileAppStore();
   const [authening, setAuthening] = React.useState(true);
 
   const [paramsObject] = useSearch();
+  // const param = useParams();
   const activeTab = React.useMemo(() => {
-    return paramsObject.tab || "wage";
+    return paramsObject.tab || "";
   }, [paramsObject]);
 
   const verifyUser = async () => {
@@ -81,6 +82,7 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
     if (activeTab === "day-off") return <DayOffPage />;
     // if (activeTab === "asset") return <Asset />;
     if (activeTab === "information") return <Information />;
+    else return <MobileHomePage />;
   };
 
   React.useLayoutEffect(() => {
@@ -102,15 +104,34 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
     verifyUser();
   }, []);
 
+  React.useEffect(() => {
+    switch (activeTab) {
+      case "wage":
+        setHeader(t("wagePage.title"));
+        break;
+      case "attendant":
+        setHeader(t("attendantPage.title1"));
+        break;
+      case "day-off":
+        setHeader(t("attendantPage.title2"));
+        break;
+      case "information":
+        setHeader(t("infomationPage.tittle"));
+        break;
+      default:
+        setHeader("JAHWA VINA");
+    }
+  }, [activeTab]);
+
   if (authening) return <div>Cheking cookie</div>;
 
   return (
     <MainLayout
       className={`flex h-screen w-screen items-center justify-center bg-gray-300 ${device === "pc" ? "py-4" : ""}`}
     >
-      <div className="relative flex h-full w-full max-w-[420px] flex-col bg-white">
+      <div className="relative flex h-full w-full max-w-[420px] flex-col overflow-auto bg-white">
         <Header />
-        <div className="relative flex-1 overflow-auto bg-[#eaeef3]">
+        <div className="relative flex-1 bg-white">
           {renderPage()}
           {/* <Outlet /> */}
         </div>
@@ -122,62 +143,121 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
 const Header = () => {
   const [showNav, setShowav] = React.useState(false);
   const { header } = useMobileAppStore();
+  const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const [paramsObject, setSearchParams] = useSearch();
   const activeTab = React.useMemo(() => {
-    return paramsObject.tab || "wage";
+    return paramsObject.tab || "";
   }, [paramsObject]);
+
+  const items: MenuProps["items"] = React.useMemo(() => {
+    return [
+      {
+        key: "1",
+        label: (
+          <div
+            onClick={() => {
+              setSearchParams({ tab: "information" });
+            }}
+          >
+            {t("sidebar.infomation")}
+          </div>
+        ),
+      },
+      {
+        key: "2",
+        label: (
+          <div
+            onClick={() => {
+              handleLogout();
+            }}
+            style={{
+              borderTop: "1px solid #eaeef3",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "4px",
+              color: "red",
+              paddingTop: "4px",
+            }}
+          >
+            {t("sidebar.logout")}
+            <LuLogOut size={16} />
+          </div>
+        ),
+      },
+    ];
+  }, [t]);
 
   return (
     <>
       <div className="flex w-full flex-col">
         <div className="flex h-14 items-center justify-between bg-white px-2 py-1 text-gray-600">
           <div
-            style={{ backgroundImage: `url(${fav})` }}
-            className="h-12 w-12 bg-cover bg-center"
-            onClick={() => setShowav(true)}
-          ></div>
-          {/* <SidebarToggle
+            className="flex items-center gap-4"
+            onClick={() => setSearchParams({ tab: "home" })}
+          >
+            {activeTab && activeTab !== "home" ? (
+              <div>
+                <FaAngleLeft className="-mb-1 h-6 w-6" size={20} />
+              </div>
+            ) : (
+              <div
+                style={{ backgroundImage: `url(${fav})` }}
+                className="h-12 w-12 bg-cover bg-center"
+                onClick={() => setShowav(true)}
+              ></div>
+            )}
+            {/* <SidebarToggle
             color="gray"
             size={10}
             onClick={() => setShowav(true)}
           /> */}
-          <p className="flex-1 text-center text-lg font-medium uppercase">
-            {header}
-          </p>
+            <p className="text-lg font-bold text-black">{header}</p>
+          </div>
 
-          {/* <div className="option flex items-center gap-1">
-            <div
-              onClick={() => {
-                window.open("https://gw.jahwa.co.kr/", "_blank");
-              }}
-              className="flex h-5 w-7 -skew-x-6 items-center justify-center rounded-[50%] bg-gray-700 text-[12px] font-bold text-white"
-            >
-              GW
-            </div>
+          <div className="option flex items-center gap-1">
             <div className="mt-[1px] w-8">
-              <PiMicrosoftOutlookLogoFill
+              <TiHome
                 onClick={() => {
-                  window.open("https://outlook.office365.com/", "_blank");
+                  // window.open("https://outlook.office365.com/", "_blank");
+                  navigate("/");
                 }}
                 size={28}
-                className="text-gray-700"
+                className="text-gray-400"
               />
             </div>
-            <div className="mt-[1px] w-8" onClick={handleLogout}>
-              <LuLogOut
+            <div className="mt-[1px] w-8">
+              <FaCubes
+                onClick={() => {
+                  // window.open("https://outlook.office365.com/", "_blank");
+                  setShowav(true);
+                }}
                 size={24}
-                className="text-pink-700"
+                className="text-gray-400"
               />
             </div>
-          </div> */}
+            <Dropdown
+              menu={{ items }}
+              placement="bottomRight"
+              trigger={["click"]}
+            >
+              <div className="mt-[1px] w-8">
+                <BiSolidUser size={24} className="text-gray-400" />
+              </div>
+            </Dropdown>
+            {/* <div className="mt-[1px] w-8" onClick={handleLogout}>
+              <BiSolidUser size={24} className="text-gray-400" />
+            </div> */}
+          </div>
           {/* <p className="text-lg font-medium uppercase">Bố Sơn Muôn Năm</p> */}
 
-          <LanguageChanger />
+          {/* <LanguageChanger /> */}
         </div>
 
         {/* <div className="flex h-[52px] items-center justify-between bg-gradient-to-r from-green-500 to-teal-400 px-2 py-0.5 text-sm font-bold text-slate-200"> */}
-        <div className="flex h-[52px] items-center justify-between bg-gradient-to-r from-gray-500 to-gray-400 px-2 py-0.5 text-sm font-bold text-slate-200">
+        {/* <div className="flex h-[52px] items-center justify-between bg-gradient-to-r from-gray-500 to-gray-400 px-2 py-0.5 text-sm font-bold text-slate-200">
           <div
             onClick={() => {
               setSearchParams({ tab: "wage" });
@@ -223,7 +303,7 @@ const Header = () => {
               <div className="absolute bottom-0 flex h-1 w-full items-center justify-center rounded-lg bg-gray-200" />
             )}
           </div>
-        </div>
+        </div> */}
       </div>
 
       <Navbar

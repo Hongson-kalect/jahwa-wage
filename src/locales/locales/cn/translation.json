@@ -18,6 +18,13 @@
     "outlook": "前往 Outlook"
   },
 
+  "homePage": {
+    "news": "新闻",
+    "wage": "最近工资",
+    "attendance": "最近考勤",
+    "dayOff": "最近休假"
+  },
+
   "wagePage": {
     "title": "工资单",
     "payRollMonth": "支付月份",

@@ -1,3 +1,4 @@
+import axios from "axios";
 import { httpPost } from "../../../api/axios";
 import {
   HomeDataType,
@@ -7,80 +8,65 @@ import {
   WorkShift,
   WorkTime,
 } from "./interface";
+import { useMobileAppStore as userInfo } from "../../../store/mobile.app";
+import dayjs from "dayjs";
 
-export const getBonus = async (
-  emp_no: string,
-  month?: string,
-): Promise<WorkBonus[]> => {
-  const res = await httpPost("luongthuong", { emp_no, month });
+export const getNews = async () => {
+  // const res = await httpPost("/api/news/get-news");
+  return [
+    { title: "New 1", content: "Content 1" },
+    { title: "New 1", content: "Content 1" },
+    { title: "New 1", content: "Content 1" },
+    { title: "New 1", content: "Content 1" },
+    { title: "New 1", content: "Content 1" },
+    { title: "New 1", content: "Content 1" },
+  ];
+};
+
+export const getWageTime = async () => {
+  const res = await axios.post("/api/MSelectList", {
+    DIV: "PAY_YYMM",
+    // Data: thang,
+    EntCode: userInfo.getState().entCode,
+    EmpCode: userInfo.getState().empCode,
+  });
   return res.data;
 };
 
-export const getWorkDate = async (
-  emp_no: string,
-  month?: string,
-): Promise<WorkDate[]> => {
-  const res = await httpPost("lich", { emp_no, month });
+export const getWage = async (thangLuong: string, loaiLuong: string) => {
+  const dulieuApi = await axios.post("/api/MSalaryInformation", {
+    PayYYMM: thangLuong,
+    ProvType: loaiLuong,
+    EntCode: userInfo.getState().entCode,
+    EmpCode: userInfo.getState().empCode,
+  });
+  return dulieuApi.data;
+};
+
+export const getAttendance = async (month: string) => {
+  const { firstDay, lastDay } = getFirstAndLastDayOfMonth(
+    month.slice(0, 4),
+    month.slice(4, 6),
+  );
+  const res = await axios.post("api/MAttendanceInformation", {
+    FrDate: firstDay,
+    ToDate: lastDay,
+    EntCode: userInfo.getState().entCode,
+    EmpCode: userInfo.getState().empCode,
+  });
   return res.data;
 };
 
-export const getWorkShift = async (
-  emp_no: string,
-  month?: string,
-): Promise<WorkShift[]> => {
-  const res = await httpPost("calam", { emp_no, month });
+export const getDayOff = async (year: string) => {
+  const res = await axios.post("/api/MAnnualLeaveInformation", {
+    YYYY: year,
+    EmpCode: userInfo.getState().empCode,
+  });
   return res.data;
 };
 
-export const getGetDeduct = async (
-  emp_no: string,
-  month?: string,
-): Promise<WorkDeduct[]> => {
-  const res = await httpPost("khautru", { emp_no, month });
-  return res.data;
-};
-export const getWorkTime = async (
-  emp_no: string,
-  month?: string,
-): Promise<WorkTime> => {
-  const res = await httpPost("ngaydilam", { emp_no, month });
-  return res.data;
-};
-
-export const getHomeData = async (emp_no: string, month?: string) => {
-  if (month?.slice(0, 4) === "2000") month = undefined;
-
-  let data: HomeDataType = {
-    bonus: [],
-    deduct: [],
-    workShift: [],
-    workDate: [],
-    workTime: {
-      emp_no: "Loading...",
-      tot_day: "0.0",
-      wk_time: "0.0",
-      work_day: "0.0",
-    },
-  };
-
-  const [bonus, deduct, workShift, workDate, workTime] = await Promise.all([
-    getBonus(emp_no, month),
-    getGetDeduct(emp_no, month),
-    getWorkShift(emp_no, month),
-    getWorkDate(emp_no, month),
-    getWorkTime(emp_no, month),
-  ]);
-  data = { bonus, deduct, workShift, workDate, workTime };
-
-  return data;
-  // month = month.slice(0,4)==='2000'?
-
-  const res = await httpPost("lich", { emp_no, month });
-  return res.data;
-};
-
-export const calDateValue = (date: string) => {
-  if (!date) return 0;
-  const arr = date.slice(0, 10).split("-");
-  return Number(arr[0]) * 500 + Number(arr[1]) * 40 + Number(arr[2]);
+export const getFirstAndLastDayOfMonth = (year: string, month: string) => {
+  const firstDay = dayjs(`${year}-${month}`).format("YYYY-MM-DD");
+  const lastDay = dayjs(`${year}-${month}`).endOf("month").format("YYYY-MM-DD");
+  return { firstDay, lastDay };
 };

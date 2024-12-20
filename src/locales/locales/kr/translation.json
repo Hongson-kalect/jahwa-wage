@@ -18,6 +18,13 @@
     "outlook": "Outlook으로 이동"
   },
 
+  "homePage": {
+    "news": "뉴스",
+    "wage": "최근 급여",
+    "attendance": "최근 출석",
+    "dayOff": "최근 휴가"
+  },
+
   "wagePage": {
     "title": "급여 명세서",
     "payRollMonth": "지급 월",

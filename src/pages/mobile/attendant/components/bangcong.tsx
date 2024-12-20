@@ -17,7 +17,7 @@ export default function BangCong({ list }: IBangCongProps) {
       <table className="w-full text-center">
         <tbody className="w-full">
           <tr
-            className="rounded-t-xl text-sm text-blue-600"
+            className="rounded-t-xl text-sm text-gray-700"
             style={{ borderBottom: "1px solid red" }}
           >
             <th className="px-2 py-1.5 font-bold">
@@ -79,7 +79,7 @@ export default function BangCong({ list }: IBangCongProps) {
                   <td className="py-2">
                     <div className="flex items-center justify-center">
                       <div
-                        className={`${item.WEEK_DAY !== "SUN" ? "shadow-sm shadow-blue-200" : "shadow-sm shadow-red-200"} flex h-6 w-12 items-center justify-center rounded-[50%] text-xs font-bold ${item.HOLI_TYPE === "H" ? "text-gray-800" : "text-gray-800"}`}
+                        className={`text-gray-400 ${item.WEEK_DAY !== "SUN" ? "shadow-sm shadow-blue-200" : "shadow-sm shadow-red-200"} flex h-6 w-12 items-center justify-center rounded-[50%] text-xs font-bold ${item.HOLI_TYPE === "H" ? "text-gray-600" : "text-gray-600"}`}
                       >
                         {t("date." + item.WEEK_DAY)}
                       </div>
@@ -88,7 +88,7 @@ export default function BangCong({ list }: IBangCongProps) {
                   <td>
                     <div className="flex items-center justify-center">
                       <div
-                        className={`${item.HOLI_TYPE === "H" ? "text-red-500" : ""} h-6 w-8 text-center`}
+                        className={`${item.HOLI_TYPE === "H" ? "text-red-300" : "text-gray-500"} h-6 w-8 text-center`}
                       >
                         {item.DATE.slice(8, 10)}
                       </div>
@@ -96,13 +96,13 @@ export default function BangCong({ list }: IBangCongProps) {
                   </td>
                   <td>
                     <p
-                      className={`${isLate ? "font-medium" : "text-sm opacity-60"}`}
+                      className={`${isLate ? "font-medium" : "text-sm text-gray-400"}`}
                     >
                       {item.STRT_TIME}
                     </p>
                   </td>
                   <td
-                    className={`font-medium ${isOT ? "" : isQuitSoon ? "" : "text-sm"}`}
+                    className={`font-medium ${isOT ? "" : isQuitSoon ? "" : "text-sm text-gray-400"}`}
                   >
                     {item.END_TIME}
                   </td>

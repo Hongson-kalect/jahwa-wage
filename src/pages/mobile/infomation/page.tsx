@@ -39,26 +39,26 @@ export default function Information(props: IInformationProps) {
 
   const InfoItem = ({ label, value }: { label: string; value?: string }) => (
     <div className="flex flex-col rounded bg-white p-3">
-      <span className="mb-1 text-xs text-gray-500">{label}</span>
-      <span className="text-sm font-medium text-gray-900">{value || "-"}</span>
+      <span className="mb-1 text-xs text-gray-400">{label}</span>
+      <span className="text-sm font-medium text-gray-800">{value || "-"}</span>
     </div>
   );
 
   return (
-    <div className="h-full overflow-auto">
+    <div className="h-full overflow-auto bg-gray-100">
       {/* Thông tin cơ bản */}
       <div className="mb-4">
         <div className="mb-1 rounded-bl-2xl bg-white p-4 shadow shadow-gray-300">
           <div className="flex justify-between">
             <div>
-              <h3 className="mb-2 text-lg font-bold text-blue-800">
+              <h3 className="mb-2 text-lg font-bold">
                 {getCompanyName(entCode)}
               </h3>
               <div className="flex gap-2">
-                <span className="bg-blue-50 px-2 py-1 text-sm text-blue-800">
+                <span className="bg-gray-50 px-2 py-1 text-sm text-gray-800">
                   {user?.DEPT_NM}
                 </span>
-                <span className="bg-blue-50 px-2 py-1 text-sm text-blue-800">
+                <span className="bg-gray-50 px-2 py-1 text-sm text-gray-800">
                   {user?.EMP_NO}
                 </span>
               </div>
@@ -92,7 +92,7 @@ export default function Information(props: IInformationProps) {
 
       {/* Thông tin công việc */}
       <div className="mb-4">
-        <h4 className="mb-1 ml-1 flex items-end gap-2 text-sm font-bold text-blue-700">
+        <h4 className="mb-1 ml-1 flex items-end gap-2 text-sm font-bold">
           <MdWork size={20} className="mb-0.5" />
           {t("infomationPage.carrer")}
         </h4>
@@ -115,7 +115,7 @@ export default function Information(props: IInformationProps) {
 
       {/* Thông tin ngày tháng */}
       <div className="mb-4">
-        <h4 className="mb-1 ml-1 flex items-end gap-2 text-sm font-bold text-blue-700">
+        <h4 className="mb-1 ml-1 flex items-end gap-2 text-sm font-bold">
           <LuCalendarSearch size={20} className="mb-0.5" />
           {t("infomationPage.entryDate")}
         </h4>
@@ -137,7 +137,7 @@ export default function Information(props: IInformationProps) {
 
       {/* Thông tin liên hệ */}
       <div>
-        <h4 className="mb-1 ml-1 flex items-end gap-2 text-sm font-bold text-blue-700">
+        <h4 className="mb-1 ml-1 flex items-end gap-2 text-sm font-bold">
           <RiContactsFill size={20} className="mb-0.5" />
           {t("infomationPage.contact")}
         </h4>
