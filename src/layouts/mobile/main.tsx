@@ -22,10 +22,10 @@ import { PiMicrosoftOutlookLogoFill } from "react-icons/pi";
 import fav from "../../assets/images/favicon.gif";
 import { LuLogOut } from "react-icons/lu";
 import { HiHome } from "react-icons/hi";
-import { FaAngleLeft, FaCubes } from "react-icons/fa6";
+import { FaAngleLeft, FaCubes, FaEarthAsia } from "react-icons/fa6";
 import { TiHome } from "react-icons/ti";
 import { BiSolidUser } from "react-icons/bi";
-import { Dropdown, MenuProps } from "antd";
+import { Dropdown, Menu, MenuProps } from "antd";
 import { useTranslation } from "react-i18next";
 import MobileHomePage from "../../pages/mobile/home/home";
 
@@ -38,6 +38,7 @@ const MainLayout = styled.div`
 export default function MobileMainLayout(props: IMobileMainLayoutProps) {
   const { setUser } = useUserInfoStore();
   const { empCode, entCode, setHeader } = useMobileAppStore();
+  const { t } = useTranslation();
 
   const { setDevice, device } = useMobileAppStore();
   const [authening, setAuthening] = React.useState(true);
@@ -80,7 +81,6 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
     if (activeTab === "wage") return <WagePage2 />;
     if (activeTab === "attendant") return <Attendant />;
     if (activeTab === "day-off") return <DayOffPage />;
-    // if (activeTab === "asset") return <Asset />;
     if (activeTab === "information") return <Information />;
     else return <MobileHomePage />;
   };
@@ -116,12 +116,12 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
         setHeader(t("attendantPage.title2"));
         break;
       case "information":
-        setHeader(t("infomationPage.tittle"));
+        setHeader(t("infomationPage.title"));
         break;
       default:
         setHeader("JAHWA VINA");
     }
-  }, [activeTab]);
+  }, [activeTab, t]);
 
   if (authening) return <div>Cheking cookie</div>;
 
@@ -131,7 +131,7 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
     >
       <div className="relative flex h-full w-full max-w-[420px] flex-col overflow-auto bg-white">
         <Header />
-        <div className="relative flex-1 bg-white">
+        <div className="relative mt-2 flex-1 bg-white">
           {renderPage()}
           {/* <Outlet /> */}
         </div>
@@ -190,6 +190,50 @@ const Header = () => {
     ];
   }, [t]);
 
+  const menus: MenuProps["items"] = React.useMemo(() => {
+    return [
+      {
+        key: "1",
+        label: (
+          <div
+            style={{ fontSize: "16px" }}
+            onClick={() => {
+              setSearchParams({ tab: "wage" });
+            }}
+          >
+            {t("sidebar.payRoll")}
+          </div>
+        ),
+      },
+      {
+        key: "2",
+        label: (
+          <div
+            style={{ fontSize: "16px" }}
+            onClick={() => {
+              setSearchParams({ tab: "attendant" });
+            }}
+          >
+            {t("sidebar.attendance")}
+          </div>
+        ),
+      },
+      {
+        key: "3",
+        label: (
+          <div
+            style={{ fontSize: "16px" }}
+            onClick={() => {
+              setSearchParams({ tab: "day-off" });
+            }}
+          >
+            {t("navbar.dayOff")}
+          </div>
+        ),
+      },
+    ];
+  }, [t]);
+
   return (
     <>
       <div className="flex w-full flex-col">
@@ -205,20 +249,15 @@ const Header = () => {
             ) : (
               <div
                 style={{ backgroundImage: `url(${fav})` }}
-                className="h-12 w-12 bg-cover bg-center"
+                className="h-7 w-12 bg-cover bg-center"
                 onClick={() => setShowav(true)}
               ></div>
             )}
-            {/* <SidebarToggle
-            color="gray"
-            size={10}
-            onClick={() => setShowav(true)}
-          /> */}
             <p className="text-lg font-bold text-black">{header}</p>
           </div>
 
           <div className="option flex items-center gap-1">
-            <div className="mt-[1px] w-8">
+            <div className="flex w-7 items-center justify-center">
               <TiHome
                 onClick={() => {
                   // window.open("https://outlook.office365.com/", "_blank");
@@ -228,25 +267,32 @@ const Header = () => {
                 className="text-gray-400"
               />
             </div>
-            <div className="mt-[1px] w-8">
+            <div className="flex w-7 items-center justify-center">
+              <LanguageChanger />
+            </div>
+
+            <div
+              className="flex w-7 items-center justify-center"
+              onClick={() => setShowav(true)}
+            >
               <FaCubes
-                onClick={() => {
-                  // window.open("https://outlook.office365.com/", "_blank");
-                  setShowav(true);
-                }}
+                // onClick={() => {
+                //   setShowav(true);
+                // }}
                 size={24}
                 className="text-gray-400"
               />
             </div>
-            <Dropdown
-              menu={{ items }}
-              placement="bottomRight"
-              trigger={["click"]}
+
+            <div
+              className="flex w-7 items-center justify-center"
+              onClick={() => {
+                setSearchParams({ tab: "information" });
+              }}
             >
-              <div className="mt-[1px] w-8">
-                <BiSolidUser size={24} className="text-gray-400" />
-              </div>
-            </Dropdown>
+              <BiSolidUser size={24} className="text-gray-400" />
+            </div>
+            {/* </Dropdown> */}
             {/* <div className="mt-[1px] w-8" onClick={handleLogout}>
               <BiSolidUser size={24} className="text-gray-400" />
             </div> */}

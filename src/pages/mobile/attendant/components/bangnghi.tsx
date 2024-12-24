@@ -25,9 +25,6 @@ export default function BangNghi({ list }: IBangNghiProps) {
             style={{ borderBottom: "1px solid red" }}
           >
             <th className="font-font px-2 py-1.5 text-sm">
-              {t("attendantPage.index")}
-            </th>
-            <th className="font-font px-2 py-1.5 text-sm">
               {/* {t("Lo")} */}
               {t("attendantPage.date")}
             </th>
@@ -46,9 +43,6 @@ export default function BangNghi({ list }: IBangNghiProps) {
                   key={index}
                   className={`${item.DILIG_HH < 8 ? "bg-gray-100" : ""}`}
                 >
-                  <td className="text-xs font-bold text-gray-400">
-                    {index + 1}
-                  </td>
                   <td className="py-2 text-sm">
                     <div className="flex items-center justify-center">
                       <div

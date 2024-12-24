@@ -61,6 +61,7 @@
   "assetPage": {},
 
   "infomationPage": {
+    "company": "회사 이름",
     "title": "인사 정보",
     "code": "법인",
     "depart": "부서",

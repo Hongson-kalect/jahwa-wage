@@ -3,9 +3,6 @@ import { useUserInfoStore } from "../../../store/userinfo";
 import { useMobileAppStore } from "../../../store/mobile.app";
 import { useTranslation } from "react-i18next";
 import { getRawCookie } from "../../../lib/utlis";
-import { MdWork } from "react-icons/md";
-import { LuCalendarSearch } from "react-icons/lu";
-import { RiContactsFill } from "react-icons/ri";
 
 export interface IInformationProps {}
 
@@ -29,135 +26,93 @@ export default function Information(props: IInformationProps) {
     switch (code) {
       case "VN532":
         return "JAHWA VINA";
-        break;
       case "VN538":
         return "NANO VINA";
       case "JV532":
         return "JH VINA";
+      default:
+        return "";
     }
   };
 
-  const InfoItem = ({ label, value }: { label: string; value?: string }) => (
-    <div className="flex flex-col rounded bg-white p-3">
-      <span className="mb-1 text-xs text-gray-400">{label}</span>
-      <span className="text-sm font-medium text-gray-800">{value || "-"}</span>
-    </div>
-  );
+  const cookiesInfo = React.useMemo(() => {
+    const cookies = getRawCookie("JHInfo");
+    return decodeURIComponent(cookies || "").split("♪");
+  });
+
+  const Item = ({ title, content }: { title: string; content: string }) => {
+    return (
+      <div className="flex items-start gap-2 py-2">
+        <p className="w-1/3 text-gray-400">{title} </p>
+        {/* <p className="mr-4 text-gray-400">:</p> */}
+        <p className="w-2/3 text-gray-500"> {content}</p>
+      </div>
+    );
+  };
 
   return (
-    <div className="h-full overflow-auto bg-gray-100">
-      {/* Thông tin cơ bản */}
-      <div className="mb-4">
-        <div className="mb-1 rounded-bl-2xl bg-white p-4 shadow shadow-gray-300">
-          <div className="flex justify-between">
-            <div>
-              <h3 className="mb-2 text-lg font-bold">
-                {getCompanyName(entCode)}
-              </h3>
-              <div className="flex gap-2">
-                <span className="bg-gray-50 px-2 py-1 text-sm text-gray-800">
-                  {user?.DEPT_NM}
-                </span>
-                <span className="bg-gray-50 px-2 py-1 text-sm text-gray-800">
-                  {user?.EMP_NO}
-                </span>
-              </div>
-            </div>
-            <div
-              style={{
-                background: `url(${imgUrl}) center center / cover no-repeat`,
-              }}
-              className="h-16 w-20 rounded"
-            ></div>
-            {/* <img src={imgUrl} alt="avatar" className="h-full w-20 rounded" /> */}
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-1">
-          <InfoItem label={t("infomationPage.name")} value={user?.NAME} />
-          <InfoItem
-            label={t("infomationPage.krName")}
-            value={user?.HANJA_NAME}
-          />
-          <InfoItem
-            label={t("infomationPage.engName")}
-            value={user?.ENG_NAME}
-          />
-          <InfoItem
-            label={t("infomationPage.role")}
-            value={user?.ROLL_PSTN_NM}
-          />
-        </div>
-      </div>
-
-      {/* Thông tin công việc */}
-      <div className="mb-4">
-        <h4 className="mb-1 ml-1 flex items-end gap-2 text-sm font-bold">
-          <MdWork size={20} className="mb-0.5" />
-          {t("infomationPage.carrer")}
-        </h4>
-        <div className="grid grid-cols-2 gap-2">
-          <InfoItem
-            label={t("infomationPage.role2")}
-            value={user?.ROLE_CD_NM}
-          />
-          <InfoItem
-            label={t("infomationPage.job")}
-            value={user?.OCPT_TYPE_NM}
-          />
-          <InfoItem label={t("infomationPage.type")} value={user?.ENTR_CD_NM} />
-          <InfoItem
-            label={t("infomationPage.wageRank")}
-            value={user?.PAY_GRD1_NM + " - " + user?.PAY_GRD2}
-          />
-        </div>
-      </div>
-
-      {/* Thông tin ngày tháng */}
-      <div className="mb-4">
-        <h4 className="mb-1 ml-1 flex items-end gap-2 text-sm font-bold">
-          <LuCalendarSearch size={20} className="mb-0.5" />
-          {t("infomationPage.entryDate")}
-        </h4>
-        <div className="grid grid-cols-2 gap-2">
-          <InfoItem
-            label={t("infomationPage.entryGrDate")}
-            value={user?.GROUP_ENTR_DT}
-          />
-          <InfoItem
-            label={t("infomationPage.endDate")}
-            value={user?.INTERN_DT}
-          />
-          <InfoItem
-            label={t("infomationPage.quitDate")}
-            value={user?.RETIRE_DT}
-          />
-        </div>
-      </div>
-
-      {/* Thông tin liên hệ */}
-      <div>
-        <h4 className="mb-1 ml-1 flex items-end gap-2 text-sm font-bold">
-          <RiContactsFill size={20} className="mb-0.5" />
-          {t("infomationPage.contact")}
-        </h4>
-        <div className="grid grid-cols-1 gap-2">
-          <InfoItem label={t("infomationPage.phone")} value={user?.TEL_NO} />
-          <InfoItem
-            label={t("infomationPage.phoneOffice")}
-            value={user?.EM_TEL_NO}
-          />
-          <InfoItem
-            label={t("infomationPage.email")}
-            value={user?.EMAIL_ADDR}
-          />
-          <InfoItem
-            label={t("infomationPage.crAddress")}
-            value={user?.CURR_ADDR}
-          />
-          <InfoItem label={t("infomationPage.address")} value={user?.ADDR} />
-        </div>
-      </div>
+    <div className="pl-10 pr-4">
+      <Item
+        title={t("infomationPage.company")}
+        content={cookiesInfo[0] || "-"}
+      />
+      <Item title={t("infomationPage.role")} content={cookiesInfo[1] || "-"} />
+      <Item title={t("infomationPage.emp")} content={user?.EMP_NO || "-"} />
+      <Item title={t("infomationPage.name")} content={user?.NAME || "-"} />
+      <Item
+        title={t("infomationPage.krName")}
+        content={user?.HANJA_NAME || "-"}
+      />
+      <Item
+        title={t("infomationPage.engName")}
+        content={user?.ENG_NAME || "-"}
+      />
+      <Item
+        title={t("infomationPage.role")}
+        content={user?.ROLL_PSTN_NM || "-"}
+      />
+      <Item
+        title={t("infomationPage.role2")}
+        content={user?.ROLE_CD_NM || "-"}
+      />
+      <Item
+        title={t("infomationPage.job")}
+        content={user?.OCPT_TYPE_NM || "-"}
+      />
+      <Item
+        title={t("infomationPage.type")}
+        content={user?.ENTR_CD_NM || "-"}
+      />
+      <Item
+        title={t("infomationPage.wageRank")}
+        content={`${user?.PAY_GRD1_NM || "-"} - ${user?.PAY_GRD2 || "-"}`}
+      />
+      <Item
+        title={t("infomationPage.entryGrDate")}
+        content={user?.GROUP_ENTR_DT || "-"}
+      />
+      <Item
+        title={t("infomationPage.endDate")}
+        content={user?.INTERN_DT || "-"}
+      />
+      <Item
+        title={t("infomationPage.quitDate")}
+        content={user?.RETIRE_DT || "-"}
+      />
+      <Item title={t("infomationPage.phone")} content={user?.TEL_NO || "-"} />
+      <Item
+        title={t("infomationPage.phoneOffice")}
+        content={user?.EM_TEL_NO || "-"}
+      />
+      <Item
+        title={t("infomationPage.email")}
+        content={user?.EMAIL_ADDR || "-"}
+      />
+      <Item
+        title={t("infomationPage.crAddress")}
+        content={user?.CURR_ADDR || "-"}
+      />
+      <Item title={t("infomationPage.address")} content={user?.ADDR || "-"} />
     </div>
   );
 }

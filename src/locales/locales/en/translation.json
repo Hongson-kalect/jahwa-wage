@@ -59,6 +59,7 @@
 
   "assetPage": {},
   "infomationPage": {
+    "company": "Conpany Name",
     "title": "Personnel Information",
     "code": "Legal Entity",
     "depart": "Department",

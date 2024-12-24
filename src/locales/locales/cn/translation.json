@@ -59,6 +59,7 @@
   "assetPage": {},
 
   "infomationPage": {
+    "company": "公司名称",
     "title": "人事信息",
     "code": "法人",
     "depart": "部门",

@@ -13,7 +13,7 @@ export default function BangCong({ list }: IBangCongProps) {
 
   if (list?.length === 0) return <Empty description={t("common.noData")} />;
   return (
-    <div className="mx-2 mt-2 rounded-lg bg-white text-center">
+    <div className="mt-2 rounded-lg bg-white text-center">
       <table className="w-full text-center">
         <tbody className="w-full">
           <tr
@@ -88,9 +88,12 @@ export default function BangCong({ list }: IBangCongProps) {
                   <td>
                     <div className="flex items-center justify-center">
                       <div
-                        className={`${item.HOLI_TYPE === "H" ? "text-red-300" : "text-gray-500"} h-6 w-8 text-center`}
+                        className={`flex items-end ${item.HOLI_TYPE === "H" ? "text-red-300" : "text-gray-500"} h-6 w-8 text-center`}
                       >
-                        {item.DATE.slice(8, 10)}
+                        <p>{item.DATE.slice(8, 10)}</p>
+                        <p className="text-xs text-gray-300">
+                          {"/" + item.DATE.slice(5, 7)}
+                        </p>
                       </div>
                     </div>
                   </td>

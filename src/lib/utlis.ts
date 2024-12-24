@@ -115,5 +115,5 @@ export const monthNames = [
 export const handleLogout = () => {
   deleteAllCookies();
   window.location.href =
-    "https://sso.jahwa.co.kr/login.html?relayState=https://vina.jahwa.co.kr";
+    "https://sso.jahwa.co.kr/login.html?relayState=https://m.jahwa.co.kr";
 };

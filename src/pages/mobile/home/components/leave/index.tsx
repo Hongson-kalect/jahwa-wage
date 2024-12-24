@@ -40,7 +40,7 @@ export default function Leave({ leave }: ILeaveProps) {
       if (item.DILIG_DT) {
         if (count < 5) {
           count++;
-          tempAttendance.push(item);
+          tempAttendance.unshift(item);
         }
       }
     });

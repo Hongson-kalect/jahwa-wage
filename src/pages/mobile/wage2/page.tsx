@@ -38,7 +38,7 @@ export default function WagePage2(props: ILuongProps) {
   const phanLoaiLuong = async () => {
     const dulieuApi = await axios.post("/api/MSelectList", {
       DIV: "PROV_TYPE",
-      Data: loaiLuong,
+      Data: thangLuong,
       EntCode: entCode,
       EmpCode: empCode,
     });
@@ -107,23 +107,22 @@ export default function WagePage2(props: ILuongProps) {
       <div className="w-full">
         <div>
           <div className="bg-white py-2">
-            <div className="mx-2 rounded-md bg-white px-4 py-2 shadow-inner shadow-gray-800">
+            <div className="mx-4 rounded-md bg-white px-4 py-2 shadow-inner shadow-gray-800">
               <div className="flex items-end gap-4">
                 {/* <p className="text-sm font-medium">Họ tên</p> */}
-                <div
+                {/* <div
                   style={{
                     border: "2px solid #979797",
                     background: `url(${imgUrl}) center center / cover no-repeat`,
                   }}
                   className="h-8 w-8 rounded"
                 ></div>
-                {/* <p>:</p> */}
                 <p className="text-lg font-medium text-gray-900">
                   {user?.NAME}
-                </p>
+                </p> */}
               </div>
-              <div className="mt-2 flex items-center justify-between">
-                <div className="flex h-10 items-center justify-start gap-4">
+              <div className="flex items-center justify-between">
+                <div className="flex h-10 items-center justify-start gap-2">
                   {/* <p className="w-12">{t("wagePage.payRollMonth")}:</p> */}
                   <LuCalendarClock size={24} className="text-gray-500" />
                   {!thangluongQuery?.data?.Table ? (
@@ -148,14 +147,14 @@ export default function WagePage2(props: ILuongProps) {
                     </select>
                   )}
                 </div>
-                <div className="flex h-10 items-center gap-4">
+                <div className="flex h-10 items-center gap-2">
                   <FaCodeBranch size={24} className="text-gray-500" />
                   {/* <p>{t("wagePage.payRollType")}:</p> */}
                   {!phanloaiQuery.data?.Table ? (
                     <Skeleton.Input active />
                   ) : (
                     <select
-                      className="h-7 w-24 border-none px-1 font-bold text-gray-600 shadow-none outline-none duration-200"
+                      className="h-7 w-32 border-none px-1 font-bold text-gray-600 shadow-none outline-none duration-200"
                       value={loaiLuong}
                       onChange={(event) => setLoaiLuong(event.target.value)}
                     >
@@ -188,14 +187,14 @@ export default function WagePage2(props: ILuongProps) {
             </div>
           ) : (
             <>
-              <div className="mt-2 bg-white px-3 py-2">
+              <div className="mt-2 bg-white p-1.5 py-2">
                 <div className="ml-2 flex items-center gap-2 py-1">
                   <MdOutlineCreditCard size={24} className="mt-[1px]" />
                   <p className="font-bold text-gray-900">
                     {t("wagePage.payRollDetail")}
                   </p>
                 </div>
-                <div className="mx-5 bg-white pt-2 text-gray-500">
+                <div className="ml-3 bg-white pt-2 text-gray-500">
                   <table className="w-full px-2">
                     {/* <thead>
                       <tr className="border-b text-lg font-medium text-blue-700">
@@ -229,7 +228,7 @@ export default function WagePage2(props: ILuongProps) {
                 </div>
               </div>
 
-              <div className="mt-2 bg-white px-3 py-2">
+              <div className="mt-2 bg-white px-1.5 py-2">
                 <div className="ml-2 flex items-center gap-2 py-1">
                   <MdCalendarMonth size={24} className="mt-[1px]" />
                   <p className="font-bold text-gray-900">
@@ -237,7 +236,7 @@ export default function WagePage2(props: ILuongProps) {
                   </p>
                 </div>
                 <div className="rounded-md"></div>
-                <div className="mx-5 bg-white pb-2 pt-2">
+                <div className="ml-3 bg-white pb-2 pt-2">
                   <table className="w-full px-2">
                     <tbody className="">
                       <tr className="border-b text-sm font-medium text-blue-500">
@@ -280,8 +279,8 @@ export default function WagePage2(props: ILuongProps) {
                   </p>
                 </div>
                 <div className="rounded-md"></div>
-                <div className="mx-5 rounded-md bg-white pt-2">
-                  <table className="w-full px-2">
+                <div className="ml-3 rounded-md bg-white pt-2">
+                  <table className="w-full">
                     <tbody className="">
                       {chitietQuery?.data?.Table2?.map((item, vitri) => {
                         return (
@@ -314,8 +313,8 @@ export default function WagePage2(props: ILuongProps) {
                   </p>
                 </div>
                 <div className="rounded-md"></div>
-                <div className="mx-5 rounded-md bg-white pb-4 pt-2">
-                  <table className="w-full px-2">
+                <div className="ml-3 rounded-md bg-white pb-4 pt-2">
+                  <table className="w-full">
                     <tbody className="">
                       <tr>
                         <td className="pt-0.5 font-medium uppercase text-gray-500">

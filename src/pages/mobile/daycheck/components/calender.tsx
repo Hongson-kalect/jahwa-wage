@@ -319,14 +319,14 @@ const CalendarMark = (props: CalendarMarkProps) => {
         className={`h-1 w-full bg-transparent shadow ${Number(props?.data?.shift) === 2 ? "flex shadow-primary-8" : ""}`}
       >
         {!haveSomething && <div className="h-full flex-1 bg-green-400" />}
-        {props.data.data.some((item) => {
+        {props.data?.data?.some((item) => {
           if ([33, 31, 47, 40, 38].includes(Number(item.dilig_cd))) {
             !haveSomething && setHaveSomething(true);
             return true;
           }
         }) && <div className="h-full flex-1 bg-cyan-600" />}
         {
-          props.data.data.some((item) => {
+          props.data?.data?.some((item) => {
             if ([1].includes(Number(item.dilig_cd))) {
               !haveSomething && setHaveSomething(true);
               return true;
@@ -334,27 +334,27 @@ const CalendarMark = (props: CalendarMarkProps) => {
           }) && <div className="h-full flex-1 bg-orange-500" /> //phép năm
         }
         {
-          props.data.data.some((item) => {
+          props.data?.data?.some((item) => {
             if ([9].includes(Number(item.dilig_cd))) {
               !haveSomething && setHaveSomething(true);
               return true;
             }
           }) && <div className="h-full flex-1 bg-yellow-500" /> //phép năm
         }
-        {props.data.data.some((item) => {
+        {props.data?.data?.some((item) => {
           if ([5].includes(Number(item.dilig_cd))) {
             !haveSomething && setHaveSomething(true);
             return true;
           }
         }) && <div className="h-full flex-1 bg-red-600" />}
       </div>
-      {props.data.data.some((item) => {
+      {props.data?.data?.some((item) => {
         if ([13].includes(Number(item.dilig_cd))) {
           !haveSomething && setHaveSomething(true);
           return true;
         }
       }) && <div className="h-full flex-1 bg-pink-500" />}
-      {props.data.data.some((item) => {
+      {props.data?.data?.some((item) => {
         if ([14].includes(Number(item.dilig_cd))) {
           !haveSomething && setHaveSomething(true);
           return true;

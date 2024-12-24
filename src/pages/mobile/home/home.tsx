@@ -44,7 +44,7 @@ export default function MobileHomePage() {
 
   return (
     <div className="px-4">
-      {<News news={news} />}
+      {/* {<News news={news} />} */}
       {<Wage wage={wageData} month={date} />}
       {<Attendances attendance={attendanceData} />}
       {<Leave leave={dayOffData} />}

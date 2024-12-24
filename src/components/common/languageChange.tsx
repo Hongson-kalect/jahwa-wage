@@ -7,6 +7,7 @@ import vnFlag from "../../assets/images/vn-flag.jpg";
 import krFlag from "../../assets/images/korean-flag.png";
 import cnFlag from "../../assets/images/cn-flag.png";
 import enFlag from "../../assets/images/en-flag.jfif";
+import { FaEarthAsia } from "react-icons/fa6";
 
 export interface ILanguageChangerProps {}
 
@@ -73,22 +74,20 @@ export default function LanguageChanger(props: ILanguageChangerProps) {
   }, []);
 
   return (
-    <Dropdown menu={{ items }} placement="bottomLeft" className="px-2">
-      <div className="pl-4">
-        <div
+    <Dropdown
+      menu={{ items }}
+      placement="bottomLeft"
+      className="h-[24px] w-[24px]"
+    >
+      <div className="flex items-center justify-center">
+        <FaEarthAsia size={22} className="text-gray-400" />
+        {/* <div
           className="h-8 w-8 rounded-full shadow-inner shadow-gray-900"
           style={{
             background: `url(${languageBG[language]}) center center / cover no-repeat`,
           }}
-        ></div>
+        ></div> */}
       </div>
     </Dropdown>
   );
 }
-
-const languageBG = {
-  vi: vnFlag,
-  kr: krFlag,
-  cn: cnFlag,
-  en: enFlag,
-};
