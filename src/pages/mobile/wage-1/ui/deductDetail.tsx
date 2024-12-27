@@ -48,7 +48,7 @@ export default function DeDuctDetail({
             );
           })
         ) : (
-          <Empty description={"No data found"} />
+          <Empty description={t("common.noData")} />
         )}
       </div>
     </div>

@@ -21,39 +21,8 @@ import dayjs, { Dayjs } from "dayjs";
 export interface IAttendantProps {}
 
 export default function Attendants(props: IAttendantProps) {
-  const { user } = useUserInfoStore();
   const { t } = useTranslation();
-  const { setHeader, empCode, entCode } = useMobileAppStore();
-  const months = React.useMemo<string[]>(() => {
-    if (!user?.ENTR_DT) {
-      toast.error("cook");
-      return [];
-    }
-    const tempMonth = [];
-    const currentMonth = [new Date().getFullYear(), new Date().getMonth() + 1];
-    let entriMonth: number[] | string[] = user.ENTR_DT?.split("-");
-    entriMonth = entriMonth.map((item) => Number(item));
-
-    while (
-      currentMonth[0] * 15 + currentMonth[1] >=
-      Number(entriMonth[0] * 15) + Number(entriMonth[1])
-    ) {
-      tempMonth.unshift(
-        `${entriMonth[0]}${entriMonth[1].toString().padStart(2, "0")}`,
-      );
-      entriMonth[1] += 1;
-      if (entriMonth[1] == 13) {
-        entriMonth[1] = 1;
-        entriMonth[0] += 1;
-      }
-    }
-
-    return tempMonth;
-  }, []);
-  const [thang, setThang] = React.useState(
-    new Date().getFullYear() +
-      (new Date().getMonth() + 1).toString().padStart(2, "0"),
-  );
+  const { setHeader } = useMobileAppStore();
 
   const [start, setStart] = React.useState<Dayjs>(
     dayjs(`${new Date().getFullYear()}-${new Date().getMonth() + 1}`),
@@ -70,39 +39,8 @@ export default function Attendants(props: IAttendantProps) {
       getAttendance(start.format("YYYY-MM-DD"), end.format("YYYY-MM-DD")),
   });
 
-  const getThang = async () => {
-    const dulieuapi = await axios.post("/api/MSelectList", {
-      DIV: "PAY_YYMM",
-      Data: thang,
-      EntCode: entCode,
-      EmpCode: empCode,
-    });
-
-    const currentMonth =
-      new Date().getFullYear() +
-      (new Date().getMonth() + 1).toString().padStart(2, "0");
-    setMonths([
-      {
-        Code: currentMonth,
-        Name: currentMonth,
-      },
-      ...dulieuapi.data.Table,
-    ]);
-  };
-  // const [dayOffYear, setDayOffYear] = React.useState(new Date().getFullYear());
-  const workDate = React.useMemo<number>(() => {
-    return (
-      getAttendances?.data?.Table?.reduce((count, item) => {
-        if (item.END_TIME) count += 1;
-
-        return count;
-      }, 0) || 0
-    );
-  }, [getAttendances?.data?.Table, thang]);
-
   React.useEffect(() => {
     setHeader(t("attendantPage.title1"));
-    getThang();
   }, []);
 
   return (
@@ -114,38 +52,20 @@ export default function Attendants(props: IAttendantProps) {
               <div className="mx-4 flex w-full justify-between rounded-md bg-white px-4 py-3 shadow-inner shadow-gray-800">
                 <div className="flex items-center gap-3">
                   <DatePicker
+                    inputReadOnly
+                    allowClear={false}
                     value={start}
                     onChange={(value) => setStart(value)}
                   />
                   <PiArrowArcRightThin />
 
-                  <DatePicker value={end} onChange={(value) => setEnd(value)} />
-                  {/* <MdCalendarMonth size={32} className="text-gray-600" /> */}
-                  {/* {!months ? (
-                    <div>Loading...</div>
-                  ) : (
-                    <select
-                      className="h-8 w-24 border-none px-1 text-lg outline-none"
-                      value={thang}
-                      onChange={(event) => setThang(event.target.value)}
-                    >
-                      {months?.map((item, viTri) => {
-                        return (
-                          <option
-                            key={viTri}
-                            value={item}
-                            className="text-sm text-gray-600"
-                          >
-                            {item}
-                          </option>
-                        );
-                      })}
-                    </select>
-                  )} */}
+                  <DatePicker
+                    inputReadOnly
+                    allowClear={false}
+                    value={end}
+                    onChange={(value) => setEnd(value)}
+                  />
                 </div>
-                {/* <p className="flex items-center gap-2 text-lg font-medium text-gray-600">
-                  <FaCheckCircle size={24} /> {workDate} {t("common.day")}
-                </p> */}
               </div>
             </div>
             <div className="mt-2 flex-1 bg-white px-3.5 py-3">

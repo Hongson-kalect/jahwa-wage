@@ -232,6 +232,7 @@
     "munite": "Minute",
     "totalPay": "Total Payment",
     "totalDeduct": "Total Deduction",
-    "totalPayment": "Total Payment"
+    "totalPayment": "Total Payment",
+    "noData": "No Data"
   }
 }

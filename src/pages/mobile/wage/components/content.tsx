@@ -137,7 +137,7 @@ export default function MobileWageContent(props: IMobileWageContentProps) {
   ) {
     return (
       <div className="flex-1 bg-white">
-        <Empty />
+        <Empty description={t("common.noData")} />
       </div>
     );
   }
@@ -251,7 +251,7 @@ export default function MobileWageContent(props: IMobileWageContentProps) {
           </div>
         ) : (
           <div className="flex-1">
-            <Empty />
+            <Empty description={t("common.noData")} />
           </div>
         )
       ) : (

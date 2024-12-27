@@ -116,49 +116,15 @@ export default function MobileHomeCalendar(props: IMobileHomeCalendarProps) {
   >([]);
 
   const onCalendarChange = (date: Date | null) => {
-    console.log("date", date);
     date && setCalendarValue(date);
   };
 
   React.useEffect(() => {
     if (props.workData.length && props.workData[0]?.date) {
-      console.log(
-        "qqqq",
-        props.workData[0]?.date,
-        calendarValue,
-        new Date(props.workData[0]?.date),
-      );
       setCalendarValue(new Date(props.workData[0]?.date));
     }
   }, [props.workData]);
 
-  // React.useEffect(() => {
-
-  //   const tempBonus: { date:string, id: number[]; name: string; time: number }[] = [];
-  //   props.workData?.map((work) => {
-
-  //     work.data.map((dayDetail) => {
-  //       if (dayDetail.dilig_cd) {
-  //         let matchBonus = tempBonus.find(
-  //           (item) => item.id === Number(dayDetail.dilig_cd),
-  //         );
-  //         if (!matchBonus) {
-  //           matchBonus = {
-  //             id: Number(dayDetail.dilig_cd),
-  //             name: dayDetail.dilig_nm || "unknown",
-  //             time: 0,
-  //           };
-  //           tempBonus.push(matchBonus);
-  //         }
-  //         matchBonus.time +=
-  //           Number(dayDetail.dilig_hh) * 60 + Number(dayDetail.dilig_mm);
-  //       }
-  //     });
-  //   });
-  //   setBonus(tempBonus);
-  // }, [props.workData]);
-
-  console.log("calendar list", props.workData);
   return (
     <div>
       <p className="text-sm font-medium">Bảng công</p>
@@ -167,7 +133,6 @@ export default function MobileHomeCalendar(props: IMobileHomeCalendarProps) {
           className="shadow-md shadow-gray-500 dark:[&_*]:text-gray-100"
           showNeighboringMonth={false}
           tileClassName={({ date }) => {
-            console.log(date);
             if (date.getDay() === 0) return "bg-orange-200 text-error";
           }}
           // calendarType="islamic"

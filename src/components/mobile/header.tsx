@@ -18,7 +18,6 @@ const StyledHeader = styled.div``;
 export default function HomeHeader(props: IHomeHeaderProps) {
   const navigate = useNavigate();
   const { user } = useUserInfoStore();
-  console.log(user);
 
   const [headerUserOptions] = React.useState([
     {

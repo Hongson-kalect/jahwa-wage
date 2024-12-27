@@ -92,7 +92,7 @@ export default function DayOff(props: IDayOffProps) {
                   <Skeleton className="mt-4" active />
                 </>
               ) : (
-                <BangNghi list={getDayOffs?.data?.Table2.reverse()} />
+                <BangNghi list={getDayOffs?.data?.Table2} />
               )}
             </div>
           </div>

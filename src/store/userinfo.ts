@@ -69,14 +69,13 @@ type Props = {
   setEmp_no: (id: string) => void;
   isLogin: boolean;
   setIsLogin: (bol: boolean) => void;
-  user?: UserType;
-  setUser: (user: UserType) => void;
+  user?: UserType & { Photo?: string };
+  setUser: (user: UserType & { Photo?: string }) => void;
 };
 
 function parseInfo(inputString: string) {
   // Split the string by the special character '♪'
   const parts = decodeURIComponent(inputString).split("♪");
-  console.log("parts :>> ", parts);
 
   // Extract the relevant information
   const info = {
@@ -97,14 +96,8 @@ export const useUserInfoStore = create<Props>((set) => ({
   user: parseInfo(getRawCookie("JHInfo") || ""),
   setEmp_no: (id) => set({ emp_no: id }),
   setIsLogin: (isLogin) => set({ isLogin }),
-  setUser: (user: UserType) => set({ user }),
+  setUser: (user: UserType & { Photo?: string }) => set({ user }),
 }));
-
-// Example usage
-const inputString =
-  "JAHWA VINA♪IT(전산)♪Nguyễn Trung Quy♪Senior Clerk(주임)♪Nhân viên(사원)♪Q5";
-const parsedInfo = parseInfo(inputString);
-console.log(parsedInfo);
 
 import { persist, createJSONStorage } from "zustand/middleware";
 import CryptoJS from "crypto-js";

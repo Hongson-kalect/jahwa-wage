@@ -1,7 +1,7 @@
 {
   "sidebar": {
     "payRoll": "Bảng lương",
-    "attendance": "Lịch đi làm",
+    "attendance": "Giờ chấm công",
     "asset": "Quản lý tài sản",
     "logout": "Đăng xuất",
     "infomation": "Thông tin nhân sự",
@@ -34,7 +34,7 @@
     "sumary": "Tổng kết"
   },
   "attendantPage": {
-    "title1": "Lịch chấm công",
+    "title1": "Giờ chấm công",
     "title2": "Phép năm",
     "month": "Chọn tháng",
     "year": "Chọn năm",
@@ -231,6 +231,7 @@
     "munite": "Phút",
     "totalPay": "Tổng chi trả",
     "totalDeduct": "Tổng khấu trừ",
-    "totalPayment": "Lương thực lĩnh"
+    "totalPayment": "Lương thực lĩnh",
+    "noData": "Không có dữ liệu"
   }
 }

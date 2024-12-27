@@ -144,7 +144,7 @@ export default function HomeContent({
           </div>
         </>
       ) : (
-        <Empty />
+        <Empty description={t("common.noData")} />
       )}
       <div className="content-sub flex"></div>
       <div className="button"></div>

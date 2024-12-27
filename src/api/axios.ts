@@ -45,7 +45,6 @@ api.interceptors.response.use(
     return response;
   },
   function (error) {
-    console.log("vào đc đây khum?", error);
     if (error?.response?.data?.code === "SPAM") {
       window.location.href = "/m/spam_alert";
     }

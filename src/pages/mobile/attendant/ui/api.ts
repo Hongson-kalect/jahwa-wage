@@ -26,7 +26,6 @@ export const getAttendance = async (firstDay: string, lastDay: string) => {
 };
 
 export const getDayOff = async (year: string) => {
-  console.log("year :>> ", year);
   const res = await axios.post("api/MAnnualLeaveInformation", {
     YYYY: year,
     EmpCode: userInfo.getState().empCode,

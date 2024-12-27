@@ -4,38 +4,39 @@ import Heading1 from "../_shared/heading1";
 import { Skeleton } from "antd";
 import { useSearch } from "../../../../../hooks/useSearch";
 import { useTranslation } from "react-i18next";
+import { AttendanceItem } from "../../../attendant/components/bangcong";
 
-const AttendanceItem = ({ item }: { item: Attendance }) => {
-  return (
-    <tr className="">
-      <td className="py-0.5">
-        <p className="flex items-center justify-center rounded-[50%] py-0.5 text-[11px] font-bold text-gray-500 shadow shadow-indigo-50">
-          {item.WEEK_DAY}
-        </p>
-      </td>
-      <td className="py-0.5 text-center text-sm text-gray-500">{item.DATE}</td>
-      <td className="py-0.5 text-center text-sm text-gray-500">
-        {item.STRT_TIME}
-      </td>
-      <td className="py-0.5 text-right font-bold text-gray-700 opacity-80">
-        {item.END_TIME}
-      </td>
-    </tr>
-  );
-};
+// const AttendanceItem = ({ item }: { item: Attendance }) => {
+//   return (
+//     <tr className="">
+//       <td className="py-0.5">
+//         <p className="flex items-center justify-center rounded-[50%] py-0.5 text-[11px] font-bold text-gray-500 shadow shadow-indigo-50">
+//           {item.WEEK_DAY}
+//         </p>
+//       </td>
+//       <td className="py-0.5 text-center text-sm text-gray-500">{item.DATE}</td>
+//       <td className="py-0.5 text-center text-sm text-gray-500">
+//         {item.STRT_TIME}
+//       </td>
+//       <td className="py-0.5 text-right font-bold text-gray-700 opacity-80">
+//         {item.END_TIME}
+//       </td>
+//     </tr>
+//   );
+// };
 
 export interface IAttendancesProps {
-  attendance: { Table: Attendance[] };
+  attendance?: { Table: Attendance[] };
 }
 
 export default function Attendances({ attendance }: IAttendancesProps) {
   const { t } = useTranslation();
   const [paramsObject, setSearchParams] = useSearch();
   const showItem = React.useMemo(() => {
-    if (!attendance) return undefined;
+    if (!attendance?.Table) return undefined;
     let count = 0;
     const tempAttendance: Attendance[] = [];
-    attendance.Table.map((item) => {
+    [...attendance.Table].map((item) => {
       if (item.END_TIME) {
         if (count < 5) {
           count++;
@@ -52,7 +53,7 @@ export default function Attendances({ attendance }: IAttendancesProps) {
         <Heading1 title={t("homePage.attendance")} />
       </div>
 
-      <div className="px-5 py-3">
+      <div className="py-3">
         {!showItem ? (
           <Skeleton active />
         ) : !showItem.length ? (
@@ -66,7 +67,7 @@ export default function Attendances({ attendance }: IAttendancesProps) {
                 <th>Giờ ra</th>
               </tr>
             </thead> */}
-            <tbody>
+            <tbody className="text-center">
               {showItem.map((item, index) => {
                 return <AttendanceItem item={item} key={index} />;
               })}

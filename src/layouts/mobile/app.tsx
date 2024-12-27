@@ -13,82 +13,17 @@ export default function MobileAppLayout(props: IMobileAppLayoutProps) {
   const { user, setUser } = useUserInfoStore();
   const [authening, setAuthening] = React.useState(false);
 
-  // const getWageData = async () => {
-  //   try {
-  //     const res = await httpPost("https://jhapi.jahwa.co.kr/MSelectList/", {
-  //       DIV: "202406",
-  //       Data: "",
-  //       EntCode: "VN536",
-  //       EmpCode: "V22111014",
-  //     });
-  //     console.log("get wage", res.data);
-  //     return res.data;
-  //   } catch (error) {
-  //     console.log("get wage", error);
-  //     return {};
-  //   }
-  // };
-
-  // React.useEffect(() => {
   getWageData();
-  // }, []);
 
   const verifyUser = async () => {
     setAuthening(true);
     const result = checkCookieNSession();
     if (result === false) {
-      console.log(result);
       handleLogout();
     }
 
     // await fetchUserData();
     setAuthening(false);
-  };
-
-  // const refreshUserInfo = async () => {
-  //   console.log("wtf :>> ", "wtf");
-  //   if (user.EMP_NO) return
-  //   const token = getCookie("auth");
-  //   console.log("token :>> ", token);
-  //   console.log('getCookie("save") :>> ', !!getCookie("save"));
-  //   console.log('getCookie("emp") :>> ', !!getCookie("emp"));
-  //   if (getCookie("save") && getCookie("emp") && token) {
-  //     console.log("qqqq");
-  //     try {
-  //       const res = await httpGet("verify");
-  //       if (res.data?.[0].EMP_NO === getCookie("emp"))
-  //         setUser(
-  //           res.data?.[0]
-  //             ? {
-  //                 ...res.data?.[0],
-  //                 avatar: `https://gw.jahwa.co.kr/Photo/VNERP%2F${res.data?.[0].EMP_NO}.JPG`,
-  //               }
-  //             : {},
-  //         );
-  //       else {
-  //         navigate("/");
-  //       }
-  //     } catch (error) {
-  //       navigate("/");
-  //     }
-  //   } else {
-  //     console.log("đâu rứa?");
-  //     navigate("/");
-  //   }
-  // };
-
-  const fetchUserData = async () => {
-    console.log("code", getRawCookie("EmpCode"));
-    try {
-      const emp = getRawCookie("EmpCode");
-      const res = await httpGet("user/" + emp);
-
-      console.log("rés", res);
-      const data = res.data;
-      setUser(data?.[0]);
-    } catch (error) {
-      console.log("error", error);
-    }
   };
 
   React.useEffect(() => {

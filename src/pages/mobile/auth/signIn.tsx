@@ -121,7 +121,6 @@ const SignInForm = () => {
       navigate("/home");
     },
     onError: (error: AxiosError) => {
-      console.log("asdlkasd", error);
       if (error.response?.status === 404) {
         setAction("Mật khẩu hoặc tài khoản không đúng");
       } else {

@@ -11,7 +11,6 @@ export function useSearch() {
     return params;
   }, [searchParams]);
 
-  console.log("paramsObject", paramsObject);
 
   return [paramsObject, setSearchParams];
 }

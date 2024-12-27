@@ -183,7 +183,7 @@ export default function WagePage2(props: ILuongProps) {
             </div>
           ) : !chitietQuery?.data?.Table?.length ? (
             <div className="mt-8 flex h-full flex-1 flex-col items-center justify-center rounded-lg bg-white pb-6 pt-4">
-              <Empty description="Chưa có lương tháng này" />
+              <Empty description={t("common.noData")} />
             </div>
           ) : (
             <>

@@ -11,34 +11,14 @@ export default function Information(props: IInformationProps) {
   const { t } = useTranslation();
   const { setHeader, entCode } = useMobileAppStore();
 
-  const imgUrl = React.useMemo(() => {
-    return (
-      "https://gw.jahwa.co.kr/Photo/" +
-      decodeURIComponent(getRawCookie("Photo") || "")
-    );
-  }, []);
-
   React.useEffect(() => {
     setHeader(t("infomationPage.title"));
   }, [t]);
 
-  const getCompanyName = (code: string) => {
-    switch (code) {
-      case "VN532":
-        return "JAHWA VINA";
-      case "VN538":
-        return "NANO VINA";
-      case "JV532":
-        return "JH VINA";
-      default:
-        return "";
-    }
-  };
-
   const cookiesInfo = React.useMemo(() => {
     const cookies = getRawCookie("JHInfo");
     return decodeURIComponent(cookies || "").split("♪");
-  });
+  }, []);
 
   const Item = ({ title, content }: { title: string; content: string }) => {
     return (

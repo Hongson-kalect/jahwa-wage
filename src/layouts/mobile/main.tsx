@@ -53,7 +53,6 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
     try {
       setAuthening(true);
       const result = await checkCookieNSession();
-      console.log("result :>> ", result);
       if (result !== "") {
         handleLogout();
       } else {
@@ -62,8 +61,11 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
           entCode,
         });
 
-        if (userData.data.Table[0]) {
-          setUser(userData.data.Table[0]);
+        if (userData?.data?.Table[0]) {
+          setUser({
+            ...userData.data.Table[0],
+            Photo: userData.data.Table1?.[0].Photo,
+          });
         } else {
           toast.error("Failed to get user data");
           handleLogout();
@@ -77,6 +79,11 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
     }
   };
 
+  const cookiesInfo = React.useMemo(() => {
+    const cookies = getRawCookie("JHInfo");
+    return decodeURIComponent(cookies || "").split("♪");
+  }, []);
+
   const renderPage = () => {
     if (activeTab === "wage") return <WagePage2 />;
     if (activeTab === "attendant") return <Attendant />;
@@ -87,7 +94,6 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
 
   React.useLayoutEffect(() => {
     const handleResize = () => {
-      console.log("window.innerWidth :>> ", window.innerWidth);
       if (window.innerWidth > 1000) setDevice("pc");
       else setDevice("phone");
     };
@@ -119,7 +125,7 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
         setHeader(t("infomationPage.title"));
         break;
       default:
-        setHeader("JAHWA VINA");
+        setHeader(cookiesInfo[0]);
     }
   }, [activeTab, t]);
 
@@ -127,9 +133,12 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
 
   return (
     <MainLayout
-      className={`flex h-screen w-screen items-center justify-center bg-gray-300 ${device === "pc" ? "py-4" : ""}`}
+      className={`flex h-screen w-screen items-center justify-center ${device === "pc" ? "py-4" : ""}`}
     >
-      <div className="relative flex h-full w-full max-w-[420px] flex-col overflow-auto bg-white">
+      <div
+        className="relative flex h-full w-full max-w-[500px] flex-col overflow-auto bg-white shadow shadow-gray-700"
+        // style={{ border: "1px solid red" }}
+      >
         <Header />
         <div className="relative mt-2 flex-1 bg-white">
           {renderPage()}
@@ -239,8 +248,8 @@ const Header = () => {
       <div className="flex w-full flex-col">
         <div className="flex h-14 items-center justify-between bg-white px-2 py-1 text-gray-600">
           <div
-            className="flex items-center gap-4"
-            onClick={() => setSearchParams({ tab: "home" })}
+            className="ml-0.5 flex items-center gap-4"
+            onClick={() => navigate("/")}
           >
             {activeTab && activeTab !== "home" ? (
               <div>
@@ -249,8 +258,7 @@ const Header = () => {
             ) : (
               <div
                 style={{ backgroundImage: `url(${fav})` }}
-                className="h-7 w-12 bg-cover bg-center"
-                onClick={() => setShowav(true)}
+                className="ml-1.5 h-7 w-12 bg-cover bg-center"
               ></div>
             )}
             <p className="text-lg font-bold text-black">{header}</p>

@@ -50,15 +50,8 @@ export default function MobileWagePage() {
 
   React.useEffect(() => {
     const date = monthWay.data?.total?.pay_yymm;
-    console.log("object", date);
-    // if (date) setDate(dayjs(`${date.slice(4, 6)}-01-${date.slice(0, 4)}`));
 
     if (date) {
-      console.log(
-        "object",
-        `${date.slice(0, 4)}-${date.slice(4, 6)}-01`,
-        "YYYY-MM-DD",
-      );
       setDate(
         dayjs(`${date.slice(0, 4)}-${date.slice(4, 6)}-01`, "YYYY-MM-DD"),
       );

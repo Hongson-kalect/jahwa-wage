@@ -16,7 +16,7 @@ const WageItem = ({
 }) => {
   return (
     <div
-      className={`flex items-center justify-between gap-2 py-0.5 text-gray-500 ${isBold ? "font-bold !text-gray-500" : ""}`}
+      className={`flex items-center justify-between gap-2 py-1.5 text-gray-500 ${isBold ? "font-bold !text-gray-500" : ""}`}
     >
       <div>{title}</div>
       <div>{value}</div>
@@ -46,7 +46,7 @@ export default function Wage({ wage, month }: IWageProps) {
         {!wage ? (
           <Skeleton active />
         ) : !wage.Table3?.length ? (
-          <Empty description="Không có luong" />
+          <Empty description={t("common.noData")} />
         ) : (
           <>
             <WageItem

@@ -1,24 +1,25 @@
 import * as React from "react";
 import { OffDate, OffHour, OffInfo } from "../../../attendant/ui/interface";
 import Heading1 from "../_shared/heading1";
-import { Skeleton } from "antd";
+import { Empty, Skeleton } from "antd";
 import { useSearch } from "../../../../../hooks/useSearch";
 import { useTranslation } from "react-i18next";
+import { DayOffItem } from "../../../attendant/components/bangnghi";
 
-const LeaveItem = ({ item }: { item: OffDate }) => {
-  return (
-    <tr className="">
-      <td className="py-0.5">
-        <p className="py-0.5 text-sm text-gray-500">{item.DILIG_DT}</p>
-      </td>
-      {/* <td className="py-0.5 text-center text-sm">{item.DILIG_NM}</td> */}
-      <td className="py-0.5 text-center font-bold text-gray-500 opacity-80">
-        {item.DILIG_HH}
-      </td>
-      <td className="py-0.5 text-right text-sm text-gray-500">{item.REMARK}</td>
-    </tr>
-  );
-};
+// const LeaveItem = ({ item }: { item: OffDate }) => {
+//   return (
+//     <tr className="">
+//       <td className="py-0.5">
+//         <p className="py-0.5 text-sm text-gray-500">{item.DILIG_DT}</p>
+//       </td>
+//       {/* <td className="py-0.5 text-center text-sm">{item.DILIG_NM}</td> */}
+//       <td className="py-0.5 text-center font-bold text-gray-500 opacity-80">
+//         {item.DILIG_HH}
+//       </td>
+//       <td className="py-0.5 text-right text-sm text-gray-500">{item.REMARK}</td>
+//     </tr>
+//   );
+// };
 
 export interface ILeaveProps {
   leave: {
@@ -52,11 +53,11 @@ export default function Leave({ leave }: ILeaveProps) {
     <div onClick={() => setSearchParams({ tab: "day-off" })}>
       <Heading1 title={t("homePage.dayOff")} />
 
-      <div className="px-5 py-3">
+      <div className="py-3">
         {!showItem ? (
           <Skeleton active />
         ) : !showItem.length ? (
-          <div>Không có lịch chấm công</div>
+          <Empty description={t("common.noData")} />
         ) : (
           <table className="w-full">
             {/* <thead>
@@ -66,9 +67,9 @@ export default function Leave({ leave }: ILeaveProps) {
                 <th>Giờ ra</th>
               </tr>
             </thead> */}
-            <tbody>
+            <tbody className="text-center">
               {showItem.map((item, index) => {
-                return <LeaveItem item={item} key={index} />;
+                return <DayOffItem item={item} key={index} />;
               })}
             </tbody>
           </table>

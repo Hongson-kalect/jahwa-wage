@@ -19,37 +19,6 @@ export const getWageMonth = async () => {
     return {};
   }
 
-  // try {
-  //   console.log("vao day");
-  //   axios<WorkMonth>({
-  //     method: "POST",
-  //     url: "api/MSelectList",
-  //     data: {
-  //       DIV: "PAY_YYMM",
-  //       Data: "",
-  //       EntCode: userInfo.getState().entCode,
-  //       EmpCode: userInfo.getState().empCode,
-  //     },
-  //     headers: {
-  //       "Access-Control-Allow-Origin": "*",
-  //       "Access-Control-Allow-Methods": "POST",
-  //     },
-  //   }).then((res) => {
-  //     console.log("day :>> ");
-  //     console.log("new axios request", res);
-  //     // setData(res.data.Table);
-  //   });
-  // } catch (error) {
-  //   console.log("vao day 2");
-  //   console.log("new axios request", error);
-  //   // const res = await fetch("api/MSelectList/", {
-  //   //   DIV: "202406",
-  //   //   Data: "",
-  //   //   EntCode: "V22111014",
-  //   // });
-  //   toast.error("Failed to get database");
-  //   return {};
-  // }
 };
 export const getWageType = async (month: string) => {
   try {
@@ -59,10 +28,8 @@ export const getWageType = async (month: string) => {
       EntCode: userInfo.getState().entCode,
       EmpCode: userInfo.getState().empCode,
     });
-    console.log("get wage", res.data);
     return res.data;
   } catch (error) {
-    console.log("get wage", error);
     toast.error("Failed to get database");
     return {};
   }
@@ -75,15 +42,8 @@ export const getWageData = async (month: string) => {
       EntCode: userInfo.getState().entCode,
       EmpCode: userInfo.getState().empCode,
     });
-    console.log("get wage", res.data);
     return res.data;
   } catch (error) {
-    console.log("get wage", error);
-    // const res = await fetch("api/MSelectList/", {
-    //   DIV: "202406",
-    //   Data: "",
-    //   EntCode: "V22111014",
-    // });
     toast.error("Failed to get database");
     return {};
   }

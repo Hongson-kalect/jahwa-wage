@@ -232,6 +232,7 @@
     "munite": "分钟",
     "totalPay": "总支付",
     "totalDeduct": "总扣除",
-    "totalPayment": "总支付"
+    "totalPayment": "总支付",
+    "noData": "无数据"
   }
 }

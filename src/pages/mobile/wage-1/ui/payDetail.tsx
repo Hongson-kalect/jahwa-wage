@@ -52,7 +52,7 @@ export default function PayDetail({ wageData, isLoading }: IPayDetailProps) {
             );
           })
         ) : (
-          <Empty description="Không có dữ liệu" />
+          <Empty description={t("common.noData")} />
         )}
         {/* <PayItem name={t("wage.label.T1")} time="8H" value={6300000} />
         <PayItem name={t("wage.label.T2")} time="12H30" value={123124} />

@@ -36,18 +36,17 @@ export const Navbar = ({
   const { t } = useTranslation();
   const { user } = useUserInfoStore();
   const [paramsObject, setSearchParams] = useSearch();
-  console.log("user :>> ", user);
 
-  const imgUrl = React.useMemo(() => {
-    return (
-      "https://gw.jahwa.co.kr/Photo/" +
-      decodeURIComponent(getRawCookie("Photo") || "")
-    );
-  }, []);
+  // const imgUrl = React.useMemo(() => {
+  //   return (
+  //     "https://gw.jahwa.co.kr/Photo/" +
+  //     decodeURIComponent(getRawCookie("Photo") || "")
+  //   );
+  // }, []);
 
   return (
     <div
-      className={`absolute inset-0 flex w-full duration-300 ${!showNav ? "translate-x-[-100%]" : "translate-x-0"} z-[999]`}
+      className={`fixed inset-0 flex w-full duration-300 ${!showNav ? "translate-x-[-100%]" : "translate-x-0"} z-[999]`}
     >
       <div
         className={`relative left-0 top-0 z-[100] flex h-full w-96 flex-col bg-white`}
@@ -60,7 +59,7 @@ export const Navbar = ({
                 className="flex h-[62px] w-[62px] items-center justify-center rounded-full"
                 style={{
                   border: "2px solid #666",
-                  background: `url('${imgUrl}') center top / cover no-repeat`,
+                  background: `url('${user?.Photo}') center top / cover no-repeat`,
                 }}
               >
                 {/* <p className="text-3xl">A</p> */}

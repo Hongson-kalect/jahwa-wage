@@ -131,10 +131,6 @@ export async function checkCookieNSession() {
     //   "https://sso.jahwa.co.kr/Common/Util/CheckCookieNSession.aspx",
     // );
     // return !res.data;
-    console.log(
-      "This call an api or file to check cookie :>> ",
-      "Not available yet",
-    );
   }
 
   // try {

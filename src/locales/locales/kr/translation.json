@@ -234,6 +234,7 @@
     "munite": "분",
     "totalPay": "총 지급액",
     "totalDeduct": "총 공제액",
-    "totalPayment": "총 지급액"
+    "totalPayment": "총 지급액",
+    "noData": "데이터 없음"
   }
 }
