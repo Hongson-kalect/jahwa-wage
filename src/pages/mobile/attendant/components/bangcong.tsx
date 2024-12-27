@@ -20,8 +20,8 @@ export const AttendanceItem = ({ item }: { item: Attendance }) => {
     (wordShift === "day" && startTimeValue > 800) || // 8:00 is time start work
     (wordShift === "night" && (startTimeValue > 2000 || startTimeValue < 500));
   const isQuitSoon =
-    (wordShift === "day" && endTimeValue < 1700) || //17:00 is end of day shift
-    (wordShift === "night" && endTimeValue < 500); // 5:00 is end of night shift
+    (wordShift === "day" && endTimeValue < 1650) || //17:00 is end of day shift
+    (wordShift === "night" && endTimeValue < 450); // 5:00 is end of night shift
   const isOT =
     (wordShift === "day" && endTimeValue > 1750) || //+50 minute for overtime
     (wordShift === "night" && endTimeValue > 550);
@@ -81,7 +81,7 @@ export default function BangCong({ list }: IBangCongProps) {
 
   if (list?.length === 0) return <Empty description={t("common.noData")} />;
   return (
-    <div className="mt-2 rounded-lg bg-white text-center">
+    <div className="rounded-lg bg-white text-center">
       <table className="w-full text-center">
         <tbody className="w-full">
           <tr

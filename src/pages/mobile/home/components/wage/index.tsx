@@ -31,18 +31,12 @@ export interface IWageProps {
 
 export default function Wage({ wage, month }: IWageProps) {
   const { t } = useTranslation();
-  const [paramsObject, setSearchParams] = useSearch();
+  
 
   return (
-    <div onClick={() => setSearchParams({ tab: "wage" })}>
-      <div className="flex items-center gap-2">
-        <Heading1 title={t("homePage.wage")} />
-        <div className="mt-4 text-gray-500">
-          {" - " +
-            (!month ? "####" : month.slice(4, 6) + "/" + month.slice(0, 4))}
-        </div>
-      </div>
-      <div className="px-5 py-3">
+    <div className="rounded-xl bg-white p-2">
+      <div className="flex items-center gap-2"></div>
+      <div className="px-2">
         {!wage ? (
           <Skeleton active />
         ) : !wage.Table3?.length ? (

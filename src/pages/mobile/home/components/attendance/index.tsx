@@ -48,12 +48,10 @@ export default function Attendances({ attendance }: IAttendancesProps) {
     return tempAttendance;
   }, [attendance]);
   return (
-    <div>
-      <div onClick={() => setSearchParams({ tab: "attendant" })}>
-        <Heading1 title={t("homePage.attendance")} />
-      </div>
+    <div className="rounded-xl bg-white p-2">
+      <div></div>
 
-      <div className="py-3">
+      <div className="">
         {!showItem ? (
           <Skeleton active />
         ) : !showItem.length ? (

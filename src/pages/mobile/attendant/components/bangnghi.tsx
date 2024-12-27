@@ -14,7 +14,7 @@ export const DayOffItem = (props: { item: OffDate }) => {
       <td className="py-2 text-sm">
         <div className="flex items-center justify-center">
           <div
-            className={`flex h-6 w-9 items-center justify-center rounded-full text-base text-gray-500`}
+            className={`flex h-6 w-9 items-center justify-center rounded-full text-base text-gray-700`}
           >
             {item.DILIG_DT.slice(8, 10)}
             <span className="text-xs text-gray-300">
@@ -46,7 +46,7 @@ export default function BangNghi({ list }: IBangNghiProps) {
 
   if (list?.length === 0) return <Empty description={t("common.noData")} />;
   return (
-    <div className="mx-2 mt-2 rounded-lg bg-white text-center">
+    <div className="rounded-lg bg-white text-center">
       <table className="w-full text-center">
         <tbody className="w-full">
           <tr

@@ -44,12 +44,12 @@ export default function Attendants(props: IAttendantProps) {
   }, []);
 
   return (
-    <div className="h-full w-full snap-start overflow-auto">
-      <div className="flex h-full flex-col">
-        <div className="bg-white py-2">
+    <div className="h-full w-full snap-start overflow-auto bg-blue-200 p-3">
+      <div className="flex h-full flex-col rounded-xl bg-blue-100 p-3">
+        <div className="rounded-xl bg-white p-2">
           <div className="rounded-md bg-white">
             <div className="flex items-center justify-between gap-2">
-              <div className="mx-4 flex w-full justify-between rounded-md bg-white px-4 py-3 shadow-inner shadow-gray-800">
+              <div className="lex w-full justify-between rounded-xl bg-white px-4 py-2 shadow-inner shadow-gray-400">
                 <div className="flex items-center gap-3">
                   <DatePicker
                     inputReadOnly
@@ -68,13 +68,13 @@ export default function Attendants(props: IAttendantProps) {
                 </div>
               </div>
             </div>
-            <div className="mt-2 flex-1 bg-white px-3.5 py-3">
-              <div className="flex items-center gap-2 py-1">
+            <div className="flex-1 bg-white py-3">
+              {/* <div className="flex items-center gap-2 py-1">
                 <IoTimeOutline size={24} />
                 <p className="font-bold">
                   {t("attendantPage.attendanceTable")}
                 </p>
-              </div>
+              </div> */}
               {getAttendances.isLoading ? (
                 <>
                   <Skeleton className="mt-4" active />

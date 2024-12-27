@@ -3,12 +3,8 @@ import axios from "axios";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { useMobileAppStore } from "../../../store/mobile.app";
-import BangCong from "./components/bangcong";
-import ChangeDate from "./components/changeDate";
-import Overview from "./components/overview";
 import { getAttendance, getDayOff } from "./ui/api";
 import Attendants from "./ui/attendance";
-import DayOff from "./ui/dayOff";
 import { Attendance, OffDate, OffHour, OffInfo } from "./ui/interface";
 
 export interface IAttendantProps {}

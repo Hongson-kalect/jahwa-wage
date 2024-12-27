@@ -8,12 +8,13 @@ import {
   FaCalendarDays,
   FaMoneyCheckDollar,
   FaSackDollar,
+  FaSitemap,
   FaUser,
 } from "react-icons/fa6";
 import { RiComputerLine, RiLogoutBoxFill } from "react-icons/ri";
 import { AiOutlineDollar } from "react-icons/ai";
-import { MdOutlineCalendarToday } from "react-icons/md";
-import { IoCalendarOutline } from "react-icons/io5";
+import { MdOutlineCalendarToday, MdSailing } from "react-icons/md";
+import { IoCalendarOutline, IoMail } from "react-icons/io5";
 import { SlLogout } from "react-icons/sl";
 import { useUserInfoStore } from "../../../store/userinfo";
 import {
@@ -23,6 +24,8 @@ import {
 } from "react-icons/bs";
 import { PiMicrosoftOutlookLogoFill } from "react-icons/pi";
 import { useSearch } from "../../../hooks/useSearch";
+import { FaRegCalendarAlt } from "react-icons/fa";
+import { BiSolidDollarCircle } from "react-icons/bi";
 
 export interface INavBarProps {}
 
@@ -91,15 +94,16 @@ export const Navbar = ({
             <div>
               <div className="pt-2">
                 <NavItem
-                  icon={<FaMoneyCheckDollar size={26} />}
-                  title={t("sidebar.payRoll")}
+                  icon={<FaUser size={24} />}
+                  title={t("sidebar.infomation")}
                   onChange={() => {
-                    setSearchParams({ tab: "wage" });
+                    setSearchParams({ tab: "information" });
                     onClose();
                   }}
                 />
+
                 <NavItem
-                  icon={<BsFillCalendar2CheckFill size={24} />}
+                  icon={<FaRegCalendarAlt size={22} />}
                   title={t("sidebar.attendance")}
                   onChange={() => {
                     setSearchParams({ tab: "attendant" });
@@ -107,7 +111,7 @@ export const Navbar = ({
                   }}
                 />
                 <NavItem
-                  icon={<BsFillCalendar2XFill size={24} />}
+                  icon={<MdSailing size={22} />}
                   title={t("navbar.dayOff")}
                   onChange={() => {
                     setSearchParams({ tab: "day-off" });
@@ -115,10 +119,10 @@ export const Navbar = ({
                   }}
                 />
                 <NavItem
-                  icon={<FaUser size={26} />}
-                  title={t("sidebar.infomation")}
+                  icon={<BiSolidDollarCircle size={24} />}
+                  title={t("sidebar.payRoll")}
                   onChange={() => {
-                    setSearchParams({ tab: "information" });
+                    setSearchParams({ tab: "wage" });
                     onClose();
                   }}
                 />
@@ -128,11 +132,7 @@ export const Navbar = ({
                 style={{ borderTop: "1px solid #ddd" }}
               >
                 <NavItem
-                  icon={
-                    <div className="flex h-5 w-8 -skew-x-6 items-center justify-center rounded-[50%] bg-green-700 text-[11px] font-bold italic text-white">
-                      GW
-                    </div>
-                  }
+                  icon={<FaSitemap size={24} />}
                   title={t("sidebar.gw")}
                   link="https://gw.jahwa.co.kr/"
                   onChange={onClose}
@@ -140,9 +140,9 @@ export const Navbar = ({
                 <NavItem
                   icon={
                     <div className="mt-[1px] w-8">
-                      <PiMicrosoftOutlookLogoFill
-                        size={28}
-                        className="text-[#185abd]"
+                      <IoMail
+                        size={24}
+                        // className="text-[#185abd]"
                       />
                     </div>
                   }
@@ -207,16 +207,17 @@ const NavItem = (props: NavItemType) => {
 
   return (
     <div
-      className={`flex cursor-pointer items-center gap-4 px-4 py-3 ${active ? "bg-blue-600 pl-5" : ""} ${props.danger ? "bg-red-50 [&>*]:text-red-600" : ""}`}
+      className={`flex cursor-pointer items-center gap-3 px-4 py-3 ${active ? "bg-blue-600 pl-5" : ""} ${props.danger ? "bg-red-50 [&>*]:text-red-600" : ""}`}
       onClick={handlenavigate}
     >
       <div
-        className={`flex w-8 items-center ${active ? "text-white" : "text-gray-400"}`}
+        className={`flex w-6 items-center ${active ? "text-white" : "text-gray-600"}`}
       >
         {props.icon}
       </div>
       <p
-        className={`line-clamp-1 text-lg font-medium ${active ? "text-white" : "text-gray-900"}`}
+        // style={{ borderLeft: "1px solid #aaa" }}
+        className={`line-clamp-1 pl-2 text-lg font-medium ${active ? "text-white" : "text-gray-900"}`}
       >
         {props.title}
       </p>

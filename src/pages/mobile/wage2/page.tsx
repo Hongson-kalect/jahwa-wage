@@ -15,6 +15,7 @@ import { useUserInfoStore } from "../../../store/userinfo";
 import { WorkData, WorkMonth, WorkType } from "../wage-1/interface";
 import { getRawCookie } from "../../../lib/utlis";
 import { LuCalendarClock } from "react-icons/lu";
+import { HiCash } from "react-icons/hi";
 
 export interface ILuongProps {}
 
@@ -104,23 +105,11 @@ export default function WagePage2(props: ILuongProps) {
 
   return (
     <>
-      <div className="w-full">
+      <div className="w-full bg-blue-200 p-2">
         <div>
-          <div className="bg-white py-2">
-            <div className="mx-4 rounded-md bg-white px-4 py-2 shadow-inner shadow-gray-800">
-              <div className="flex items-end gap-4">
-                {/* <p className="text-sm font-medium">Họ tên</p> */}
-                {/* <div
-                  style={{
-                    border: "2px solid #979797",
-                    background: `url(${imgUrl}) center center / cover no-repeat`,
-                  }}
-                  className="h-8 w-8 rounded"
-                ></div>
-                <p className="text-lg font-medium text-gray-900">
-                  {user?.NAME}
-                </p> */}
-              </div>
+          <div className="rounded-xl bg-blue-100 p-3">
+            <div className="rounded-xl bg-white p-2 shadow-inner shadow-gray-800">
+              <div className="flex items-end gap-4"></div>
               <div className="flex items-center justify-between">
                 <div className="flex h-10 items-center justify-start gap-2">
                   {/* <p className="w-12">{t("wagePage.payRollMonth")}:</p> */}
@@ -177,214 +166,155 @@ export default function WagePage2(props: ILuongProps) {
           </div>
 
           {chitietQuery.isLoading ? (
-            <div className="mt-2 bg-white p-5">
-              <Skeleton active />
-              <Skeleton className="mt-4" active />
+            <div className="mt-2 rounded-xl bg-blue-100 p-2">
+              <div className="rounded-xl bg-white">
+                <Skeleton active />
+                <Skeleton className="mt-4" active />
+              </div>
             </div>
           ) : !chitietQuery?.data?.Table?.length ? (
-            <div className="mt-8 flex h-full flex-1 flex-col items-center justify-center rounded-lg bg-white pb-6 pt-4">
+            <div className="mt-8 flex h-full flex-1 flex-col items-center justify-center rounded-lg bg-blue-100 pb-6 pt-4">
               <Empty description={t("common.noData")} />
             </div>
           ) : (
             <>
-              <div className="mt-2 bg-white p-1.5 py-2">
-                <div className="ml-2 flex items-center gap-2 py-1">
-                  <MdOutlineCreditCard size={24} className="mt-[1px]" />
-                  <p className="font-bold text-gray-900">
-                    {t("wagePage.payRollDetail")}
-                  </p>
-                </div>
-                <div className="ml-3 bg-white pt-2 text-gray-500">
-                  <table className="w-full px-2">
-                    {/* <thead>
-                      <tr className="border-b text-lg font-medium text-blue-700">
-                        <th className="text-left text-sm">
-                          {t("common.name")}
-                        </th>
-                        <th className="text-left text-sm">
-                          {t("common.ammount")}
-                        </th>
-                      </tr>
-                    </thead> */}
-                    <tbody>
-                      {chitietQuery?.data?.Table?.map((luong, vitri) => (
-                        <tr key={vitri}>
-                          <td
-                            // style={{ borderBottom: "1px solid #eaeaea" }}
-                            className="py-1.5 text-gray-500"
-                          >
-                            {t("wage." + luong.ALLOW_CD)}
-                          </td>
-                          <td
-                            // style={{ borderBottom: "1px solid #eaeaea" }}
-                            className="text-right text-gray-500"
-                          >
-                            {luong.ALLOW}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div className="mt-2 bg-white px-1.5 py-2">
-                <div className="ml-2 flex items-center gap-2 py-1">
-                  <MdCalendarMonth size={24} className="mt-[1px]" />
-                  <p className="font-bold text-gray-900">
-                    {t("wagePage.timeCheckDetail")}
-                  </p>
-                </div>
-                <div className="rounded-md"></div>
-                <div className="ml-3 bg-white pb-2 pt-2">
-                  <table className="w-full px-2">
-                    <tbody className="">
-                      <tr className="border-b text-sm font-medium text-blue-500">
-                        {/* <td>{t("common.name")}</td> */}
-                        <td></td>
-                        <td className="pl-2 text-right">{t("common.times")}</td>
-                        <td className="pl-2 text-right">{t("common.hour")}</td>
-                        <td className="pl-2 text-right">
-                          {t("common.munite")}
-                        </td>
-                      </tr>
-                      {chitietQuery?.data?.Table1?.map((item, vitri) => {
-                        return (
-                          <tr key={vitri}>
-                            <td className="py-1.5 text-gray-500">
-                              {t("deduct." + item.DILIG_CD)}
-                            </td>
-                            <td className="pr-1 text-right text-gray-500">
-                              {item.DILIG_CNT}
-                            </td>
-                            <td className="pr-1 text-right text-gray-500">
-                              {item.DILIG_HH}
-                            </td>
-                            <td className="pr-1 text-right text-gray-500">
-                              {item.DILIG_MM}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div className="bg-white px-3 py-2">
-                <div className="ml-2 flex items-center gap-2 py-1">
-                  <MdOutlineCreditCardOff size={24} className="mt-[1px]" />
-                  <p className="font-bold text-gray-900">
-                    {t("wagePage.deductDetail")}
-                  </p>
-                </div>
-                <div className="rounded-md"></div>
-                <div className="ml-3 rounded-md bg-white pt-2">
-                  <table className="w-full">
-                    <tbody className="">
-                      {chitietQuery?.data?.Table2?.map((item, vitri) => {
-                        return (
+              <div className="mt-4 rounded-xl bg-blue-100 p-3">
+                <div className="rounded-xl bg-white p-2">
+                  <div className="ml-2 flex items-center gap-2 py-1">
+                    <HiCash size={24} className="mt-[1px]" />
+                    <p className="font-bold text-gray-900">
+                      {t("wagePage.payRollDetail")}
+                    </p>
+                  </div>
+                  <div className="ml-3 bg-white pt-2 text-gray-500">
+                    <table className="w-full px-2">
+                      <tbody>
+                        {chitietQuery?.data?.Table?.map((luong, vitri) => (
                           <tr key={vitri}>
                             <td
                               // style={{ borderBottom: "1px solid #eaeaea" }}
                               className="py-1.5 text-gray-500"
                             >
-                              {t("wage." + item.SUB_CD)}
+                              {t("wage." + luong.ALLOW_CD)}
                             </td>
                             <td
                               // style={{ borderBottom: "1px solid #eaeaea" }}
                               className="text-right text-gray-500"
                             >
-                              {item.SUB_AMT}
+                              {luong.ALLOW}
                             </td>
                           </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
 
-              <div className="bg-white px-3 py-2">
-                <div className="ml-2 flex items-center gap-2 py-1">
-                  <FaChartPie size={28} className="mt-[1px]" />
-                  <p className="text-lg font-bold uppercase text-gray-900">
-                    {t("wagePage.sumary")}
-                  </p>
+              <div className="mt-4 rounded-xl bg-blue-100 p-3">
+                <div className="rounded-xl bg-white p-2">
+                  <div className="ml-2 flex items-center gap-2 py-1">
+                    <MdCalendarMonth size={24} className="mt-[1px]" />
+                    <p className="font-bold text-gray-900">
+                      {t("wagePage.timeCheckDetail")}
+                    </p>
+                  </div>
+                  <div className="rounded-md"></div>
+                  <div className="ml-3 bg-white pb-2 pt-2">
+                    <table className="w-full px-2">
+                      <tbody className="">
+                        <tr className="border-b text-sm font-medium text-blue-500">
+                          <td></td>
+                          <td className="pl-2 text-right"></td>
+                        </tr>
+                        {chitietQuery?.data?.Table1?.map((item, vitri) => {
+                          return (
+                            <tr key={vitri}>
+                              <td className="py-1.5 text-gray-500">
+                                {t("deduct." + item.DILIG_CD)}
+                              </td>
+                              <td className="pr-1 text-right text-gray-500">
+                                {item.DILIG_HH ? item.DILIG_HH + ":" : ""}
+                                {item.DILIG_MM.toString().padStart(2, "0")}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-                <div className="rounded-md"></div>
-                <div className="ml-3 rounded-md bg-white pb-4 pt-2">
-                  <table className="w-full">
-                    <tbody className="">
-                      <tr>
-                        <td className="pt-0.5 font-medium uppercase text-gray-500">
-                          {t("common.totalPay")}
-                        </td>
-                        <td className="text-right text-green-500">
-                          {chitietQuery?.data?.Table3?.[0]?.PROV_TOT_AMT}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="pt-0.5 font-medium uppercase text-gray-500">
-                          {t("common.totalDeduct")}
-                        </td>
-                        <td className="text-right text-red-400">
-                          {chitietQuery?.data?.Table3?.[0]?.SUB_TOT_AMT}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="pt-0.5 font-medium uppercase text-gray-500">
-                          {t("common.totalPayment")}
-                        </td>
-                        <td className="text-right text-blue-700">
-                          {chitietQuery?.data?.Table3?.[0]?.REAL_PROV_AMT}
-                        </td>
-                      </tr>
-                      {/* {chitietQuery?.data?.Table3?.[0]?.map((item, vitri) => {
-                        return (
-                          <tr key={vitri}>
-                            <td
-                              // style={{ borderBottom: "1px solid #eaeaea" }}
-                              className="py-1.5 text-gray-700"
-                            >
-                              {t("wage." + item.SUB_CD)}
-                            </td>
-                            <td
-                              // style={{ borderBottom: "1px solid #eaeaea" }}
-                              className="text-right text-gray-700"
-                            >
-                              {item.SUB_AMT}
-                            </td>
-                          </tr>
-                        );
-                      })} */}
-                    </tbody>
-                  </table>
+              </div>
 
-                  {/* <table className="w-full text-center">
-                    <tbody className="">
-                      <tr className="text-sm font-medium text-blue-600">
-                        <td>{t("common.totalPay")}</td>
-                        <td>{t("common.totalDeduct")}</td>
-                        <td>{t("common.totalPayment")}</td>
-                      </tr>
-                      {chitietQuery?.data?.Table3?.map((item, vitri) => {
-                        return (
-                          <tr key={vitri}>
-                            <td className="text-green-600">
-                              {item?.PROV_TOT_AMT}
-                            </td>
-                            <td className="text-red-400">
-                              {item?.SUB_TOT_AMT}
-                            </td>
-                            <td className="font-medium">
-                              {item?.REAL_PROV_AMT}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table> */}
+              <div className="mt-4 rounded-xl bg-blue-100 p-3">
+                <div className="rounded-xl bg-white p-2">
+                  <div className="ml-2 flex items-center gap-2 py-1">
+                    <MdOutlineCreditCardOff size={24} className="mt-[1px]" />
+                    <p className="font-bold text-gray-900">
+                      {t("wagePage.deductDetail")}
+                    </p>
+                  </div>
+                  <div className="rounded-md"></div>
+                  <div className="ml-3 rounded-md bg-white pt-2">
+                    <table className="w-full">
+                      <tbody className="">
+                        {chitietQuery?.data?.Table2?.map((item, vitri) => {
+                          return (
+                            <tr key={vitri}>
+                              <td className="py-1.5 text-gray-500">
+                                {t("wage." + item.SUB_CD)}
+                              </td>
+                              <td className="text-right text-gray-500">
+                                {item.SUB_AMT}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4 rounded-xl bg-blue-100 p-3">
+                <div className="rounded-xl bg-white p-2">
+                  {/* <div className="ml-2 flex items-center gap-2 py-1">
+                    <FaChartPie size={28} className="mt-[1px]" />
+                    <p className="text-lg font-bold uppercase text-gray-900">
+                      {t("wagePage.sumary")}
+                    </p>
+                  </div> */}
+                  <div className="rounded-md"></div>
+                  <div className="ml-3 rounded-md bg-white pb-4 pt-2">
+                    <table className="w-full">
+                      <tbody className="font-bold">
+                        <tr>
+                          <td className="pt-0.5 font-medium uppercase text-gray-700">
+                            {t("common.totalPay")}
+                          </td>
+                          <td className="text-right">
+                            {chitietQuery?.data?.Table3?.[0]?.PROV_TOT_AMT}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="pt-0.5 font-medium uppercase text-gray-700">
+                            {t("common.totalDeduct")}
+                          </td>
+                          <td className="text-right">
+                            {chitietQuery?.data?.Table3?.[0]?.SUB_TOT_AMT}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="pt-0.5 font-medium uppercase text-gray-700">
+                            {t("common.totalPayment")}
+                          </td>
+                          <td className="text-right">
+                            {chitietQuery?.data?.Table3?.[0]?.REAL_PROV_AMT}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </>

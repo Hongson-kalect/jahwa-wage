@@ -10,7 +10,7 @@ import { getDayOff } from "./api";
 import { scrollToId } from "../../../../lib/utlis";
 import BangNghi from "../components/bangnghi";
 import { LuCalendarMinus } from "react-icons/lu";
-import { MdCalendarMonth } from "react-icons/md";
+import { MdCalendarMonth, MdSailing } from "react-icons/md";
 import { FaBed } from "react-icons/fa";
 
 export interface IDayOffProps {}
@@ -44,12 +44,12 @@ export default function DayOff(props: IDayOffProps) {
   }, []);
 
   return (
-    <div className="h-full w-full snap-start overflow-auto">
-      <div className="flex h-full flex-col">
-        <div className="bg-white py-2">
-          <div className="rounded-md bg-white">
+    <div className="h-full w-full snap-start overflow-auto bg-blue-200 p-3">
+      <div className="flex h-full flex-col rounded-xl bg-blue-100 p-3">
+        <div className="rounded-xl bg-white p-2">
+          <div className="rounded-xl bg-white">
             <div className="flex items-center justify-between gap-2">
-              <div className="mx-4 flex w-full justify-between rounded-md bg-white px-4 py-3 shadow-inner shadow-gray-800">
+              <div className="flex w-full justify-between rounded-md bg-white px-4 py-2 shadow-inner shadow-gray-800">
                 <div className="flex items-center gap-3">
                   {/* <p className="flex-1">{t("attendantPage.year")}:</p> */}
                   <MdCalendarMonth size={32} className="text-gray-600" />
@@ -75,17 +75,17 @@ export default function DayOff(props: IDayOffProps) {
                 </div>
 
                 <p className="flex items-center gap-2 text-lg font-medium text-gray-600">
-                  <FaBed size={24} /> {getDayOffs?.data?.Table2?.length}{" "}
+                  <MdSailing size={24} /> {getDayOffs?.data?.Table2?.length}{" "}
                   {t("common.day")}
                 </p>
               </div>
             </div>
 
-            <div className="mt-4 flex-1 bg-white px-3.5 py-2">
-              <div className="flex items-start gap-2 py-1">
+            <div className="mt-3 flex-1 bg-white">
+              {/* <div className="flex items-start gap-2 py-1">
                 <LuCalendarMinus size={22} />
                 <p className="font-bold">{t("attendantPage.leaveTable")}</p>
-              </div>
+              </div> */}
               {getDayOffs.isLoading ? (
                 <>
                   <Skeleton className="mt-4" active />

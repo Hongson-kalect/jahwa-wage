@@ -140,7 +140,7 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
         // style={{ border: "1px solid red" }}
       >
         <Header />
-        <div className="relative mt-2 flex-1 bg-white">
+        <div className="relative flex-1 bg-blue-200 pt-2">
           {renderPage()}
           {/* <Outlet /> */}
         </div>
@@ -246,9 +246,9 @@ const Header = () => {
   return (
     <>
       <div className="flex w-full flex-col">
-        <div className="flex h-14 items-center justify-between bg-white px-2 py-1 text-gray-600">
+        <div className="flex h-14 items-center justify-between bg-blue-400 px-2 py-1 text-gray-600">
           <div
-            className="ml-0.5 flex items-center gap-4"
+            className="ml-0.5 flex items-center gap-4 text-white"
             onClick={() => navigate("/")}
           >
             {activeTab && activeTab !== "home" ? (
@@ -257,11 +257,13 @@ const Header = () => {
               </div>
             ) : (
               <div
-                style={{ backgroundImage: `url(${fav})` }}
+                style={{
+                  backgroundImage: `url(${fav})`,
+                }}
                 className="ml-1.5 h-7 w-12 bg-cover bg-center"
               ></div>
             )}
-            <p className="text-lg font-bold text-black">{header}</p>
+            <p className="text-lg font-bold">{header}</p>
           </div>
 
           <div className="option flex items-center gap-1">
@@ -271,8 +273,8 @@ const Header = () => {
                   // window.open("https://outlook.office365.com/", "_blank");
                   navigate("/");
                 }}
-                size={28}
-                className="text-gray-400"
+                size={26}
+                className="text-gray-100"
               />
             </div>
             <div className="flex w-7 items-center justify-center">
@@ -287,8 +289,8 @@ const Header = () => {
                 // onClick={() => {
                 //   setShowav(true);
                 // }}
-                size={24}
-                className="text-gray-400"
+                size={22}
+                className="text-gray-100"
               />
             </div>
 
@@ -298,11 +300,11 @@ const Header = () => {
                 setSearchParams({ tab: "information" });
               }}
             >
-              <BiSolidUser size={24} className="text-gray-400" />
+              <BiSolidUser size={22} className="text-gray-100" />
             </div>
             {/* </Dropdown> */}
             {/* <div className="mt-[1px] w-8" onClick={handleLogout}>
-              <BiSolidUser size={24} className="text-gray-400" />
+              <BiSolidUser size={24} className="text-gray-300" />
             </div> */}
           </div>
           {/* <p className="text-lg font-medium uppercase">Bố Sơn Muôn Năm</p> */}

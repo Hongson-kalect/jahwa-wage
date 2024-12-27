@@ -50,10 +50,8 @@ export default function Leave({ leave }: ILeaveProps) {
   }, [leave]);
 
   return (
-    <div onClick={() => setSearchParams({ tab: "day-off" })}>
-      <Heading1 title={t("homePage.dayOff")} />
-
-      <div className="py-3">
+    <div className="rounded-xl bg-white p-2">
+      <div>
         {!showItem ? (
           <Skeleton active />
         ) : !showItem.length ? (

@@ -1,7 +1,7 @@
 {
   "sidebar": {
-    "payRoll": "Bảng lương",
-    "attendance": "Giờ chấm công",
+    "payRoll": "Dữ liệu lương",
+    "attendance": "Thời gian làm việc",
     "asset": "Quản lý tài sản",
     "logout": "Đăng xuất",
     "infomation": "Thông tin nhân sự",
@@ -11,7 +11,7 @@
   "navbar": {
     "payRoll": "Bảng lương",
     "attendance": "Chấm công",
-    "dayOff": "Phép năm",
+    "dayOff": "Thông tin phép năm",
     "infomation": "Cá nhân",
     "gw": "Phê duyệt điện tử",
     "outlook": "Đến Outlook"
