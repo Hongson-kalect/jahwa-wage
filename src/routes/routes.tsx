@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: `/`,
-        element: <WagePage2 />,
+        element: <MobileHomePage />,
         // element: <MobileHomePage />,
       },
       {
