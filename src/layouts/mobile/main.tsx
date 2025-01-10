@@ -152,96 +152,12 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
 const Header = () => {
   const [showNav, setShowav] = React.useState(false);
   const { header } = useMobileAppStore();
-  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const [paramsObject, setSearchParams] = useSearch();
   const activeTab = React.useMemo(() => {
     return paramsObject.tab || "";
   }, [paramsObject]);
-
-  const items: MenuProps["items"] = React.useMemo(() => {
-    return [
-      {
-        key: "1",
-        label: (
-          <div
-            onClick={() => {
-              setSearchParams({ tab: "information" });
-            }}
-          >
-            {t("sidebar.infomation")}
-          </div>
-        ),
-      },
-      {
-        key: "2",
-        label: (
-          <div
-            onClick={() => {
-              handleLogout();
-            }}
-            style={{
-              borderTop: "1px solid #eaeef3",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: "4px",
-              color: "red",
-              paddingTop: "4px",
-            }}
-          >
-            {t("sidebar.logout")}
-            <LuLogOut size={16} />
-          </div>
-        ),
-      },
-    ];
-  }, [t]);
-
-  const menus: MenuProps["items"] = React.useMemo(() => {
-    return [
-      {
-        key: "1",
-        label: (
-          <div
-            style={{ fontSize: "16px" }}
-            onClick={() => {
-              setSearchParams({ tab: "wage" });
-            }}
-          >
-            {t("sidebar.payRoll")}
-          </div>
-        ),
-      },
-      {
-        key: "2",
-        label: (
-          <div
-            style={{ fontSize: "16px" }}
-            onClick={() => {
-              setSearchParams({ tab: "attendant" });
-            }}
-          >
-            {t("sidebar.attendance")}
-          </div>
-        ),
-      },
-      {
-        key: "3",
-        label: (
-          <div
-            style={{ fontSize: "16px" }}
-            onClick={() => {
-              setSearchParams({ tab: "day-off" });
-            }}
-          >
-            {t("navbar.dayOff")}
-          </div>
-        ),
-      },
-    ];
-  }, [t]);
 
   return (
     <>
@@ -270,7 +186,6 @@ const Header = () => {
             <div className="flex w-7 items-center justify-center">
               <TiHome
                 onClick={() => {
-                  // window.open("https://outlook.office365.com/", "_blank");
                   navigate("/");
                 }}
                 size={26}
@@ -285,13 +200,7 @@ const Header = () => {
               className="flex w-7 items-center justify-center"
               onClick={() => setShowav(true)}
             >
-              <FaCubes
-                // onClick={() => {
-                //   setShowav(true);
-                // }}
-                size={22}
-                className="text-gray-100"
-              />
+              <FaCubes size={22} className="text-gray-100" />
             </div>
 
             <div
@@ -302,64 +211,8 @@ const Header = () => {
             >
               <BiSolidUser size={22} className="text-gray-100" />
             </div>
-            {/* </Dropdown> */}
-            {/* <div className="mt-[1px] w-8" onClick={handleLogout}>
-              <BiSolidUser size={24} className="text-gray-300" />
-            </div> */}
           </div>
-          {/* <p className="text-lg font-medium uppercase">Bố Sơn Muôn Năm</p> */}
-
-          {/* <LanguageChanger /> */}
         </div>
-
-        {/* <div className="flex h-[52px] items-center justify-between bg-gradient-to-r from-green-500 to-teal-400 px-2 py-0.5 text-sm font-bold text-slate-200"> */}
-        {/* <div className="flex h-[52px] items-center justify-between bg-gradient-to-r from-gray-500 to-gray-400 px-2 py-0.5 text-sm font-bold text-slate-200">
-          <div
-            onClick={() => {
-              setSearchParams({ tab: "wage" });
-            }}
-            className={`uppercase ${activeTab === "wage" ? "translate-y-0.5 text-white" : "opacity-70"} relative flex h-full items-center justify-center duration-300`}
-          >
-            {t("navbar.payRoll")}
-            {activeTab === "wage" && (
-              <div className="absolute bottom-0 flex h-1 w-full items-center justify-center rounded-lg bg-gray-200" />
-            )}
-          </div>
-          <div
-            onClick={() => {
-              setSearchParams({ tab: "attendant" });
-            }}
-            className={`uppercase ${activeTab === "attendant" ? "translate-y-0.5 text-white" : "opacity-70"} relative flex h-full items-center justify-center duration-300`}
-          >
-            {t("navbar.attendance")}
-            {activeTab === "attendant" && (
-              <div className="absolute bottom-0 flex h-1 w-full items-center justify-center rounded-lg bg-gray-200" />
-            )}
-          </div>
-          <div
-            onClick={() => {
-              setSearchParams({ tab: "day-off" });
-            }}
-            className={`uppercase ${activeTab === "day-off" ? "translate-y-0.5 text-white" : "opacity-70"} relative flex h-full items-center justify-center duration-300`}
-          >
-            {t("navbar.dayOff")}
-            {activeTab === "day-off" && (
-              <div className="absolute bottom-0 flex h-1 w-full items-center justify-center rounded-lg bg-gray-200" />
-            )}
-          </div>
-
-          <div
-            onClick={() => {
-              setSearchParams({ tab: "information" });
-            }}
-            className={`uppercase ${activeTab === "information" ? "translate-y-0.5 text-white" : "opacity-70"} relative flex h-full items-center justify-center duration-300`}
-          >
-            {t("navbar.infomation")}
-            {activeTab === "information" && (
-              <div className="absolute bottom-0 flex h-1 w-full items-center justify-center rounded-lg bg-gray-200" />
-            )}
-          </div>
-        </div> */}
       </div>
 
       <Navbar
