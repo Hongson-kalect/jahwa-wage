@@ -11,7 +11,7 @@ export type Attendance = {
 
 export type OffDate = {
   DILIG_DT: string;
-  DILIG_HH: number;
+  N_DILIG_HH: number;
   DILIG_NM: string;
   REMARK: string;
 };
@@ -35,7 +35,9 @@ export type OffHour = {
 export type OffInfo = {
   EMP_NO: string;
   MAX_YEAR_CNT: number;
+  USE_CNT: number;
   YEAR_PART: number;
   YEAR_SAVE: number;
   YEAR_SAVE_TOT: number;
+  YEAR_XRAY: number;
 };

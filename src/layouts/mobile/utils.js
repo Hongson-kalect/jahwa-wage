@@ -1,5 +1,3 @@
-import { httpPost } from "../../api/axios";
-
 function getCookie(c_name) {
   var i,
     x,
@@ -38,7 +36,6 @@ export function deleteCookies() {
     }
   }
 }
-
 
 export function setSessionCookie(c_name, value, domain) {
   var c_value = escape(value) + " ; domain=" + domain + ";path=/";
@@ -107,8 +104,8 @@ export async function checkCookieNSession() {
   if (getCookie("Language") == null || getCookie("Language") == "")
     setCookie("Language", strLanguage, 1, ".jahwa.co.kr");
   if (
-    getCookie("JHTokenA") == null ||
-    getCookie("JHTokenA") == "" ||
+    // getCookie("JHTokenA") == null ||
+    // getCookie("JHTokenA") == "" || // công nhân không có tokenA
     getCookie("JHTokenB") == null ||
     getCookie("JHTokenB") == "" ||
     getCookie("JHTokenC") == null ||
@@ -122,8 +119,8 @@ export async function checkCookieNSession() {
     getCookie("GWLevel") == "" ||
     getSession("EntCode") == null ||
     getSession("EntCode") == "" ||
-    getSession("DeptCode") == null ||
-    getSession("DeptCode") == "" ||
+    // getSession("DeptCode") == null ||
+    // getSession("DeptCode") == "" || Cái này hình như là bị bỏ rồi hay sao ấy
     getSession("EmpCode") == null ||
     getSession("EmpCode") == ""
   ) {

@@ -3,6 +3,8 @@ import i18n from "../locales/i18n";
 import { getRawCookie, handleLogout } from "../lib/utlis";
 
 type Props = {
+  isLoading: boolean;
+  setIsLoading: (isLoading: boolean) => void;
   device: "phone" | "pc";
   setDevice: (type: "phone" | "pc") => void;
   header: string;
@@ -30,6 +32,8 @@ export const useMobileAppStore = create<Props>((set) => {
   const entCode = mainInfoArr[0];
 
   return {
+    isLoading: false,
+    setIsLoading: (isLoading) => set({ isLoading }),
     empCode: empCode,
     setEmpCode: (id) => set({ empCode: id }),
     entCode: entCode,

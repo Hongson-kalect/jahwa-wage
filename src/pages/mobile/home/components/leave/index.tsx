@@ -50,7 +50,7 @@ export default function Leave({ leave }: ILeaveProps) {
   }, [leave]);
 
   return (
-    <div className="rounded-xl bg-white p-2">
+    <div className="rounded-xl bg-white py-2">
       <div>
         {!showItem ? (
           <Skeleton active />

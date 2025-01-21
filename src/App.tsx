@@ -18,7 +18,14 @@ export default function App(props: IAppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
-      <ToastContainer draggable />
+      <ToastContainer
+        draggable
+        position="top-right"
+        newestOnTop
+        // hideProgressBar
+        draggablePercent={50}
+        autoClose={1000}
+      />
     </QueryClientProvider>
     // <BrowserRouter>
     // <Routes>

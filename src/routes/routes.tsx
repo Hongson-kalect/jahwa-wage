@@ -1,45 +1,31 @@
 import { createBrowserRouter } from "react-router-dom";
-import { routerParams } from "../config/router";
-import MAuthLayout from "../layouts/mobile/auth";
 import MobileMainLayout from "../layouts/mobile/main";
-import Asset from "../pages/mobile/asset/asset";
-import Attendant from "../pages/mobile/attendant/attendant";
-import MSignInPage from "../pages/mobile/auth/signIn";
-import MobileHomePage from "../pages/mobile/home/home";
-import HomePageNew from "../pages/mobile/new-home/onepage";
-import MobileProfilePage from "../pages/mobile/profile/profile";
-import MobileWage1 from "../pages/mobile/wage-1/home";
-import { SpamAlert } from "./blocked_ip";
 import WagePage2 from "../pages/mobile/wage2/page";
+import MobileHomePage from "../pages/mobile/home/home";
+import Attendant from "../pages/mobile/attendant/attendant";
+import DayOffPage from "../pages/mobile/dayoff/dayOff";
 import Information from "../pages/mobile/infomation/page";
+import Asset from "../pages/mobile/asset/asset";
+import AssetCheckDetail from "../pages/mobile/assetCheckDetail/page";
+import DepartmentAssetCheck from "../pages/mobile/departmentAssetCheck/page";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <MobileMainLayout />,
-    // loader: rootLoader,
     children: [
+      { path: "/wage", element: <WagePage2 /> },
+      { path: "/attendant", element: <Attendant /> },
+      { path: "/day-off", element: <DayOffPage /> },
+      { path: "/information", element: <Information /> },
+      { path: "/asset", element: <Asset /> },
+      { path: "/asset-check/:masterId", element: <AssetCheckDetail /> },
       {
-        path: `/`,
-        element: <WagePage2 />,
-        // element: <MobileHomePage />,
+        path: "/asset-check/:masterId/:departmentId",
+        element: <DepartmentAssetCheck />,
       },
-      {
-        path: `/${routerParams.app.wage}`,
-        element: <WagePage2 />,
-      },
-      {
-        path: `/attendant`,
-        element: <Attendant />,
-      },
-      {
-        path: `/asset`,
-        element: <Asset />,
-      },
-      {
-        path: `/infomation`,
-        element: <Information />,
-      },
+      { path: "/asset/cc", element: <Asset /> },
+      { path: "/", element: <MobileHomePage /> },
     ],
   },
 ]);

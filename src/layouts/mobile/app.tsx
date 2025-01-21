@@ -1,36 +1,22 @@
 import * as React from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import MobileAppBottom from "./components/app.bottom";
-import { useUserInfoStore } from "../../store/userinfo";
-import { httpGet, httpPost } from "../../api/axios";
-import { getCookie, getRawCookie, handleLogout } from "../../lib/utlis";
-import { checkCookieNSession } from "./utils";
-import { useMobileAppStore } from "../../store/mobile.app";
+import { Outlet } from "react-router-dom";
+import CookieChecking from "./checkCookie";
 
 export interface IMobileAppLayoutProps {}
 
 export default function MobileAppLayout(props: IMobileAppLayoutProps) {
-  const { user, setUser } = useUserInfoStore();
-  const [authening, setAuthening] = React.useState(false);
-
-  getWageData();
-
-  const verifyUser = async () => {
-    setAuthening(true);
-    const result = checkCookieNSession();
-    if (result === false) {
-      handleLogout();
-    }
-
-    // await fetchUserData();
-    setAuthening(false);
-  };
+  const [authening] = React.useState(false);
 
   React.useEffect(() => {
     // verifyUser();
   }, []);
 
-  if (authening) return <div>Cheking cookie</div>;
+  if (authening)
+    return (
+      <div>
+        <CookieChecking />
+      </div>
+    );
 
   return (
     <div className="flex h-screen flex-col">

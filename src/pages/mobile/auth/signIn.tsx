@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { getCookie, setCookie } from "../../../lib/utlis";
 import { httpGet } from "../../../api/axios";
 import { toast } from "react-toastify";
+import { useMobileAppStore } from "../../../store/mobile.app";
 
 export interface IMSignInPageProps {}
 
@@ -96,6 +97,7 @@ export default function MSignInPage(props: IMSignInPageProps) {
 }
 
 const SignInForm = () => {
+  // const {setIsLoading} = useMobileAppStore()
   // const [showPass, setShowPass] = React.useState(false);
   const [username, setUsername] = React.useState(getCookie("emp") || "");
   const [password, setPassword] = React.useState("");
@@ -159,6 +161,9 @@ const SignInForm = () => {
   React.useEffect(() => {
     setCookie("server", server || "", 9999);
   }, [server]);
+
+  // React.useEffect(()=>{
+  // },[])
 
   return (
     <div className="container">

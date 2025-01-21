@@ -20,13 +20,18 @@ import { useTranslation } from "react-i18next";
 import { HiCash } from "react-icons/hi";
 import { MdCalendarMonth, MdSailing } from "react-icons/md";
 import { useSearch } from "../../../hooks/useSearch";
+import LeaveDetail from "../dayoff/components/leaveDetail";
+import { useNavigate } from "react-router-dom";
+import { getRawCookie } from "../../../lib/utlis";
 
 export default function MobileHomePage() {
-  const { user } = useUserInfoStore();
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { setHeader } = useMobileAppStore();
   const [date, setDate] = React.useState<string>(
     new Date().getFullYear() + "" + (new Date().getMonth() + 1),
   );
+  const year = useMemo(() => new Date().getFullYear(), [date]);
 
   const [paramsObject, setSearchParams] = useSearch();
 
@@ -39,15 +44,17 @@ export default function MobileHomePage() {
     return [firstDayTwoMonthsAgo, currentDate];
   }, []);
 
-  const { data: news } = useGetNews();
   const { data: wageData } = useGetWage(date, "1");
   const { data: monthData } = useGetWageTime();
-  const { data: dayOffData } = useGetDayOff(date.slice(0, 4));
+  const { data: dayOffData } = useGetDayOff(year.toString());
   const { data: attendanceData } = useQuery<{ Table: Attendance[] }>({
     queryKey: ["workData", startDate, endDate],
     queryFn: () => getAttendance(startDate, endDate),
   });
-  // const { data: attendanceData } = getAttendance(startDate, endDate);
+  const cookiesInfo = React.useMemo(() => {
+    const cookies = getRawCookie("JHInfo");
+    return decodeURIComponent(cookies || "").split("♪");
+  }, []);
 
   useEffect(() => {
     if (monthData?.Table?.[0]?.Code) {
@@ -55,13 +62,14 @@ export default function MobileHomePage() {
     }
   }, [monthData]);
 
+  useEffect(() => {
+    setHeader(cookiesInfo[0]);
+  }, [t]);
+
   return (
-    <div className="bg-blue-200 p-2">
-      <div
-        className="rounded-xl bg-blue-100 p-3"
-        onClick={() => setSearchParams({ tab: "wage" })}
-      >
-        <div className="mb-2 flex items-center gap-2 text-gray-700">
+    <div className="pl-4">
+      <div className="" onClick={() => navigate("/wage")}>
+        <div className="flex items-center gap-2 text-gray-700">
           <HiCash size={24} />
           <Heading1 title={t("homePage.wage")} />
           <div className="text-gray-500">
@@ -72,26 +80,23 @@ export default function MobileHomePage() {
         {<Wage wage={wageData} month={date} />}
       </div>
 
-      <div
-        className="mt-3 rounded-xl bg-blue-100 p-3"
-        onClick={() => setSearchParams({ tab: "attendant" })}
-      >
-        <div className="mb-2 flex items-center gap-2 text-gray-700">
+      <div className="mt-6" onClick={() => navigate("/attendant")}>
+        <div className="flex items-center gap-2 text-gray-700">
           <MdCalendarMonth size={24} />
           <Heading1 title={t("homePage.attendance")} />
         </div>
         {<Attendances attendance={attendanceData} />}
       </div>
 
-      <div
-        className="mt-3 rounded-xl bg-blue-100 p-3"
-        onClick={() => setSearchParams({ tab: "day-off" })}
-      >
-        <div className="mb-2 flex items-center gap-2 text-gray-700">
+      <div className="mt-6" onClick={() => navigate("/day-off")}>
+        <div className="flex items-center gap-2 text-gray-700">
           <MdSailing size={24} />
           <Heading1 title={t("homePage.dayOff")} />
         </div>
-        {<Leave leave={dayOffData} />}
+        {/* {<Leave leave={dayOffData} />} */}
+        <div className="px-5 pt-4">
+          {<LeaveDetail leaveInfo={dayOffData?.Table[0]} />}
+        </div>
       </div>
     </div>
   );

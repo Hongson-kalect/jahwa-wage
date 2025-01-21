@@ -21,6 +21,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
+      "/v2/api": {
+        target: "https://japi.jahwa.co.kr",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/v2\/api/, "api/"),
+      },
     },
   },
   define: {

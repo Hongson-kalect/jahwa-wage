@@ -116,3 +116,10 @@ export const handleLogout = () => {
   window.location.href =
     "https://sso.jahwa.co.kr/login.html?relayState=https://m.jahwa.co.kr";
 };
+
+export const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};

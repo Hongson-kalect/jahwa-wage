@@ -1,31 +1,16 @@
 import * as React from "react";
-import { ImCoinPound } from "react-icons/im";
-import { useNavigate } from "react-router-dom";
-import LanguageChanger from "../../../components/common/languageChange";
-import { getRawCookie, handleLogout } from "../../../lib/utlis";
 import { useTranslation } from "react-i18next";
-import {
-  FaCalendarDays,
-  FaMoneyCheckDollar,
-  FaSackDollar,
-  FaSitemap,
-  FaUser,
-} from "react-icons/fa6";
-import { RiComputerLine, RiLogoutBoxFill } from "react-icons/ri";
-import { AiOutlineDollar } from "react-icons/ai";
-import { MdOutlineCalendarToday, MdSailing } from "react-icons/md";
-import { IoCalendarOutline, IoMail } from "react-icons/io5";
-import { SlLogout } from "react-icons/sl";
-import { useUserInfoStore } from "../../../store/userinfo";
-import {
-  BsFillCalendar2CheckFill,
-  BsFillCalendar2XFill,
-  BsFillPersonCheckFill,
-} from "react-icons/bs";
-import { PiMicrosoftOutlookLogoFill } from "react-icons/pi";
-import { useSearch } from "../../../hooks/useSearch";
-import { FaRegCalendarAlt } from "react-icons/fa";
 import { BiSolidDollarCircle } from "react-icons/bi";
+import { FaRegCalendarAlt } from "react-icons/fa";
+import { FaSitemap, FaUser } from "react-icons/fa6";
+import { IoMail } from "react-icons/io5";
+import { MdSailing } from "react-icons/md";
+import { RiLogoutBoxFill } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import { useSearch } from "../../../hooks/useSearch";
+import { handleLogout } from "../../../lib/utlis";
+import { useUserInfoStore } from "../../../store/userinfo";
+import { LuPackageSearch } from "react-icons/lu";
 
 export interface INavBarProps {}
 
@@ -39,17 +24,11 @@ export const Navbar = ({
   const { t } = useTranslation();
   const { user } = useUserInfoStore();
   const [paramsObject, setSearchParams] = useSearch();
-
-  // const imgUrl = React.useMemo(() => {
-  //   return (
-  //     "https://gw.jahwa.co.kr/Photo/" +
-  //     decodeURIComponent(getRawCookie("Photo") || "")
-  //   );
-  // }, []);
+  const navigate = useNavigate();
 
   return (
     <div
-      className={`fixed inset-0 flex w-full duration-300 ${!showNav ? "translate-x-[-100%]" : "translate-x-0"} z-[999]`}
+      className={`fixed inset-0 flex w-full duration-300 ${!showNav ? "!translate-x-[-100%]" : "!translate-x-0"} z-[999]`}
     >
       <div
         className={`relative left-0 top-0 z-[100] flex h-full w-96 flex-col bg-white`}
@@ -97,7 +76,8 @@ export const Navbar = ({
                   icon={<FaUser size={24} />}
                   title={t("sidebar.infomation")}
                   onChange={() => {
-                    setSearchParams({ tab: "information" });
+                    // setSearchParams({ tab: "information" });
+                    navigate("/information");
                     onClose();
                   }}
                 />
@@ -106,7 +86,7 @@ export const Navbar = ({
                   icon={<FaRegCalendarAlt size={22} />}
                   title={t("sidebar.attendance")}
                   onChange={() => {
-                    setSearchParams({ tab: "attendant" });
+                    navigate("/attendant");
                     onClose();
                   }}
                 />
@@ -114,7 +94,7 @@ export const Navbar = ({
                   icon={<MdSailing size={22} />}
                   title={t("navbar.dayOff")}
                   onChange={() => {
-                    setSearchParams({ tab: "day-off" });
+                    navigate("/day-off");
                     onClose();
                   }}
                 />
@@ -122,7 +102,21 @@ export const Navbar = ({
                   icon={<BiSolidDollarCircle size={24} />}
                   title={t("sidebar.payRoll")}
                   onChange={() => {
-                    setSearchParams({ tab: "wage" });
+                    navigate("/wage");
+                    onClose();
+                  }}
+                />
+              </div>
+              <div
+                className="mt-2 pt-2"
+                style={{ borderTop: "1px solid #ddd" }}
+              >
+                <NavItem
+                  icon={<LuPackageSearch size={24} />}
+                  title={t("assetPage.title")}
+                  // link="https://gw.jahwa.co.kr/"
+                  onChange={() => {
+                    navigate("/asset");
                     onClose();
                   }}
                 />
@@ -211,7 +205,7 @@ const NavItem = (props: NavItemType) => {
       onClick={handlenavigate}
     >
       <div
-        className={`flex w-6 items-center ${active ? "text-white" : "text-gray-600"}`}
+        className={`flex w-6 items-center ${active ? "text-white" : "text-gray-400"}`}
       >
         {props.icon}
       </div>

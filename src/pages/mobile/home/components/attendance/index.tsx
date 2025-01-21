@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Attendance } from "../../../attendant/ui/interface";
 import Heading1 from "../_shared/heading1";
-import { Skeleton } from "antd";
+import { Empty, Skeleton } from "antd";
 import { useSearch } from "../../../../../hooks/useSearch";
 import { useTranslation } from "react-i18next";
 import { AttendanceItem } from "../../../attendant/components/bangcong";
@@ -48,14 +48,15 @@ export default function Attendances({ attendance }: IAttendancesProps) {
     return tempAttendance;
   }, [attendance]);
   return (
-    <div className="rounded-xl bg-white p-2">
+    <div className="rounded-xl bg-white py-2">
       <div></div>
 
       <div className="">
         {!showItem ? (
           <Skeleton active />
         ) : !showItem.length ? (
-          <div>Không có lịch chấm công</div>
+          // <div>Không có lịch chấm công</div>
+          <Empty description={t("common.noData")} />
         ) : (
           <table className="w-full">
             {/* <thead>

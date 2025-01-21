@@ -80,7 +80,7 @@ export default function LanguageChanger(props: ILanguageChangerProps) {
       className="h-[24px] w-[24px]"
     >
       <div className="flex items-center justify-center">
-        <FaEarthAsia size={21} className="text-gray-100" />
+        <FaEarthAsia size={21} className="text-gray-400" />
         {/* <div
           className="h-8 w-8 rounded-full shadow-inner shadow-gray-900"
           style={{

@@ -1,101 +1,131 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { DatePicker, Skeleton } from "antd";
+import dayjs, { Dayjs } from "dayjs";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
+import { FaRegCalendarCheck, FaRightLong } from "react-icons/fa6";
+import { getAttendanceRange } from "../../../services/attendance";
 import { useMobileAppStore } from "../../../store/mobile.app";
-import { getAttendance, getDayOff } from "./ui/api";
-import Attendants from "./ui/attendance";
-import { Attendance, OffDate, OffHour, OffInfo } from "./ui/interface";
+import BangCong from "./components/bangcong";
+import { Attendance } from "./ui/interface";
+import { IoIosTimer } from "react-icons/io";
+import { IoTime } from "react-icons/io5";
+import { MdOutlineAccessTime } from "react-icons/md";
 
-export interface IAttendantProps {}
-
-export default function Attendant(props: IAttendantProps) {
+export default function Attendant() {
   const { t } = useTranslation();
-  const { setHeader, empCode, entCode } = useMobileAppStore();
-  const [dayCount, setDayCount] = React.useState(0);
-  const [isYear, setIsYear] = React.useState(false);
-  const [date, setDate] = React.useState(new Date());
-  const [dayOffYear, setDayOffYear] = React.useState(
-    new Date().getFullYear().toString(),
-  );
-  const [final, setFinal] = React.useState(new Date().getFullYear().toString());
-  const offYearRef = React.useRef<HTMLInputElement | null>(null);
+  const { setHeader } = useMobileAppStore();
+  const [attendanceData, setAttendanceData] = React.useState<Attendance[]>([]);
+  const [workCount, setWorkCount] = React.useState(0);
 
-  const [months, setMonths] = React.useState<string[]>([
-    new Date().getFullYear() +
-      "-" +
-      (new Date().getMonth() + 1).toString().padStart(2, "0"),
-  ]);
-  const [thang, setThang] = React.useState(
-    new Date().getFullYear() +
-      "-" +
-      (new Date().getMonth() + 1).toString().padStart(2, "0"),
+  const [start, setStart] = React.useState<Dayjs>(
+    dayjs(`${new Date().getFullYear()}-${new Date().getMonth() + 1}`),
+  );
+  const [end, setEnd] = React.useState<Dayjs>(
+    dayjs(`${new Date().getFullYear()}-${new Date().getMonth() + 1}`).endOf(
+      "month",
+    ),
   );
 
   const getAttendances = useQuery<{ Table: Attendance[] }>({
-    queryKey: ["workData", thang],
+    queryKey: ["workData", start, end],
     queryFn: () =>
-      getAttendance(
-        date.getFullYear().toString(),
-        (date.getMonth() + 1).toString(),
-      ),
-  });
-
-  const getThang = async () => {
-    const dulieuapi = await axios.post("/api/MSelectList", {
-      DIV: "PAY_YYMM",
-      Data: thang,
-      EntCode: entCode,
-      EmpCode: empCode,
-    });
-
-    const currentMonth =
-      new Date().getFullYear() +
-      (new Date().getMonth() + 1).toString().padStart(2, "0");
-    setMonths([
-      {
-        Code: currentMonth,
-        Name: currentMonth,
-      },
-      ...dulieuapi.data.Table,
-    ]);
-  };
-
-  const currentYear = new Date().getFullYear();
-  const years = Array.from(
-    { length: currentYear - 2010 + 1 },
-    (_, index) => currentYear - index,
-  );
-
-  // const [dayOffYear, setDayOffYear] = React.useState(new Date().getFullYear());
-
-  const getDayOffs = useQuery<{
-    Table: [OffInfo];
-    Table1: [OffHour];
-    Table2: OffDate[];
-  }>({
-    queryKey: ["dayOff", final],
-    queryFn: () => getDayOff(final),
+      getAttendanceRange({
+        startDate: start.format("YYYY-MM-DD"),
+        endDate: end.format("YYYY-MM-DD"),
+      }),
   });
 
   React.useEffect(() => {
     setHeader(t("attendantPage.title1"));
-    getThang();
   }, []);
 
   React.useEffect(() => {
-    let count = 0;
-    getAttendances.data?.Table.map((item) => {
-      if (item.END_TIME) count += 1;
-    });
-    setDayCount(count);
-  }, [getAttendances?.data]);
+    if (getAttendances.data?.Table?.length) {
+      let count = 0;
+      const dateValue = ({
+        year,
+        month,
+        day,
+      }: {
+        year: number;
+        month: number;
+        day: number;
+      }) => {
+        return Number(
+          `${year}${month < 10 ? `0${month}` : month}${day < 10 ? `0${day}` : day}`,
+        );
+      };
+      const date = new Date();
+      const todayValue = dateValue({
+        year: date.getFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate(),
+      });
+
+      setAttendanceData(
+        getAttendances.data.Table.filter((item) => {
+          if (item.END_TIME) count += 1;
+          return (
+            item.END_TIME ||
+            todayValue >=
+              dateValue({
+                year: Number(item.DATE.slice(0, 4)),
+                month: Number(item.DATE.slice(5, 7)),
+                day: Number(item.DATE.slice(8, 10)),
+              })
+          );
+        }),
+      );
+
+      setWorkCount(count);
+    }
+  }, [getAttendances.data]);
 
   return (
-    <div className="h-full w-full">
-      <div className="flex h-full w-full overflow-auto">
-        <Attendants />
-        {/* <DayOff /> */}
+    <div className="w-full px-3">
+      <div className="rounded-md bg-white">
+        <div className="flex items-center justify-between gap-2">
+          <div className="w-full rounded bg-white p-2 shadow-inner shadow-gray-800">
+            <div className="flex h-10 items-center justify-center gap-3">
+              <DatePicker
+                inputReadOnly
+                allowClear={false}
+                value={start}
+                onChange={(value) => setStart(value)}
+              />
+              {/* <PiArrowArcRightThin /> */}
+              <FaRightLong color="gray" />
+
+              <DatePicker
+                inputReadOnly
+                allowClear={false}
+                value={end}
+                onChange={(value) => setEnd(value)}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="mt-6 flex items-center justify-between font-medium text-gray-500">
+          <div className="flex items-center gap-2">
+            <MdOutlineAccessTime size={24} color="#666" />
+            {t("navbar.attendance")}
+          </div>
+          <div className="flex gap-1 text-lg text-blue-600">
+            <p>{workCount}</p>
+            <FaRegCalendarCheck size={24} />
+          </div>
+        </div>
+        <div className="flex-1 bg-white pb-3 pt-2">
+          {getAttendances.isLoading ? (
+            <>
+              <Skeleton className="mt-4" active />
+              <Skeleton className="mt-4" active />
+            </>
+          ) : (
+            <BangCong list={attendanceData} />
+          )}
+        </div>
       </div>
     </div>
   );

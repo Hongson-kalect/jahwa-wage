@@ -1,38 +1,44 @@
 import axios from "axios";
 import * as React from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { BiSolidUser } from "react-icons/bi";
+import { FaAngleLeft, FaCubes } from "react-icons/fa6";
+import { TiHome } from "react-icons/ti";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import styled from "styled-components";
-import { httpGet } from "../../api/axios";
+import fav from "../../assets/images/favicon.gif";
 import LanguageChanger from "../../components/common/languageChange";
+import { useSearch } from "../../hooks/useSearch";
 import { getRawCookie, handleLogout } from "../../lib/utlis";
-import { SidebarToggle } from "../../pages/mobile/wage-1/components/sidebarToggle";
+import Attendant from "../../pages/mobile/attendant/attendant";
+import DayOffPage from "../../pages/mobile/dayoff/dayOff";
+import MobileHomePage from "../../pages/mobile/home/home";
+import Information from "../../pages/mobile/infomation/page";
+import WagePage2 from "../../pages/mobile/wage2/page";
 import { useMobileAppStore } from "../../store/mobile.app";
 import { useUserInfoStore } from "../../store/userinfo";
 import { Navbar } from "./components/nav";
 import { checkCookieNSession } from "./utils";
-import WagePage2 from "../../pages/mobile/wage2/page";
-import Attendant from "../../pages/mobile/attendant/attendant";
 import Asset from "../../pages/mobile/asset/asset";
-import Information from "../../pages/mobile/infomation/page";
-import { useSearch } from "../../hooks/useSearch";
-import DayOffPage from "../../pages/mobile/dayoff/dayOff";
-import { t } from "i18next";
-import { PiMicrosoftOutlookLogoFill } from "react-icons/pi";
-import fav from "../../assets/images/favicon.gif";
-import { LuLogOut } from "react-icons/lu";
-import { HiHome } from "react-icons/hi";
-import { FaAngleLeft, FaCubes, FaEarthAsia } from "react-icons/fa6";
-import { TiHome } from "react-icons/ti";
-import { BiSolidUser } from "react-icons/bi";
-import { Dropdown, Menu, MenuProps } from "antd";
-import { useTranslation } from "react-i18next";
-import MobileHomePage from "../../pages/mobile/home/home";
+import ScrollToTop from "../../lib/ScrollToTop";
+import Loading from "./components/loading";
+import CookieChecking from "./checkCookie";
 
 export interface IMobileMainLayoutProps {}
 
 const MainLayout = styled.div`
-  width: 100vw;
+  /* width: 100vw; */
+`;
+
+const Content = styled.div`
+  position: relative;
+  flex: 1;
+  background-color: white;
+  margin-top: 8px;
+  & * {
+    animation: fadeOn 0.2s ease-in-out;
+  }
 `;
 
 export default function MobileMainLayout(props: IMobileMainLayoutProps) {
@@ -75,7 +81,7 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
       // await fetchUserData();
       setAuthening(false);
     } catch (error) {
-      alert(JSON.stringify(error));
+      // alert(JSON.stringify(error));
     }
   };
 
@@ -89,6 +95,7 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
     if (activeTab === "attendant") return <Attendant />;
     if (activeTab === "day-off") return <DayOffPage />;
     if (activeTab === "information") return <Information />;
+    if (activeTab === "asset") return <Asset />;
     else return <MobileHomePage />;
   };
 
@@ -124,30 +131,90 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
       case "information":
         setHeader(t("infomationPage.title"));
         break;
+      case "asset":
+        setHeader(t("assetPage.title"));
+        break;
       default:
         setHeader(cookiesInfo[0]);
     }
   }, [activeTab, t]);
 
-  if (authening) return <div>Cheking cookie</div>;
+  if (authening)
+    return (
+      <div>
+        <CookieChecking />
+      </div>
+    );
 
   return (
     <MainLayout
-      className={`flex h-screen w-screen items-center justify-center ${device === "pc" ? "py-4" : ""}`}
+      className={`min-h-dvh !animate-none ${device === "pc" ? "py-4" : ""}`}
     >
-      <div
-        className="relative flex h-full w-full max-w-[500px] flex-col overflow-auto bg-white shadow shadow-gray-700"
-        // style={{ border: "1px solid red" }}
-      >
+      <div className="!animation-none relative w-full max-w-[500px] bg-white">
+        <ScrollToTop />
+        <Loading />
         <Header />
-        <div className="relative flex-1 bg-blue-200 pt-2">
-          {renderPage()}
-          {/* <Outlet /> */}
-        </div>
+        <Content>
+          <Outlet />
+        </Content>
       </div>
     </MainLayout>
   );
 }
+
+const HeaderNav = () => {
+  const navigate = useNavigate();
+  const { header } = useMobileAppStore();
+  const params = useParams();
+  const pathName = React.useMemo(() => {
+    return window.location.pathname;
+  }, [window.location.pathname]);
+
+  const isHomePage = React.useMemo(
+    () => window.location.pathname === "/",
+    [window.location.pathname],
+  );
+
+  const handleNavigate = () => {
+    const pathNameArr = pathName.split("/");
+    console.log(pathNameArr);
+    if (pathName.includes("/asset-check/")) {
+      if (pathNameArr[3])
+        // /asset-check/masterId/departmentId
+        return navigate(`asset-check/${pathNameArr[2]}`);
+      if (pathNameArr[2])
+        // /asset-check/masterId
+        return navigate(`asset`);
+    }
+    // if (pathName.includes("/asset-check/")) {
+    return navigate("/");
+    // }
+    navigate("/");
+  };
+
+  return (
+    <div
+      className="ml-0.5 flex items-center gap-4"
+      onClick={() => {
+        handleNavigate();
+      }}
+    >
+      {!(pathName === "/") ? (
+        <div>
+          <FaAngleLeft className="-mb-1 h-6 w-6" size={20} />
+        </div>
+      ) : (
+        <div
+          style={{
+            backgroundImage: `url(${fav})`,
+          }}
+          className="ml-1.5 h-7 w-12 bg-cover bg-center"
+        ></div>
+      )}
+      <p className="line-clamp-1 text-lg font-bold">{header}</p>
+    </div>
+  );
+};
 
 const Header = () => {
   const [showNav, setShowav] = React.useState(false);
@@ -161,26 +228,12 @@ const Header = () => {
 
   return (
     <>
-      <div className="flex w-full flex-col">
-        <div className="flex h-14 items-center justify-between bg-blue-400 px-2 py-1 text-gray-600">
-          <div
-            className="ml-0.5 flex items-center gap-4 text-white"
-            onClick={() => navigate("/")}
-          >
-            {activeTab && activeTab !== "home" ? (
-              <div>
-                <FaAngleLeft className="-mb-1 h-6 w-6" size={20} />
-              </div>
-            ) : (
-              <div
-                style={{
-                  backgroundImage: `url(${fav})`,
-                }}
-                className="ml-1.5 h-7 w-12 bg-cover bg-center"
-              ></div>
-            )}
-            <p className="text-lg font-bold">{header}</p>
-          </div>
+      <div
+        className="mb-4 flex w-full flex-col"
+        style={{ borderBottom: "1px solid #ddd" }}
+      >
+        <div className="flex h-14 items-center justify-between bg-white px-2 py-1 text-gray-600">
+          <HeaderNav />
 
           <div className="option flex items-center gap-1">
             <div className="flex w-7 items-center justify-center">
@@ -189,7 +242,7 @@ const Header = () => {
                   navigate("/");
                 }}
                 size={26}
-                className="text-gray-100"
+                className="text-gray-400"
               />
             </div>
             <div className="flex w-7 items-center justify-center">
@@ -200,16 +253,17 @@ const Header = () => {
               className="flex w-7 items-center justify-center"
               onClick={() => setShowav(true)}
             >
-              <FaCubes size={22} className="text-gray-100" />
+              <FaCubes size={22} className="text-gray-400" />
             </div>
 
             <div
               className="flex w-7 items-center justify-center"
               onClick={() => {
-                setSearchParams({ tab: "information" });
+                navigate("/information");
+                // setSearchParams({ tab: "information" });
               }}
             >
-              <BiSolidUser size={22} className="text-gray-100" />
+              <BiSolidUser size={22} className="text-gray-400" />
             </div>
           </div>
         </div>

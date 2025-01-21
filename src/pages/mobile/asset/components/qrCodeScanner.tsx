@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { IoMdCloseCircle } from "react-icons/io";
 
 export interface IQrCodeScannerProps {
+  pause?: number | boolean;
   onClose: (code?: string) => void;
 }
 
@@ -47,13 +48,14 @@ const StyledScanner = styled.div`
 `;
 
 export default function QrCodeScanner(props: IQrCodeScannerProps) {
-  const onScan = (result) => {
+  const pause = React.useMemo(() => props.pause, [props.pause]);
+
+  const scan = (result) => {
     if (result[0]?.rawValue) {
       props.onClose(result[0]?.rawValue);
-    } else {
-      toast.error("Invalid QR code", {});
     }
   };
+
   return (
     <div className="fixed inset-0 z-10 flex items-center justify-center">
       <div className="overlay h-full w-full bg-[#000000]"></div>
@@ -73,7 +75,9 @@ export default function QrCodeScanner(props: IQrCodeScannerProps) {
         <div>
           <Scanner
             constraints={{ facingMode: "environment" }}
-            onScan={(result) => onScan(result)}
+            paused={!!pause}
+            onScan={(result) => scan(result)}
+            // onScan={props.pause ? () => {} : (result) => onScan(result)}
           />
         </div>
         <div className="option absolute left-0 top-0 flex h-[20vh] w-full flex-col">

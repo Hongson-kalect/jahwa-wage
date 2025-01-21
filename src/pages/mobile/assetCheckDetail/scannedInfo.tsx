@@ -1,0 +1,530 @@
+import React, { useEffect, useState } from "react";
+import styled, { keyframes } from "styled-components";
+import { useTranslation } from "react-i18next";
+import { Button, Input, Select, Skeleton } from "antd";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { FaArrowLeft } from "react-icons/fa6";
+import { AssetInfoType as ScannedInfoType } from "../asset/asset";
+import useDebounce from "../../../hooks/useDebounce";
+import { checkAsset, getUsers, updateAsset } from "../../../services/asset";
+import { useMobileAppStore } from "../../../store/mobile.app";
+
+// export type ScannedInfoType = object;
+
+const slideIn = keyframes`
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+`;
+
+const slideOut = keyframes`
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+`;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100dvh;
+
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
+const ModalContent = styled.div<{ isClosing: boolean }>`
+  background: white;
+  width: 100%;
+  height: 100%;
+  animation: ${({ isClosing }) => (isClosing ? slideOut : slideIn)} 0.3s
+    forwards;
+`;
+
+const ItemInfo = ({
+  label,
+  value,
+}: {
+  label: string;
+  value: React.ReactNode;
+}) => {
+  return (
+    <div className="flex items-center justify-between gap-2 text-gray-700">
+      <div className="w-1/3 text-[13px] font-medium text-gray-500">
+        {label}:
+      </div>
+      <div className="flex-1">{value}</div>
+    </div>
+  );
+};
+
+const { Option } = Select;
+
+const ScannedInfoModal = ({
+  assetInfo,
+  isOpen,
+  onClose,
+}: {
+  assetInfo: ScannedInfoType | null;
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
+  const { t } = useTranslation();
+  const [isClosing, setIsClosing] = React.useState(false);
+  const [userQuery, setUserQuery] = React.useState("");
+  const { setIsLoading } = useMobileAppStore();
+  const [place, setPlace] = React.useState<string>("");
+  const [selectedUser, setSelectedUser] = React.useState<{
+    code: string;
+    name: string;
+  }>({ code: assetInfo?.user_cd || "", name: assetInfo?.user_nm || "" });
+  const [isInfoChange, setIsInfoChange] = useState(false);
+  const userDounce = useDebounce({ value: userQuery });
+
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsClosing(false);
+      onClose();
+    }, 300);
+  };
+
+  const { data: users, isLoading } = useQuery({
+    queryKey: ["users", userDounce],
+    queryFn: async () => await getUsers({ query: userDounce }),
+  });
+
+  const { mutate: mUpdateAsset, isPending: isPending2 } = useMutation({
+    mutationKey: ["updateAsset"],
+    mutationFn: () => {
+      return updateAsset({
+        asst_no: assetInfo?.asst_no,
+        company: assetInfo?.company,
+        setarea: place,
+        user_cd: selectedUser.code,
+      });
+    },
+    onSuccess: (data) => {
+      if (data[0]) {
+        // toast.success("Cập nhật thành công");
+        // setAssetInfo({ ...assetInfo, ...data[0] });
+      }
+    },
+    onError: () => {
+      toast.success(t("assetPage.updateFail"));
+    },
+  });
+
+  const { mutate: checkAssetMutation, isPending } = useMutation({
+    mutationKey: ["checkAsset"],
+    mutationFn: async () =>
+      await checkAsset({
+        assetInfo: {
+          ...assetInfo,
+          setarea: place,
+          user_cd: selectedUser.code,
+          user_nm: selectedUser.name,
+        },
+      }),
+    onSuccess: async () => {
+      toast.success(t("assetPage.checkSuccess"));
+      if (isInfoChange) {
+        await mUpdateAsset();
+      }
+      handleClose();
+    },
+
+    onError: () => {
+      toast.error(t("assetPage.checkFail"));
+    },
+  });
+
+  useEffect(() => {
+    assetInfo?.setarea && setPlace(assetInfo.setarea);
+    assetInfo?.user_cd &&
+      setSelectedUser({ code: assetInfo.user_cd, name: assetInfo.user_nm });
+  }, [assetInfo]);
+
+  useEffect(() => {
+    const changed =
+      place !== assetInfo?.setarea ||
+      selectedUser.code !== assetInfo.user_cd ||
+      selectedUser.name !== assetInfo.user_nm;
+    if (changed !== isInfoChange) setIsInfoChange(changed);
+  }, [place, selectedUser]);
+
+  useEffect(() => {
+    setIsLoading(isPending || isPending2);
+  }, [isPending, isPending2]);
+  if (!isOpen) return null;
+
+  return (
+    <ModalOverlay className="z-10 h-dvh w-full max-w-[500px] overflow-auto">
+      <ModalContent className="flex flex-col py-2" isClosing={isClosing}>
+        <div className="fixed inset-0 z-10">
+          <div
+            className="absolute inset-0 flex flex-col gap-1 bg-white"
+            // style={{ maxHeight: "80vh" }}
+          >
+            <div
+              className="flex items-center justify-between gap-2 bg-blue-600 p-2 text-white"
+              style={{ borderBottom: "1px solid #ddd" }}
+            >
+              <div className="flex items-center gap-2" onClick={handleClose}>
+                <FaArrowLeft size={20} />
+                <div className="line-clamp-1 text-lg font-medium">
+                  {assetInfo?.asst_no || "-"}
+                </div>
+                <p className="text-sm text-gray-300">
+                  {assetInfo?.asst_nm || "No data"}
+                </p>
+              </div>
+              <div className="flex items-center gap-1 text-sm font-medium italic">
+                <div className="flex gap-2">
+                  <Button onClick={() => checkAssetMutation()}>
+                    {isInfoChange
+                      ? t("assetPage.saveAndInspect")
+                      : t("assetPage.inspect")}
+                  </Button>
+                  {/* <FaSave
+                    className="text-yellow-300"
+                    size={24}
+                    onClick={() => mUpdateAsset()}
+                  /> */}
+                </div>
+              </div>
+            </div>
+            {!assetInfo ? null : (
+              <div className="flex-1 overflow-auto px-2">
+                <div className="flex flex-col gap-2">
+                  <p
+                    className="mt-2 font-medium text-blue-900"
+                    style={{ borderBottom: "1px solid #d0c3ff33" }}
+                  >
+                    {t("assetPage.usedInfo")}
+                  </p>
+
+                  <div className="flex flex-col gap-2 rounded-t-md px-2 py-1">
+                    <ItemInfo
+                      label={t("asset.dept")}
+                      value={
+                        <div className="text-gray-700">
+                          {assetInfo.dept_cd}
+                          <span className="text-sm text-gray-400">
+                            - {assetInfo.dept_nm}
+                          </span>
+                        </div>
+                      }
+                    />
+                    <ItemInfo
+                      label={t("asset.company")}
+                      value={
+                        <div className="text-gray-700">
+                          {assetInfo.company}
+                          <span className="text-sm text-gray-400">
+                            - {assetInfo.company_nm}
+                          </span>
+                        </div>
+                      }
+                    />
+
+                    <ItemInfo
+                      label={t("asset.account")}
+                      value={
+                        <div className="flex-1 text-gray-700">
+                          {assetInfo.acct_cd}
+                          <span className="text-sm text-gray-400">
+                            - {assetInfo.acct_nm}
+                          </span>
+                        </div>
+                      }
+                    />
+                    <ItemInfo
+                      label={t("asset.rentPlace")}
+                      value={<div>{assetInfo.send_bp_nm || "-"}</div>}
+                    />
+
+                    <div className="mt-2 flex items-center justify-between gap-2 text-gray-700">
+                      <div className="w-1/3 text-[13px] font-medium text-gray-500">
+                        {t("asset.installationPlace")}:
+                      </div>
+                      <div className="flex-1">
+                        <Input
+                          className="rounded-none border-none p-0 text-sm text-blue-600"
+                          style={{ borderBottom: "1px solid blue" }}
+                          // size="small"
+                          value={place}
+                          onChange={(e) => setPlace(e.target.value)}
+                        />
+                      </div>
+                    </div>
+
+                    <ItemInfo
+                      label={t("asset.user")}
+                      value={
+                        <Select
+                          showSearch
+                          // size="small"
+                          className="h-8 w-full rounded-none !shadow-none !outline-none [&_*]:!border-none [&_*]:p-0 [&_.ant-select-selection-placeholder]:text-blue-600"
+                          style={{ borderBottom: "1px solid blue" }}
+                          placeholder={
+                            assetInfo.user_cd + " - " + assetInfo.user_nm
+                          }
+                          onChange={(val) => setSelectedUser(JSON.parse(val))}
+                          onSearch={(val) => val && setUserQuery(val)}
+                          filterOption={false}
+                        >
+                          {isLoading ? (
+                            <Skeleton.Input active />
+                          ) : !users?.length ? (
+                            ""
+                          ) : (
+                            users.map(
+                              (
+                                user: { empCode: string; name: string },
+                                index: number,
+                              ) => {
+                                return (
+                                  <Option
+                                    key={index}
+                                    value={JSON.stringify({
+                                      code: user.empCode,
+                                      name: user.name,
+                                    })}
+                                  >
+                                    <p className="flex items-center gap-1">
+                                      <span className="text-sm">
+                                        {user.empCode}
+                                      </span>
+                                      -
+                                      <span className="opacity-60">
+                                        {user.name}
+                                      </span>
+                                    </p>
+                                  </Option>
+                                );
+                              },
+                            )
+                          )}
+                        </Select>
+                      }
+                    />
+                  </div>
+
+                  <p
+                    className="mb-1 mt-2 font-medium text-blue-900"
+                    style={{ borderBottom: "1px solid #d0c3ff33" }}
+                  >
+                    {t("assetPage.valueInfo")}
+                  </p>
+
+                  <div className="flex flex-col gap-2 px-2">
+                    <div
+                      className="flex rounded shadow-inner shadow-gray-400"
+                      style={{ border: "1px solid #e7e7e7" }}
+                    >
+                      <div
+                        className=""
+                        style={{ borderRight: "1px solid #ddd" }}
+                      >
+                        <p
+                          className="mb-2 py-1 pl-0.5 pr-2 text-center text-[13px] text-gray-500"
+                          style={{ borderBottom: "1px solid #ddd" }}
+                        >
+                          {t("asset.regDate")}
+                        </p>
+                        <p className="my-2 px-2">
+                          {assetInfo?.reg_dt?.slice(0, 10) || "-"}
+                        </p>
+                      </div>
+                      <div className="flex flex-1 flex-col">
+                        <p
+                          className="mb-2 py-1 pl-0.5 pr-2 text-center text-[13px] text-gray-500"
+                          style={{ borderBottom: "1px solid #ddd" }}
+                        >
+                          {t("asset.custBpName")}
+                        </p>
+                        <div className="text-center">
+                          <p className="line-clamp-3">{assetInfo.cust_bp_nm}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <ItemInfo
+                      label={t("asset.acqLocAmt")}
+                      value={assetInfo.acq_loc_amt || "-"}
+                    />
+                    <ItemInfo
+                      label={t("asset.resAmt")}
+                      value={assetInfo.res_amt || "-"}
+                    />
+                    <ItemInfo
+                      label={t("asset.taxFlag")}
+                      value={assetInfo.tax_flg || "-"}
+                    />
+                    <ItemInfo
+                      label={t("asset.taxEndDate")}
+                      value={assetInfo.tax_end_date || "-"}
+                    />
+                  </div>
+
+                  <div
+                    className="mt-2 flex items-center justify-between font-medium text-gray-700"
+                    style={{ borderBottom: "1px solid #d0c3ff33" }}
+                  >
+                    <p className="mt-2 font-medium text-blue-900">
+                      {t("assetPage.assetInfo")}
+                    </p>
+                    <div>
+                      <p className="text-green-600">{assetInfo.asset_state}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-4 px-2">
+                    <div
+                      className="mt-2 flex rounded shadow-inner shadow-gray-400"
+                      style={{ border: "1px solid #e7e7e7" }}
+                    >
+                      <div
+                        className=""
+                        style={{ borderRight: "1px solid #ddd" }}
+                      >
+                        <p
+                          className="mb-2 py-1 pl-0.5 pr-2 text-center text-[13px] text-gray-500"
+                          style={{ borderBottom: "1px solid #ddd" }}
+                        >
+                          CPU
+                        </p>
+                        <p className="px-2 text-center text-sm text-gray-700">
+                          {assetInfo.cpu || "-"}
+                        </p>
+                      </div>
+                      <div
+                        className=""
+                        style={{ borderRight: "1px solid #ddd" }}
+                      >
+                        <p
+                          className="mb-2 py-1 pl-0.5 pr-2 text-center text-[13px] text-gray-500"
+                          style={{ borderBottom: "1px solid #ddd" }}
+                        >
+                          RAM
+                        </p>
+                        <p className="px-2 text-sm text-gray-700">
+                          {assetInfo.ram || "-"}
+                        </p>
+                      </div>
+                      <div
+                        className="flex-1"
+                        style={{ borderRight: "1px solid #ddd" }}
+                      >
+                        <p
+                          className="mb-2 flex-1 py-1 pl-0.5 pr-2 text-center text-[13px] text-gray-500"
+                          style={{ borderBottom: "1px solid #ddd" }}
+                        >
+                          HDD
+                        </p>
+                        <p className="px-2 text-center text-sm text-gray-700">
+                          {assetInfo.hdd || "-"}
+                        </p>
+                      </div>
+                      <div>
+                        <p
+                          className="mb-2 py-1 pl-0.5 pr-2 text-center text-[13px] text-gray-500"
+                          style={{ borderBottom: "1px solid #ddd" }}
+                        >
+                          CD
+                        </p>
+                        <p className="px-2 text-center text-gray-700">
+                          {assetInfo.cd || "-"}
+                        </p>
+                      </div>
+                    </div>
+
+                    <ItemInfo
+                      label={t("asset.assetType")}
+                      value={assetInfo.asset_type || "-"}
+                    />
+                    <ItemInfo
+                      label={t("asset.maker")}
+                      value={assetInfo.maker || "-"}
+                    />
+                    <ItemInfo
+                      label={t("asset.manufacturingDate")}
+                      value={assetInfo.manufacturing_date || "-"}
+                    />
+                    <ItemInfo
+                      label={t("asset.spec")}
+                      value={assetInfo.spec || "-"}
+                    />
+                    <ItemInfo
+                      label={t("asset.serialNo")}
+                      value={assetInfo.serial_no || "-"}
+                    />
+                    <ItemInfo
+                      label={t("asset.monitor")}
+                      value={assetInfo.monitor || "-"}
+                    />
+                    <ItemInfo
+                      label={t("asset.projectNo")}
+                      value={assetInfo.project_no || "-"}
+                    />
+                    <ItemInfo label="MAC" value={assetInfo.mac_add || "-"} />
+                  </div>
+                </div>
+                {/* </div> */}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* <div className="flex-1 overflow-auto px-4">
+             <ItemInfo label="Mã công ty" value={assetInfo.company} />
+             <ItemInfo label="Tên công ty" value={assetInfo.company_nm} />
+             <ItemInfo label="Mã tài sản" value={assetInfo.asst_no} />
+             <ItemInfo label="Tên tài sản" value={assetInfo.asst_nm} />
+             <ItemInfo label="Nhưng viết hoa" value={assetInfo.v_asst_nm} />
+             <ItemInfo label="Mã bộ phận" value={assetInfo.dept_cd} />
+             <ItemInfo label="Tên bộ phận" value={assetInfo.dept_nm} />
+             <ItemInfo label="Giá mua" value={assetInfo.acq_loc_amt} />
+             <ItemInfo label="Giá trị hiện tại" value={assetInfo.res_amt} />
+             <ItemInfo label="Ngày mua" value={assetInfo.reg_dt} />
+             <ItemInfo label="MODEL" value={assetInfo.spec} />
+             <ItemInfo label="Tài khoản" value={assetInfo.acct_nm} />
+             <ItemInfo label="Nhà sản xuất" value={assetInfo.maker} />
+             <ItemInfo label="Trạng thái" value={assetInfo.asset_state} />
+             <ItemInfo label="Mã nơi lắp đặt" value={assetInfo.setareacode} />
+             <ItemInfo label="Nơi lắp đặt" value={assetInfo.setarea} />
+             <ItemInfo label="Nơi  thuê" value={assetInfo.send_bp_nm} />
+             <ItemInfo label="Mã dự án" value={assetInfo.project_no} />
+             <ItemInfo label="Nơi mua" value={assetInfo.cust_bp_nm} />
+             <ItemInfo label="Hình thức tài sản" value={assetInfo.asset_type} />
+             <ItemInfo label="Khấu trừ thuế" value={assetInfo.tax_flg} />
+             <ItemInfo label="Ngày KT trừ thuế" value={assetInfo.tax_end_date} />
+             <ItemInfo
+               label="Ngày sản xuất"
+               value={assetInfo.manufacturing_date}
+             />
+             <ItemInfo label="Số Serial" value={assetInfo.serial_no} />
+             <ItemInfo label="CPU" value={assetInfo.cpu} />
+             <ItemInfo label="RAM" value={assetInfo.ram} />
+             <ItemInfo label="HDD" value={assetInfo.hdd} />
+             <ItemInfo label="CD" value={assetInfo.cd} />
+             <ItemInfo label="MAC" value={assetInfo.mac_add} />
+             <ItemInfo label="Màn hình" value={assetInfo.monitor} />
+             <ItemInfo label="Mã người dùng" value={assetInfo.user_cd} />
+             <ItemInfo label="Tên người dùng" value={assetInfo.user_nm} />
+           </div> */}
+      </ModalContent>
+    </ModalOverlay>
+  );
+};
+
+export default ScannedInfoModal;

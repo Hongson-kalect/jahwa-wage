@@ -1,103 +1,53 @@
 import { useQuery } from "@tanstack/react-query";
 import { Empty, Skeleton } from "antd";
-import axios from "axios";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { FaChartPie, FaCodeBranch } from "react-icons/fa";
-import { FaUserTie } from "react-icons/fa6";
-import {
-  MdCalendarMonth,
-  MdOutlineCreditCard,
-  MdOutlineCreditCardOff,
-} from "react-icons/md";
-import { useMobileAppStore } from "../../../store/mobile.app";
-import { useUserInfoStore } from "../../../store/userinfo";
-import { WorkData, WorkMonth, WorkType } from "../wage-1/interface";
-import { getRawCookie } from "../../../lib/utlis";
-import { LuCalendarClock } from "react-icons/lu";
+import { FaCodeBranch } from "react-icons/fa";
 import { HiCash } from "react-icons/hi";
+import { LuCalendarClock } from "react-icons/lu";
+import { MdCalendarMonth, MdOutlineCreditCardOff } from "react-icons/md";
+import { useMobileAppStore } from "../../../store/mobile.app";
+import { WorkData, WorkMonth, WorkType } from "../wage-1/interface";
+import { getWageMonth } from "../wage-1/utils";
+import { getWageDetail, getWageType } from "../../../services/wage";
 
-export interface ILuongProps {}
-
-export default function WagePage2(props: ILuongProps) {
-  const { user } = useUserInfoStore();
-  const [loaiLuong, setLoaiLuong] = React.useState("1");
-  const [thangLuong, setThangLuong] = React.useState(
-    new Date().getFullYear().toString() + new Date().getMonth() || 12,
-  );
-
-  const imgUrl = React.useMemo(() => {
-    return (
-      "https://gw.jahwa.co.kr/Photo/" +
-      decodeURIComponent(getRawCookie("Photo") || "")
-    );
-  }, []);
-
-  const { setHeader, entCode, empCode } = useMobileAppStore();
+export default function WagePage2() {
+  const { setHeader } = useMobileAppStore();
   const { t } = useTranslation();
 
-  const phanLoaiLuong = async () => {
-    const dulieuApi = await axios.post("/api/MSelectList", {
-      DIV: "PROV_TYPE",
-      Data: thangLuong,
-      EntCode: entCode,
-      EmpCode: empCode,
-    });
-
-    return dulieuApi.data;
-  };
-
-  const chiTietChiTra = async () => {
-    const dulieuApi = await axios.post("/api/MSalaryInformation", {
-      PayYYMM: thangLuong,
-      ProvType: loaiLuong,
-      EntCode: entCode,
-      EmpCode: empCode,
-    });
-    return dulieuApi.data;
-  };
-
-  const thangluongQuery = useQuery<WorkMonth>({
-    queryKey: ["thangluong"],
-    queryFn: () => thangluong(),
+  const [wageType, setWageType] = React.useState("1");
+  const [prevMonth] = React.useState(() => {
+    const month = new Date().getMonth();
+    if (!month) return (new Date().getFullYear() - 1).toString() + "12";
+    return (
+      new Date().getFullYear().toString() + month.toString().padStart(2, "0")
+    );
   });
-  const phanloaiQuery = useQuery<WorkType>({
-    queryKey: ["phanLoaiLuong"],
-    queryFn: () => phanLoaiLuong(),
+  const [wageMonth, setWageMonth] = React.useState(() => {
+    const month = new Date().getMonth();
+    if (!month) return (new Date().getFullYear() - 1).toString() + "12";
+    return (
+      new Date().getFullYear().toString() + month.toString().padStart(2, "0")
+    );
   });
-  const chitietQuery = useQuery<WorkData>({
-    queryKey: ["chi tiet", thangLuong, loaiLuong],
-    queryFn: () => chiTietChiTra(),
+
+  const wageMonths = useQuery<WorkMonth>({
+    queryKey: ["wageMonths"],
+    queryFn: () => getWageMonth(),
   });
-  const thangluong = async () => {
-    const dulieuapi = await axios.post("/api/MSelectList", {
-      DIV: "PAY_YYMM",
-      Data: thangLuong,
-      EntCode: entCode,
-      EmpCode: empCode,
-    });
-    if (
-      !dulieuapi?.data?.Table?.find(
-        (item: { Code: string; Name: string }) => item.Code === thangLuong,
-      )
-    ) {
-      dulieuapi.data.Table = [
-        { Code: thangLuong, Name: thangLuong },
-        ...dulieuapi.data.Table,
-      ];
-    }
-    return dulieuapi.data;
-  };
-
-  React.useEffect(() => {
-    phanLoaiLuong();
-
-    thangluong();
-  }, []);
-
-  React.useEffect(() => {
-    chiTietChiTra();
-  }, [thangLuong, loaiLuong]);
+  const wageTypes = useQuery<WorkType>({
+    queryKey: ["wageTypes", wageMonth],
+    queryFn: () => getWageType({ thang: wageMonth }),
+  });
+  const wageDetail = useQuery<WorkData | null>({
+    queryKey: ["wageDetail", wageMonth, wageType, wageMonths.data],
+    queryFn: () => {
+      if (!wageMonths.data?.Table?.[0]?.Code || !wageMonth) return null;
+      if (Number(wageMonths.data?.Table?.[0].Code) < Number(wageMonth))
+        return null;
+      return getWageDetail({ wageMonth, wageType });
+    },
+  });
 
   React.useEffect(() => {
     setHeader(t("wagePage.title"));
@@ -105,24 +55,34 @@ export default function WagePage2(props: ILuongProps) {
 
   return (
     <>
-      <div className="w-full bg-blue-200 p-2">
+      <div className="w-full">
         <div>
-          <div className="rounded-xl bg-blue-100 p-3">
+          <div className="px-4">
             <div className="rounded-xl bg-white p-2 shadow-inner shadow-gray-800">
               <div className="flex items-end gap-4"></div>
               <div className="flex items-center justify-between">
                 <div className="flex h-10 items-center justify-start gap-2">
                   {/* <p className="w-12">{t("wagePage.payRollMonth")}:</p> */}
                   <LuCalendarClock size={24} className="text-gray-500" />
-                  {!thangluongQuery?.data?.Table ? (
-                    <Skeleton.Input active />
+                  {!wageMonths?.data?.Table ? (
+                    <Skeleton.Button active />
                   ) : (
                     <select
                       className="h-7 w-24 border-none px-1 font-bold text-gray-600 shadow-none outline-none duration-200"
-                      value={thangLuong}
-                      onChange={(event) => setThangLuong(event.target.value)}
+                      value={wageMonth}
+                      onChange={(event) => setWageMonth(event.target.value)}
                     >
-                      {thangluongQuery?.data?.Table?.map((item, viTri) => {
+                      {Number(prevMonth) >
+                      Number(wageMonths?.data?.Table?.[0]) ? (
+                        <option
+                          key={prevMonth}
+                          value={prevMonth}
+                          className="pl-2 text-sm font-medium text-gray-700"
+                        >
+                          {prevMonth}
+                        </option>
+                      ) : null}
+                      {wageMonths?.data?.Table?.map((item, viTri) => {
                         return (
                           <option
                             key={viTri}
@@ -138,16 +98,15 @@ export default function WagePage2(props: ILuongProps) {
                 </div>
                 <div className="flex h-10 items-center gap-2">
                   <FaCodeBranch size={24} className="text-gray-500" />
-                  {/* <p>{t("wagePage.payRollType")}:</p> */}
-                  {!phanloaiQuery.data?.Table ? (
-                    <Skeleton.Input active />
+                  {!wageTypes.data?.Table ? (
+                    <Skeleton.Button active />
                   ) : (
                     <select
                       className="h-7 w-32 border-none px-1 font-bold text-gray-600 shadow-none outline-none duration-200"
-                      value={loaiLuong}
-                      onChange={(event) => setLoaiLuong(event.target.value)}
+                      value={wageType}
+                      onChange={(event) => setWageType(event.target.value)}
                     >
-                      {phanloaiQuery.data?.Table?.map((item, viTri) => {
+                      {wageTypes.data?.Table?.map((item, viTri) => {
                         return (
                           <option
                             key={viTri}
@@ -165,20 +124,20 @@ export default function WagePage2(props: ILuongProps) {
             </div>
           </div>
 
-          {chitietQuery.isLoading ? (
-            <div className="mt-2 rounded-xl bg-blue-100 p-2">
-              <div className="rounded-xl bg-white">
+          {wageDetail.isLoading ? (
+            <div className="mt-2">
+              <div className="mt-4 rounded-xl bg-white px-4">
                 <Skeleton active />
-                <Skeleton className="mt-4" active />
+                <Skeleton className="mt-2" active />
               </div>
             </div>
-          ) : !chitietQuery?.data?.Table?.length ? (
-            <div className="mt-8 flex h-full flex-1 flex-col items-center justify-center rounded-lg bg-blue-100 pb-6 pt-4">
+          ) : !wageDetail?.data?.Table?.length ? (
+            <div className="mt-8 flex h-full flex-1 flex-col items-center justify-center rounded-lg pb-6 pt-4">
               <Empty description={t("common.noData")} />
             </div>
           ) : (
             <>
-              <div className="mt-4 rounded-xl bg-blue-100 p-3">
+              <div className="mt-2">
                 <div className="rounded-xl bg-white p-2">
                   <div className="ml-2 flex items-center gap-2 py-1">
                     <HiCash size={24} className="mt-[1px]" />
@@ -189,7 +148,7 @@ export default function WagePage2(props: ILuongProps) {
                   <div className="ml-3 bg-white pt-2 text-gray-500">
                     <table className="w-full px-2">
                       <tbody>
-                        {chitietQuery?.data?.Table?.map((luong, vitri) => (
+                        {wageDetail?.data?.Table?.map((luong, vitri) => (
                           <tr key={vitri}>
                             <td
                               // style={{ borderBottom: "1px solid #eaeaea" }}
@@ -211,7 +170,7 @@ export default function WagePage2(props: ILuongProps) {
                 </div>
               </div>
 
-              <div className="mt-4 rounded-xl bg-blue-100 p-3">
+              <div className="mt-2">
                 <div className="rounded-xl bg-white p-2">
                   <div className="ml-2 flex items-center gap-2 py-1">
                     <MdCalendarMonth size={24} className="mt-[1px]" />
@@ -225,15 +184,23 @@ export default function WagePage2(props: ILuongProps) {
                       <tbody className="">
                         <tr className="border-b text-sm font-medium text-blue-500">
                           <td></td>
-                          <td className="pl-2 text-right"></td>
+                          <td className="pl-2 text-center">
+                            {t("common.times")}
+                          </td>
+                          <td className="pl-2 text-right">
+                            {t("common.hour")}
+                          </td>
                         </tr>
-                        {chitietQuery?.data?.Table1?.map((item, vitri) => {
+                        {wageDetail?.data?.Table1?.map((item, vitri) => {
                           return (
                             <tr key={vitri}>
                               <td className="py-1.5 text-gray-500">
                                 {t("deduct." + item.DILIG_CD)}
                               </td>
-                              <td className="pr-1 text-right text-gray-500">
+                              <td className="text-center text-gray-500">
+                                {item.DILIG_CNT}
+                              </td>
+                              <td className="text-right text-gray-500">
                                 {item.DILIG_HH ? item.DILIG_HH + ":" : ""}
                                 {item.DILIG_MM.toString().padStart(2, "0")}
                               </td>
@@ -246,7 +213,7 @@ export default function WagePage2(props: ILuongProps) {
                 </div>
               </div>
 
-              <div className="mt-4 rounded-xl bg-blue-100 p-3">
+              <div className="mt-2">
                 <div className="rounded-xl bg-white p-2">
                   <div className="ml-2 flex items-center gap-2 py-1">
                     <MdOutlineCreditCardOff size={24} className="mt-[1px]" />
@@ -258,7 +225,7 @@ export default function WagePage2(props: ILuongProps) {
                   <div className="ml-3 rounded-md bg-white pt-2">
                     <table className="w-full">
                       <tbody className="">
-                        {chitietQuery?.data?.Table2?.map((item, vitri) => {
+                        {wageDetail?.data?.Table2?.map((item, vitri) => {
                           return (
                             <tr key={vitri}>
                               <td className="py-1.5 text-gray-500">
@@ -276,14 +243,8 @@ export default function WagePage2(props: ILuongProps) {
                 </div>
               </div>
 
-              <div className="mt-4 rounded-xl bg-blue-100 p-3">
+              <div className="mt-2" style={{ borderTop: "1px solid #eaeaea" }}>
                 <div className="rounded-xl bg-white p-2">
-                  {/* <div className="ml-2 flex items-center gap-2 py-1">
-                    <FaChartPie size={28} className="mt-[1px]" />
-                    <p className="text-lg font-bold uppercase text-gray-900">
-                      {t("wagePage.sumary")}
-                    </p>
-                  </div> */}
                   <div className="rounded-md"></div>
                   <div className="ml-3 rounded-md bg-white pb-4 pt-2">
                     <table className="w-full">
@@ -293,7 +254,7 @@ export default function WagePage2(props: ILuongProps) {
                             {t("common.totalPay")}
                           </td>
                           <td className="text-right">
-                            {chitietQuery?.data?.Table3?.[0]?.PROV_TOT_AMT}
+                            {wageDetail?.data?.Table3?.[0]?.PROV_TOT_AMT}
                           </td>
                         </tr>
                         <tr>
@@ -301,7 +262,7 @@ export default function WagePage2(props: ILuongProps) {
                             {t("common.totalDeduct")}
                           </td>
                           <td className="text-right">
-                            {chitietQuery?.data?.Table3?.[0]?.SUB_TOT_AMT}
+                            {wageDetail?.data?.Table3?.[0]?.SUB_TOT_AMT}
                           </td>
                         </tr>
                         <tr>
@@ -309,7 +270,7 @@ export default function WagePage2(props: ILuongProps) {
                             {t("common.totalPayment")}
                           </td>
                           <td className="text-right">
-                            {chitietQuery?.data?.Table3?.[0]?.REAL_PROV_AMT}
+                            {wageDetail?.data?.Table3?.[0]?.REAL_PROV_AMT}
                           </td>
                         </tr>
                       </tbody>

@@ -11,9 +11,7 @@ export default function Information(props: IInformationProps) {
   const { t } = useTranslation();
   const { setHeader, entCode } = useMobileAppStore();
 
-  React.useEffect(() => {
-    setHeader(t("infomationPage.title"));
-  }, [t]);
+
 
   const cookiesInfo = React.useMemo(() => {
     const cookies = getRawCookie("JHInfo");
@@ -30,9 +28,13 @@ export default function Information(props: IInformationProps) {
     );
   };
 
+  React.useEffect(() => {
+    setHeader(t("infomationPage.title"));
+  }, [t]);
+
   return (
-    <div className="bg-blue-200 p-3">
-      <div className="rounded-xl bg-blue-100 p-3">
+    <div>
+      <div>
         <div className="rounded-xl bg-white p-2">
           <Item
             title={t("infomationPage.company")}

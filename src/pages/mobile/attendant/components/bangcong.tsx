@@ -4,9 +4,7 @@ import { Attendance } from "../ui/interface";
 import { Empty } from "antd";
 import { useTranslation } from "react-i18next";
 
-export interface IBangCongProps {
-  list: Attendance[];
-}
+
 
 export const AttendanceItem = ({ item }: { item: Attendance }) => {
   const wordShift = Number(item.STRT_TIME.slice(0, 2)) <= 17 ? "day" : "night";
@@ -28,7 +26,9 @@ export const AttendanceItem = ({ item }: { item: Attendance }) => {
 
   const dateArr = item.DATE.split("-");
   const dateVal =
-    Number(dateArr[0] * 500) + Number(dateArr[1] * 40) + Number(dateArr[2]);
+    Number(dateArr?.[0] || 0 * 500) +
+    Number(dateArr?.[1] || 0 * 40) +
+    Number(dateArr[2]);
   const currentDateArr = new Date().toISOString().slice(0, 10).split("-");
   const currentDateVal =
     Number(currentDateArr[0]) * 500 +
@@ -43,9 +43,9 @@ export const AttendanceItem = ({ item }: { item: Attendance }) => {
       <td>
         <div className="flex items-center justify-center">
           <div
-            className={`flex items-end ${item.HOLI_TYPE === "H" ? "text-red-300" : "text-gray-600"} h-6 w-8 text-center`}
+            className={`flex items-end gap-0.5 ${item.HOLI_TYPE === "H" ? "text-red-300" : "text-gray-600"} h-6 w-12 justify-center`}
           >
-            <p>{item.DATE.slice(8, 10)}</p>
+            <p>{item.DATE.slice(8, 10)} </p>
             <p className="text-xs text-gray-300">
               {"/" + item.DATE.slice(5, 7)}
             </p>
@@ -68,13 +68,17 @@ export const AttendanceItem = ({ item }: { item: Attendance }) => {
         </p>
       </td>
       <td
-        className={`font-medium ${isOT ? "" : isQuitSoon ? "" : "text-sm text-gray-400"}`}
+        className={`pr-4 text-end font-medium ${isOT ? "" : isQuitSoon ? "" : "text-sm text-gray-400"}`}
       >
         {item.END_TIME}
       </td>
     </tr>
   );
 };
+
+export interface IBangCongProps {
+  list?: Attendance[];
+}
 
 export default function BangCong({ list }: IBangCongProps) {
   const { t } = useTranslation();
@@ -98,7 +102,6 @@ export default function BangCong({ list }: IBangCongProps) {
             <th className="px-2 py-1.5 font-bold">
               {t("attendantPage.finish")}
             </th>
-            {/* <th></th> */}
           </tr>
           {list &&
             list.map((item, index) => {

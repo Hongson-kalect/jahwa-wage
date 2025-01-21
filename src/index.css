@@ -2,20 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face{font-family:MalgunGothicBold;
+  src:url(MalgunGothic/bold.ttf) format("truetype");
+  font-weight:500,600,700;font-style:normal}
+  @font-face{font-family:MalgunGothicRegular;
+    src:url(MalgunGothic/regular.ttf) format("truetype");
+    font-weight:200,300,400;font-style:normal}
+
 html {
   font-size: 16px;
-  font-family: "system-ui","roboto", sans-serif, Arial, Helvetica, sans-serif;
+  font-family:"system-ui",roboto,MalgunGothicRegular,MalgunGothicBold,sans-serif,Arial,Helvetica,sans-serif
 }
 
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  /* animation: fadeOn 0.3s linear */
+  overflow-x: hidden;
+  /* animation-duration: 200; */
+  /* animation: fadeOn 0.2s linear */
+}
+
+.ant-empty-image {
+  overflow: unset;
 }
 
 .dropdown-select__control.dropdown-select__control--is-focused {
   font-size: 16px !important;
+}
+
+.text-border {
+  font-size: 40px;
+  color: white;
+  text-shadow: 
+    -1px -1px 0 #000,  
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000;
 }
 
 input[type="color"],
@@ -39,13 +62,20 @@ textarea {
 
 @keyframes fadeOn {
   0%{
-    opacity: 0;
-  }
-  50%{
     opacity: 0.2;
+    transform: translateX(12px)
   }
+  /* 90%{
+    opacity: 0.8;
+    transform: scaleX(0.98);
+  } */
+  /* 80%{
+    opacity: 0.99;
+    transform: translateX(2px)
+  } */
   100%{
     opacity: 1;
+    transform: translateX(0)
   }
 }
 
