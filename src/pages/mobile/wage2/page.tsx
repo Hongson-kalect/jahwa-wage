@@ -7,9 +7,9 @@ import { HiCash } from "react-icons/hi";
 import { LuCalendarClock } from "react-icons/lu";
 import { MdCalendarMonth, MdOutlineCreditCardOff } from "react-icons/md";
 import { useMobileAppStore } from "../../../store/mobile.app";
-import { WorkData, WorkMonth, WorkType } from "../wage-1/interface";
-import { getWageMonth } from "../wage-1/utils";
-import { getWageDetail, getWageType } from "../../../services/wage";
+// import { getWageMonth } from "../wage-1/utils";
+import { getWageDetail, getWageTime, getWageType } from "../../../services/wage";
+import { WorkData, WorkMonth, WorkType } from "./interface";
 
 export default function WagePage2() {
   const { setHeader } = useMobileAppStore();
@@ -33,7 +33,7 @@ export default function WagePage2() {
 
   const wageMonths = useQuery<WorkMonth>({
     queryKey: ["wageMonths"],
-    queryFn: () => getWageMonth(),
+    queryFn: () => getWageTime(),
   });
   const wageTypes = useQuery<WorkType>({
     queryKey: ["wageTypes", wageMonth],

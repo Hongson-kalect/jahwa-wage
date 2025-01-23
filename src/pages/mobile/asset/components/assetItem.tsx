@@ -1,5 +1,3 @@
-import * as React from "react";
-
 export interface IAssetItemProps {
   code: string;
   name: string;

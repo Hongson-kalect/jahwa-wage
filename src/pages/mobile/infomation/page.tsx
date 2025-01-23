@@ -1,17 +1,14 @@
 import * as React from "react";
+import { useTranslation } from "react-i18next";
+
+import { getRawCookie } from "../../../lib/utlis";
 import { useUserInfoStore } from "../../../store/userinfo";
 import { useMobileAppStore } from "../../../store/mobile.app";
-import { useTranslation } from "react-i18next";
-import { getRawCookie } from "../../../lib/utlis";
 
-export interface IInformationProps {}
-
-export default function Information(props: IInformationProps) {
+export default function Information() {
   const { user } = useUserInfoStore();
   const { t } = useTranslation();
-  const { setHeader, entCode } = useMobileAppStore();
-
-
+  const { setHeader } = useMobileAppStore();
 
   const cookiesInfo = React.useMemo(() => {
     const cookies = getRawCookie("JHInfo");

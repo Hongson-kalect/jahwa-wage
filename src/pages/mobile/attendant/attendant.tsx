@@ -1,16 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
-import { DatePicker, Skeleton } from "antd";
-import dayjs, { Dayjs } from "dayjs";
 import * as React from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
+import dayjs, { Dayjs } from "dayjs";
 import { FaRegCalendarCheck, FaRightLong } from "react-icons/fa6";
-import { getAttendanceRange } from "../../../services/attendance";
-import { useMobileAppStore } from "../../../store/mobile.app";
-import BangCong from "./components/bangcong";
-import { Attendance } from "./ui/interface";
-import { IoIosTimer } from "react-icons/io";
-import { IoTime } from "react-icons/io5";
 import { MdOutlineAccessTime } from "react-icons/md";
+import { DatePicker, Skeleton } from "antd";
+
+import { Attendance } from "../../../interface/attendance";
+import { useMobileAppStore } from "../../../store/mobile.app";
+import { getAttendanceRange } from "../../../services/attendance";
+import BangCong from "./components/bangcong";
 
 export default function Attendant() {
   const { t } = useTranslation();

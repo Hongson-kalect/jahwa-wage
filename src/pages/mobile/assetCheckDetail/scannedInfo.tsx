@@ -1,37 +1,15 @@
 import React, { useEffect, useState } from "react";
-import styled, { keyframes } from "styled-components";
 import { useTranslation } from "react-i18next";
-import { Button, Card, Input, Select, Skeleton, Tabs } from "antd";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 import { FaArrowLeft } from "react-icons/fa6";
-import { AssetInfoType } from "../asset/asset";
+import { toast } from "react-toastify";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import styled, { keyframes } from "styled-components";
+import { Button, Card, Input, Select, Skeleton, Tabs } from "antd";
+
 import useDebounce from "../../../hooks/useDebounce";
 import { checkAsset, getUsers, updateAsset } from "../../../services/asset";
 import { useMobileAppStore } from "../../../store/mobile.app";
-
-export type ScannedInfoType = AssetInfoType & {
-  insertUserId: string;
-  insertUserName: string;
-  insertDate: string;
-  updateUserId: string;
-  updateUserName: string;
-  updateDate: string;
-  before_spec: string;
-  before_maker: string;
-  before_asset_state: string;
-  before_setarea: string;
-  before_serial_no: string;
-  before_user_cd: string;
-  before_user_nm: string;
-  is_spec: boolean;
-  is_maker: boolean;
-  is_asset_state: boolean;
-  is_setarea: boolean;
-  is_serial_no: boolean;
-  is_user_cd: boolean;
-  masterId: string;
-};
+import { ScannedInfoType } from "../../../interface/asset";
 
 const slideIn = keyframes`
   from {
@@ -132,7 +110,7 @@ const ScannedInfoModal = ({
     },
     onSuccess: (data) => {
       if (data[0]) {
-        // toast.success("Cập nhật thành công");
+        // toast.success("Cập nhật thành công"); //hạn chế toast 2 lần
         // setAssetInfo({ ...assetInfo, ...data[0] });
       }
     },
@@ -301,20 +279,25 @@ const ScannedInfoModal = ({
                           ) : !users?.length ? (
                             ""
                           ) : (
-                            users.map((user, index: number) => (
-                              <Option
-                                key={index}
-                                value={JSON.stringify({
-                                  code: user.empCode,
-                                  name: user.name,
-                                })}
-                              >
-                                <p className="flex items-center gap-1 text-sm font-medium text-orange-600">
-                                  <span>{user.empCode}</span> -{" "}
-                                  <span>{user.name}</span>
-                                </p>
-                              </Option>
-                            ))
+                            users.map(
+                              (
+                                user: { empCode: string; name: string },
+                                index: number,
+                              ) => (
+                                <Option
+                                  key={index}
+                                  value={JSON.stringify({
+                                    code: user.empCode,
+                                    name: user.name,
+                                  })}
+                                >
+                                  <p className="flex items-center gap-1 text-sm font-medium text-orange-600">
+                                    <span>{user.empCode}</span> -{" "}
+                                    <span>{user.name}</span>
+                                  </p>
+                                </Option>
+                              ),
+                            )
                           )}
                         </Select>
                       }
@@ -375,36 +358,6 @@ const ScannedInfoModal = ({
                 </Tabs.TabPane>
                 <Tabs.TabPane tab={t("assetPage.valueInfo")} key="2">
                   <Card>
-                    {/* <div
-                      className="flex rounded shadow-inner shadow-gray-400"
-                      style={{ border: "1px solid #e7e7e7" }}
-                    >
-                      <div
-                        className=""
-                        style={{ borderRight: "1px solid #ddd" }}
-                      >
-                        <p
-                          className="mb-2 py-1 pl-0.5 pr-2 text-center text-[13px] text-gray-500"
-                          style={{ borderBottom: "1px solid #ddd" }}
-                        >
-                          {t("asset.regDate")}
-                        </p>
-                        <p className="my-2 px-2">
-                          {assetInfo?.reg_dt?.slice(0, 10) || "-"}
-                        </p>
-                      </div>
-                      <div className="flex flex-1 flex-col">
-                        <p
-                          className="mb-2 py-1 pl-0.5 pr-2 text-center text-[13px] text-gray-500"
-                          style={{ borderBottom: "1px solid #ddd" }}
-                        >
-                          {t("asset.custBpName")}
-                        </p>
-                        <div className="text-center">
-                          <p className="line-clamp-3">{assetInfo.cust_bp_nm}</p>
-                        </div>
-                      </div>
-                    </div> */}
                     <ItemInfo
                       label={t("asset.regDate")}
                       value={assetInfo?.reg_dt?.slice(0, 10) || "-"}
@@ -486,45 +439,6 @@ const ScannedInfoModal = ({
             </div>
           )}
         </div>
-        {/* </div> */}
-
-        {/* <div className="flex-1 overflow-auto px-4">
-             <ItemInfo label="Mã công ty" value={assetInfo.company} />
-             <ItemInfo label="Tên công ty" value={assetInfo.company_nm} />
-             <ItemInfo label="Mã tài sản" value={assetInfo.asst_no} />
-             <ItemInfo label="Tên tài sản" value={assetInfo.asst_nm} />
-             <ItemInfo label="Nhưng viết hoa" value={assetInfo.v_asst_nm} />
-             <ItemInfo label="Mã bộ phận" value={assetInfo.dept_cd} />
-             <ItemInfo label="Tên bộ phận" value={assetInfo.dept_nm} />
-             <ItemInfo label="Giá mua" value={assetInfo.acq_loc_amt} />
-             <ItemInfo label="Giá trị hiện tại" value={assetInfo.res_amt} />
-             <ItemInfo label="Ngày mua" value={assetInfo.reg_dt} />
-             <ItemInfo label="MODEL" value={assetInfo.spec} />
-             <ItemInfo label="Tài khoản" value={assetInfo.acct_nm} />
-             <ItemInfo label="Nhà sản xuất" value={assetInfo.maker} />
-             <ItemInfo label="Trạng thái" value={assetInfo.asset_state} />
-             <ItemInfo label="Mã nơi lắp đặt" value={assetInfo.setareacode} />
-             <ItemInfo label="Nơi lắp đặt" value={assetInfo.setarea} />
-             <ItemInfo label="Nơi  thuê" value={assetInfo.send_bp_nm} />
-             <ItemInfo label="Mã dự án" value={assetInfo.project_no} />
-             <ItemInfo label="Nơi mua" value={assetInfo.cust_bp_nm} />
-             <ItemInfo label="Hình thức tài sản" value={assetInfo.asset_type} />
-             <ItemInfo label="Khấu trừ thuế" value={assetInfo.tax_flg} />
-             <ItemInfo label="Ngày KT trừ thuế" value={assetInfo.tax_end_date} />
-             <ItemInfo
-               label="Ngày sản xuất"
-               value={assetInfo.manufacturing_date}
-             />
-             <ItemInfo label="Số Serial" value={assetInfo.serial_no} />
-             <ItemInfo label="CPU" value={assetInfo.cpu} />
-             <ItemInfo label="RAM" value={assetInfo.ram} />
-             <ItemInfo label="HDD" value={assetInfo.hdd} />
-             <ItemInfo label="CD" value={assetInfo.cd} />
-             <ItemInfo label="MAC" value={assetInfo.mac_add} />
-             <ItemInfo label="Màn hình" value={assetInfo.monitor} />
-             <ItemInfo label="Mã người dùng" value={assetInfo.user_cd} />
-             <ItemInfo label="Tên người dùng" value={assetInfo.user_nm} />
-           </div> */}
       </ModalContent>
     </ModalOverlay>
   );

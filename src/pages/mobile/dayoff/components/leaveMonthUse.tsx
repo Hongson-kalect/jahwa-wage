@@ -1,7 +1,7 @@
-import * as React from "react";
-import { OffHour } from "../../attendant/ui/interface";
-import { Skeleton } from "antd";
 import { useTranslation } from "react-i18next";
+import { Skeleton } from "antd";
+
+import { OffHour } from "../../../../interface/attendance";
 
 export interface ILeaveMonthUseProps {
   monthUsed?: OffHour;
@@ -22,12 +22,16 @@ export default function LeaveMonthUse({ monthUsed }: ILeaveMonthUseProps) {
               return (
                 <div
                   key={key}
-                  className={`${value === 0 ? "opacity-30" : ""} mt-5 text-center`}
+                  className={`${value === 0 ? "opacity-100" : ""} mt-5 text-center`}
                 >
                   <p className="text-xs text-gray-500 dark:text-gray-300">
                     {t(`dayOffPage.month`) + " " + (index + 1)}
                   </p>
-                  <p className="mt-1 font-bold">{value}</p>
+                  <p
+                    className={`mt-1 ${value ? "font-bold" : "text-gray-700"}`}
+                  >
+                    {value}
+                  </p>
                 </div>
               );
           })}

@@ -1,9 +1,7 @@
 import * as React from "react";
-import { WorkData } from "../../../wage-1/interface";
-import Heading1 from "../_shared/heading1";
-import { useSearch } from "../../../../../hooks/useSearch";
 import { Empty, Skeleton } from "antd";
 import { useTranslation } from "react-i18next";
+import { WorkData } from "../../../wage2/interface";
 
 const WageItem = ({
   title,
@@ -26,12 +24,10 @@ const WageItem = ({
 
 export interface IWageProps {
   wage: WorkData;
-  month: string;
 }
 
-export default function Wage({ wage, month }: IWageProps) {
+export default function Wage({ wage }: IWageProps) {
   const { t } = useTranslation();
-  
 
   return (
     <div className="rounded-xl bg-white p-2">

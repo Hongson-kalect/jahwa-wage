@@ -1,34 +1,26 @@
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Empty, Input, Select, Skeleton } from "antd";
 import * as React from "react";
+import { useTranslation } from "react-i18next";
+import { BiSearch } from "react-icons/bi";
+import { BsQrCode } from "react-icons/bs";
 import { useParams } from "react-router-dom";
+import useDebounce from "../../../hooks/useDebounce";
 import {
-  checkAsset,
+  AssetCheckType,
+  DepartmentAssetCheckType,
+  ScannedInfoType,
+} from "../../../interface/asset";
+import {
   getAssetCheckDetail,
   getAssetCheckInfo,
   getCheckingAssetInfo,
 } from "../../../services/asset";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { Empty, Input, Select, Skeleton } from "antd";
-import AssetCheckItem from "./assetCheckItem";
-import { BiSearch } from "react-icons/bi";
-import useDebounce from "../../../hooks/useDebounce";
-import { useTranslation } from "react-i18next";
 import { useMobileAppStore } from "../../../store/mobile.app";
 import { useUserInfoStore } from "../../../store/userinfo";
-import { AssetCheckType as AssetMasterCheckType } from "../asset/components/assetCheck";
 import QrCodeScanner from "../asset/components/qrCodeScanner";
-import { BsQrCode } from "react-icons/bs";
-import ScannedInfoDetail, { ScannedInfoType } from "./scannedInfo";
-
-export type DepartmentAssetCheckType = {
-  company: string;
-  completed_count: number;
-  dept_cd: string;
-  dept_nm: string;
-  id: number;
-  masterId: number;
-  total_count: number;
-};
-export type AssetCheckType = DepartmentAssetCheckType[];
+import AssetCheckItem from "./assetCheckItem";
+import ScannedInfoDetail from "./scannedInfo";
 
 let timeOut: NodeJS.Timeout;
 
@@ -53,12 +45,12 @@ export default function AssetCheckDetail() {
   >("all");
   const filtVal = useDebounce({ value: searchVal, delay: 500 }) as string;
 
-  const { data: AssetCheckDetail } = useQuery<AssetCheckType>({
+  const { data: AssetCheckDetail } = useQuery<DepartmentAssetCheckType[]>({
     queryKey: ["AssetCheckDetail", masterId],
     queryFn: () => getAssetCheckDetail({ masterId: masterId }),
   });
 
-  const selectedMasterQuery = useQuery<AssetMasterCheckType[]>({
+  const selectedMasterQuery = useQuery<AssetCheckType[]>({
     queryKey: ["selectedMaster", masterId],
     queryFn: () => getAssetCheckInfo({ masterId }),
   });

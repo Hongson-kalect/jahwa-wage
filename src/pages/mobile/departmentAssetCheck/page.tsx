@@ -1,62 +1,24 @@
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { getDepartmentAssetCheckDetail } from "../../../services/asset";
 import { useQuery } from "@tanstack/react-query";
-import { Empty, Input, Select, Skeleton } from "antd";
 import { BiSearch } from "react-icons/bi";
+import { Empty, Input, Select, Skeleton } from "antd";
+
 import useDebounce from "../../../hooks/useDebounce";
+import { DepartmentAssetCheckItemType } from "../../../interface/asset";
+import { useMobileAppStore } from "../../../store/mobile.app";
+import { getDepartmentAssetCheckDetail } from "../../../services/asset";
 import DepartmentAssetCheckItem from "./departmentAssetCheckItem";
 import { ModelItem } from "./modelItem";
-import { useTranslation } from "react-i18next";
-import { useMobileAppStore } from "../../../store/mobile.app";
 
-export type DepartmentAssetCheckType = {
-  id: number;
-  company: string;
-  asst_no: string;
-  asst_nm: string;
-  v_asst_nm: string;
-  dept_cd: string;
-  dept_nm: string;
-  acq_loc_amt: number;
-  res_amt: number;
-  reg_dt: string;
-  spec: string;
-  acct_cd: string;
-  acct_nm: string;
-  maker: string;
-  asset_state: string;
-  setarea: string;
-  send_bp_nm?: string;
-  project_no: string;
-  cust_bp_nm: string;
-  asset_type?: string;
-  manufacturing_date: string;
-  serial_no: string;
-  cpu: string;
-  ram: string;
-  hdd: string;
-  cd: string;
-  monitor: string;
-  user_cd: string;
-  user_nm: string;
-  mac_add: string;
-  inspection_yn: string;
-  updateUserId: string;
-  updateUserName: string;
-  updateDate: string;
-};
-export type AssetCheckType = DepartmentAssetCheckType[];
-
-export interface IAssetCheckDetailProps {}
-
-export default function DepartmentAssetCheck(props: IAssetCheckDetailProps) {
+export default function DepartmentAssetCheck() {
   const params = useParams();
   const { t } = useTranslation();
   const { setHeader } = useMobileAppStore();
   const [showPopup, setShowPopup] = React.useState(false);
   const [selectedItem, setSelectedItem] =
-    React.useState<null | DepartmentAssetCheckType>(null);
+    React.useState<null | DepartmentAssetCheckItemType>(null);
 
   const masterId = React.useMemo(() => params?.masterId, [params?.masterId]);
   const departmentId = React.useMemo(
@@ -69,11 +31,9 @@ export default function DepartmentAssetCheck(props: IAssetCheckDetailProps) {
   >("all");
   const filtVal = useDebounce({ value: searchVal, delay: 500 }) as string;
 
-  const {
-    data: departmentAssetCheck,
-    error,
-    isLoading,
-  } = useQuery<AssetCheckType>({
+  const { data: departmentAssetCheck } = useQuery<
+    DepartmentAssetCheckItemType[]
+  >({
     queryKey: ["getDepartmentAssetCheckDetail", masterId, departmentId],
     queryFn: () => getDepartmentAssetCheckDetail({ masterId, departmentId }),
   });
@@ -141,7 +101,6 @@ export default function DepartmentAssetCheck(props: IAssetCheckDetailProps) {
         <div>
           <Select
             className="w-28"
-            // defaultValue={"all"}
             value={selectFilter}
             onChange={(val) => setSelectFilter(val)}
           >
@@ -193,21 +152,6 @@ export default function DepartmentAssetCheck(props: IAssetCheckDetailProps) {
               {t("assetPage.assetInfo")}
             </h2>
             <ModelItem data={selectedItem} />
-
-            {/* <div className="options flex items-center justify-between px-4">
-              <button
-                className="mt-4 w-24 rounded-lg bg-gray-500 py-2 text-base text-white"
-                onClick={handleClosePopup}
-              >
-                {t("common.close")}
-              </button>
-              <button
-                className="mt-4 w-32 rounded-lg bg-blue-500 py-2 text-base text-white"
-                onClick={handleClosePopup}
-              >
-                {t("common.edit")}
-              </button>
-            </div> */}
           </div>
         </div>
       )}

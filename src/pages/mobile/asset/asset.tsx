@@ -1,79 +1,30 @@
 import * as React from "react";
-import { useMobileAppStore } from "../../../store/mobile.app";
-import { BsQrCode } from "react-icons/bs";
-import { FaCheck } from "react-icons/fa6";
-import QrCodeScanner from "./components/qrCodeScanner";
-import { set } from "date-fns";
 import { useTranslation } from "react-i18next";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { getAssetCheck, getAssetInfo } from "../../../services/asset";
-import { Empty, Input, Skeleton } from "antd";
-import AssetCheck, { AssetCheckType } from "./components/assetCheck";
+import { BsQrCode } from "react-icons/bs";
 import { toast } from "react-toastify";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Input } from "antd";
+
+import { AssetCheckType, AssetInfoType } from "../../../interface/asset";
+import { getAssetCheck, getAssetInfo } from "../../../services/asset";
+import { useMobileAppStore } from "../../../store/mobile.app";
+import AssetCheck from "./components/assetCheck";
 import AssetInfoModal from "./components/assetModalInfo";
+import QrCodeScanner from "./components/qrCodeScanner";
 
 export interface IAssetProps {}
 
-type ActiveTab = "search" | "check" | "dashboard";
-
-export type AssetInfoType = {
-  company: string;
-  company_nm: string;
-  asst_no: string;
-  asst_nm: string;
-  v_asst_nm: string;
-  dept_cd: string;
-  dept_nm: string;
-  acq_loc_amt: number;
-  res_amt: null | number;
-  reg_dt: string;
-  spec: string;
-  acct_cd: string;
-  acct_nm: string;
-  maker: string;
-  asset_state: string;
-  setareacode: null | string | number;
-  setarea: string;
-  send_bp_nm: null | string;
-  project_no: string;
-  cust_bp_nm: string;
-  asset_type: null | string;
-  tax_flg: null | string;
-  tax_end_date: null | string;
-  manufacturing_date: string;
-  serial_no: string;
-  cpu: string;
-  ram: string;
-  hdd: string;
-  cd: string;
-  monitor: string;
-  user_cd: string;
-  user_nm: string;
-  mac_add: string;
-  locEntCode: null | string | number;
-};
-
-export default function Asset(props: IAssetProps) {
+export default function Asset() {
   const { t } = useTranslation();
   const { entCode } = useMobileAppStore();
   const { setHeader, setIsLoading } = useMobileAppStore();
-  const [activeTab, setActiveTab] = React.useState<ActiveTab>("search");
   const [searchText, setSearchText] = React.useState("");
-  const [isShowMenu, setIsShowMenu] = React.useState(false);
   const [showQRCode, setShowQRCode] = React.useState(false);
   const [assetInfo, setAssetInfo] = React.useState<AssetInfoType | null>(null);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const html = React.useMemo<HTMLHtmlElement | null>(() => {
     return document.querySelector("html");
   }, []);
-
-  const activeTabList = React.useMemo(() => {
-    return {
-      search: t("assetPage.search"),
-      check: t("assetPage.inspect"),
-      dashboard: t("assetPage.dashboard"),
-    };
-  }, [t]);
 
   const assetChecks = useQuery<AssetCheckType[]>({
     queryKey: ["assetChecks"],
@@ -84,16 +35,11 @@ export default function Asset(props: IAssetProps) {
     setHeader(t("assetPage.title"));
   }, [t]);
 
-  const onTabChange = (tab?: ActiveTab) => {
-    tab && setActiveTab(tab);
-    setIsShowMenu(false);
-  };
-
-  const {
-    mutate: assetSearch,
-    error,
-    isPending,
-  } = useMutation<AssetInfoType[], Error, string>({
+  const { mutate: assetSearch, isPending } = useMutation<
+    AssetInfoType[],
+    Error,
+    string
+  >({
     mutationKey: ["assetSearch"],
     mutationFn: async (code) => await getAssetInfo({ code }),
     onSuccess: (data) => {
@@ -144,10 +90,7 @@ export default function Asset(props: IAssetProps) {
     >
       <div>
         <div className="flex items-start justify-between">
-          <div
-            className="ml-2 w-24 rounded-r-full bg-blue-900 px-3 py-1 text-center text-lg text-white"
-            // onClick={() => setIsShowMenu(true)}
-          >
+          <div className="ml-2 w-24 rounded-r-full bg-blue-900 px-3 py-1 text-center text-lg text-white">
             {entCode}
           </div>
           <form
@@ -200,48 +143,6 @@ export default function Asset(props: IAssetProps) {
       {/* <div className="mt-4 px-2">{activeTab === "search" && <AssetInfo />}</div> */}
       {/* <div className="mt-4 px-2">{activeTab === "search" && <AssetInfo />}</div> */}
       {/* <div className="mt-4 px-2">{activeTab === "search" && <AssetInfo />}</div> */}
-
-      {isShowMenu && (
-        <FloatMenu activeTab={activeTab} onClose={(tab) => onTabChange(tab)} />
-      )}
     </div>
   );
 }
-
-const FloatMenu = ({
-  activeTab,
-  onClose,
-}: {
-  activeTab: ActiveTab;
-  onClose: (tab?: ActiveTab) => void;
-}) => {
-  const { t } = useTranslation();
-  return (
-    <div className="fixed inset-0 z-10">
-      <div
-        className="overlay h-full w-full bg-[#000000bb]"
-        onClick={() => onClose()}
-      ></div>
-      <div className="content absolute right-0 top-40 flex flex-col gap-6">
-        <div
-          onClick={() => onClose("search")}
-          className={`float-left w-32 rounded-l-full px-4 py-2 text-lg ${activeTab === "search" ? "sha bg-blue-600 text-white" : "bg-white"}`}
-        >
-          <p className="text-right font-medium">{t("assetPage.search")}</p>
-        </div>
-        <div
-          onClick={() => onClose("check")}
-          className={`float-left w-32 rounded-l-full px-4 py-2 text-lg ${activeTab === "check" ? "bg-blue-600 text-white" : "bg-white"}`}
-        >
-          <p className="text-right font-medium">{t("assetPage.inspect")}</p>
-        </div>
-        <div
-          onClick={() => onClose("dashboard")}
-          className={`float-left w-32 rounded-l-full px-4 py-2 text-lg ${activeTab === "dashboard" ? "bg-blue-600 text-white" : "bg-white"}`}
-        >
-          <p className="text-right font-medium">{t("assetPage.dashboard")}</p>
-        </div>
-      </div>
-    </div>
-  );
-};

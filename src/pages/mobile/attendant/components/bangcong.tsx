@@ -1,10 +1,7 @@
-import { t } from "i18next";
-import * as React from "react";
-import { Attendance } from "../ui/interface";
-import { Empty } from "antd";
 import { useTranslation } from "react-i18next";
-
-
+import { t } from "i18next";
+import { Empty } from "antd";
+import { Attendance } from "../../../../interface/attendance";
 
 export const AttendanceItem = ({ item }: { item: Attendance }) => {
   const wordShift = Number(item.STRT_TIME.slice(0, 2)) <= 17 ? "day" : "night";

@@ -1,28 +1,20 @@
 import React, { useEffect, useMemo } from "react";
-import { useMobileAppStore } from "../../../store/mobile.app";
-import { useUserInfoStore } from "../../../store/userinfo";
-import {
-  useGetDayOff,
-  useGetNews,
-  useGetWage,
-  useGetWageTime,
-} from "./queries";
-import News from "./components/news";
-import Wage from "./components/wage";
-import Leave from "./components/leave";
-import Attendances from "./components/attendance";
+import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
-import { getAttendance } from "../attendant/ui/api";
-import { Attendance } from "../attendant/ui/interface";
-import { useQuery } from "@tanstack/react-query";
-import Heading1 from "./components/_shared/heading1";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
 import { HiCash } from "react-icons/hi";
 import { MdCalendarMonth, MdSailing } from "react-icons/md";
-import { useSearch } from "../../../hooks/useSearch";
-import LeaveDetail from "../dayoff/components/leaveDetail";
-import { useNavigate } from "react-router-dom";
+
+import { useMobileAppStore } from "../../../store/mobile.app";
+import { Attendance } from "../../../interface/attendance";
+import { useGetDayOff, useGetWage, useGetWageTime } from "./queries";
+import { getAttendanceRange } from "../../../services/attendance";
 import { getRawCookie } from "../../../lib/utlis";
+import Wage from "./components/wage";
+import Attendances from "./components/attendance";
+import Heading1 from "./components/_shared/heading1";
+import LeaveDetail from "../dayoff/components/leaveDetail";
 
 export default function MobileHomePage() {
   const { t } = useTranslation();
@@ -32,8 +24,6 @@ export default function MobileHomePage() {
     new Date().getFullYear() + "" + (new Date().getMonth() + 1),
   );
   const year = useMemo(() => new Date().getFullYear(), [date]);
-
-  const [paramsObject, setSearchParams] = useSearch();
 
   const [startDate, endDate] = useMemo(() => {
     const currentDate = dayjs().format("YYYY-MM-DD");
@@ -49,7 +39,7 @@ export default function MobileHomePage() {
   const { data: dayOffData } = useGetDayOff(year.toString());
   const { data: attendanceData } = useQuery<{ Table: Attendance[] }>({
     queryKey: ["workData", startDate, endDate],
-    queryFn: () => getAttendance(startDate, endDate),
+    queryFn: () => getAttendanceRange({ startDate, endDate }),
   });
   const cookiesInfo = React.useMemo(() => {
     const cookies = getRawCookie("JHInfo");
@@ -77,7 +67,7 @@ export default function MobileHomePage() {
               (!date ? "####" : date.slice(4, 6) + "/" + date.slice(0, 4))}
           </div>
         </div>
-        {<Wage wage={wageData} month={date} />}
+        {<Wage wage={wageData} />}
       </div>
 
       <div className="mt-6" onClick={() => navigate("/attendant")}>

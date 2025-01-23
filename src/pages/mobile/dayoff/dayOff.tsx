@@ -1,17 +1,18 @@
-import { useQuery } from "@tanstack/react-query";
-import { Skeleton } from "antd";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
+import { IoCalendarOutline } from "react-icons/io5";
+import { LuCalendarMinus } from "react-icons/lu";
+import { RiFileListLine } from "react-icons/ri";
 import { MdCalendarMonth, MdSailing } from "react-icons/md";
+import { Skeleton } from "antd";
+
+import { OffDate, OffHour, OffInfo } from "../../../interface/attendance";
 import { useMobileAppStore } from "../../../store/mobile.app";
-import { OffDate, OffHour, OffInfo } from "../attendant/ui/interface";
 import { getDayOff } from "../../../services/leave";
 import BangNghi from "../attendant/components/bangnghi";
 import LeaveDetail from "./components/leaveDetail";
 import LeaveMonthUse from "./components/leaveMonthUse";
-import { IoCalendarOutline } from "react-icons/io5";
-import { LuCalendarMinus } from "react-icons/lu";
-import { RiFileList3Fill, RiFileListLine } from "react-icons/ri";
 
 export default function DayOffPage() {
   const { t } = useTranslation();

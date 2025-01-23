@@ -1,7 +1,7 @@
 import * as React from "react";
-import { OffDate } from "../ui/interface";
-import { Empty } from "antd";
 import { useTranslation } from "react-i18next";
+import { Empty } from "antd";
+import { OffDate } from "../../../../interface/attendance";
 
 export interface IBangNghiProps {
   list: OffDate[];
@@ -27,7 +27,7 @@ export const DayOffItem = (props: { item: OffDate }) => {
         <div className="flex items-center justify-center">
           <div className={`h-6 w-8 text-center`}>
             {item.N_DILIG_HH}
-            <span className="font-normal text-gray-400">H</span>
+            <span className="font-normal text-gray-400"></span>
           </div>
         </div>
       </td>

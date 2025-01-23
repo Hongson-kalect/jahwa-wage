@@ -1,9 +1,7 @@
-import * as React from "react";
-import Heading1 from "../_shared/heading1";
-import { Skeleton } from "antd";
-import { useSearch } from "../../../../../hooks/useSearch";
-import { use } from "i18next";
 import { useTranslation } from "react-i18next";
+import { Skeleton } from "antd";
+
+import Heading1 from "../_shared/heading1";
 
 const NewsItem = ({ title, content }: { title: string; content: string }) => {
   return (
@@ -19,7 +17,6 @@ export interface INewsProps {
 
 export default function News({ news }: INewsProps) {
   const { t } = useTranslation();
-  const [paramsObject, setSearchParams] = useSearch();
 
   return (
     <div>

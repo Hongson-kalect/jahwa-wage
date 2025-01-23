@@ -1,34 +1,9 @@
-import { Empty, Skeleton } from "antd";
 import * as React from "react";
+import { Empty, Skeleton } from "antd";
+
 import AssetCheckItem from "./assetCheckItem";
-import { useUserInfoStore } from "../../../../../store/userinfo";
 import { useMobileAppStore } from "../../../../../store/mobile.app";
-
-export type CheckMasterType = {
-  id: number;
-  company: string;
-  subject: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  state: boolean;
-  insertUserId: string;
-  insertDate: string;
-  insertUserName: string;
-  updateUserId: string;
-  updateUserName: string;
-  updateDate: string;
-  facility: boolean;
-  subsidy: boolean;
-};
-
-export type AssetCheckType = {
-  id: number;
-  total_count: number;
-  completed_count: number;
-  masterId: number;
-  master: CheckMasterType;
-};
+import { AssetCheckType } from "../../../../../interface/asset";
 
 export interface IAssetCheckProps {
   assets?: AssetCheckType[];

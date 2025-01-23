@@ -1,7 +1,8 @@
 import * as React from "react";
-import { DepartmentAssetCheckType } from "./page";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+
+import { DepartmentAssetCheckType } from "../../../interface/asset";
 
 export interface IAssetCheckItemProps {
   data: DepartmentAssetCheckType;
@@ -52,14 +53,6 @@ export default function AssetCheckItem({ data }: IAssetCheckItemProps) {
           </div>
         </div>
       </div>
-      {/* <div className="flex items-center gap-2">
-        <p
-          className={`text-xs ${completed ? "text-gray-100" : "text-gray-400"}`}
-        >
-          {t("assetPage.rate")}:
-        </p>
-        <div>{progress}</div>
-      </div> */}
     </div>
   );
 }

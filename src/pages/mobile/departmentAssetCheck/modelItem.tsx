@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { DepartmentAssetCheckType } from "./page";
+import { DepartmentAssetCheckItemType } from "../../../interface/asset";
 
 const ItemInfo = ({
   title,
@@ -18,53 +18,11 @@ const ItemInfo = ({
   );
 };
 
-const showTitle = {
-  id: false,
-  company: true,
-  asst_no: true,
-  asst_nm: true,
-  v_asst_nm: true,
-  dept_cd: true,
-  dept_nm: true,
-  acq_loc_amt: false,
-  res_amt: false,
-  reg_dt: false,
-  spec: true,
-  acct_cd: true,
-  acct_nm: true,
-  maker: true,
-  asset_state: true,
-  setarea: true,
-  send_bp_nm: true,
-  project_no: true,
-  cust_bp_nm: false,
-  asset_type: false,
-  manufacturing_date: true,
-  serial_no: true,
-  cpu: true,
-  ram: true,
-  hdd: true,
-  cd: true,
-  monitor: true,
-  user_cd: true,
-  user_nm: true,
-  mac_add: true,
-  inspection_yn: true,
-  updateUserId: false,
-  updateUserName: false,
-  updateDate: false,
-};
-
-export function ModelItem({ data }: { data: DepartmentAssetCheckType }) {
+export function ModelItem({ data }: { data: DepartmentAssetCheckItemType }) {
   const { t } = useTranslation();
   return (
     <div className="text-sm">
       <div className="h-[60vh] overflow-auto px-4">
-        {/* {Object.entries(showTitle).map(([key, value]) => {
-          if (!value) return;
-
-          return <ItemInfo key={key} title={key} value={data[key]} />;
-        })} */}
         <ItemInfo title={t("asset.company")} value={data.company} />
         <ItemInfo title={t("asset.asstNo")} value={data.asst_no} />
         <ItemInfo title={t("asset.asstName")} value={data.asst_nm} />
@@ -99,10 +57,6 @@ export function ModelItem({ data }: { data: DepartmentAssetCheckType }) {
         <ItemInfo title={t("asset.macAddress")} value={data.mac_add} />
         {/* <ItemInfo title={t("asset.company")} value={data.inspection_yn} /> */}
       </div>
-
-      {/* {Object.entries(data).map(([key, value]) => (
-        <ItemInfo key={key} title={key} value={value} />
-      ))} */}
     </div>
   );
 }

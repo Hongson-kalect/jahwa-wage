@@ -1,15 +1,8 @@
 import axios from "axios";
-import { httpPost } from "../../../api/axios";
-import {
-  HomeDataType,
-  WorkBonus,
-  WorkDate,
-  WorkDeduct,
-  WorkShift,
-  WorkTime,
-} from "./interface";
 import { useMobileAppStore as userInfo } from "../../../store/mobile.app";
 import dayjs from "dayjs";
+
+//Vì sao lại tách riêng api của home hoặc đơn giản hơn là dùng api của các trang khác ư? Lười sửa lại đó :V
 
 export const getNews = async () => {
   // const res = await httpPost("/api/news/get-news");

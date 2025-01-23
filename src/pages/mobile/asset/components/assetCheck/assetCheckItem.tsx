@@ -1,11 +1,9 @@
 import * as React from "react";
-import { AssetCheckType } from ".";
-import { BiRightArrow } from "react-icons/bi";
-import { FaRightLong } from "react-icons/fa6";
-import { GoArrowRight } from "react-icons/go";
+import { useTranslation } from "react-i18next";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+
+import { AssetCheckType } from "../../../../../interface/asset";
 
 export interface IAssetCheckItemProps {
   data: AssetCheckType;
@@ -34,10 +32,7 @@ const Progress = ({
 export default function AssetCheckItem({ data }: IAssetCheckItemProps) {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const isCompleted = React.useMemo(
-    () => data.completed_count === data.total_count,
-    [data],
-  );
+
   const isActive = React.useMemo(() => {
     const time = new Date().getTime();
     return (

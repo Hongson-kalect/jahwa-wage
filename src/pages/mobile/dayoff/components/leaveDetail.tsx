@@ -1,6 +1,7 @@
-import { Skeleton } from "antd";
-import { OffInfo } from "../../attendant/ui/interface";
 import { useTranslation } from "react-i18next";
+import { Skeleton } from "antd";
+
+import { OffInfo } from "../../../../interface/attendance";
 
 export interface ILeaveDetailProps {
   leaveInfo?: OffInfo;
@@ -9,11 +10,11 @@ export interface ILeaveDetailProps {
 const LeaveItem = ({ title, content }: { title: string; content: number }) => {
   return (
     <div
-      className={`${!content ? "opacity-30" : content < 0 ? "text-red-500" : ""} h-9`}
+      className={`${!content ? "opacity-100" : content < 0 ? "text-red-500" : ""} h-9`}
     >
       <div className="flex items-center justify-between">
         <p className="text-gray-600">{title}</p>
-        <p className="font-medium">{content}</p>
+        <p className={`${content ? "font-medium" : ""}`}>{content}</p>
       </div>
     </div>
   );

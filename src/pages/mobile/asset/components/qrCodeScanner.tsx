@@ -45,11 +45,11 @@ const StyledScanner = styled.div`
 
 export default function QrCodeScanner(props: IQrCodeScannerProps) {
   const pause = React.useMemo(() => props.pause, [props.pause]);
-  const [flashOn, setFlashOn] = React.useState<boolean>(false);
-  const [videoTrack, setVideoTrack] = React.useState<MediaStreamTrack | null>(
-    null,
-  );
-  const [facingMode, setFacingMode] = React.useState<string>("environment");
+  // const [flashOn, setFlashOn] = React.useState<boolean>(false);
+  // const [videoTrack, setVideoTrack] = React.useState<MediaStreamTrack | null>(
+  //   null,
+  // );
+  // const [facingMode, setFacingMode] = React.useState<string>("environment");
 
   const scan = (result) => {
     if (result[0]?.rawValue) {
@@ -106,7 +106,7 @@ export default function QrCodeScanner(props: IQrCodeScannerProps) {
       >
         <div>
           <Scanner
-            constraints={{ facingMode }}
+            constraints={{ facingMode: "environment" }}
             paused={!!pause}
             onScan={(result) => scan(result)}
           />

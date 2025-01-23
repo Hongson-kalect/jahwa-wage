@@ -1,11 +1,11 @@
 import * as React from "react";
 import { FaCheck, FaXmark } from "react-icons/fa6";
-import { DepartmentAssetCheckType } from "./page";
+import { DepartmentAssetCheckItemType } from "../../../interface/asset";
 
 export interface IAssetCheckItemProps {
-  data: DepartmentAssetCheckType;
+  data: DepartmentAssetCheckItemType;
   setSelectedItem: React.Dispatch<
-    React.SetStateAction<DepartmentAssetCheckType | null>
+    React.SetStateAction<DepartmentAssetCheckItemType | null>
   >;
 }
 export default function DepartmentAssetCheckItem({
