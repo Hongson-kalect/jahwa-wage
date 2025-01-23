@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useMobileAppStore } from "../store/mobile.app";
 import { toast } from "react-toastify";
+import { useUserInfoStore } from "../store/userinfo";
 
 const api = axios.create({
   baseURL: window.location.origin,
@@ -103,23 +104,30 @@ export const getCheckingAssetInfo = async ({
 
 export const checkAsset = async ({
   assetInfo,
-  userCode,
-  userName,
+  // userCode,
+  // userName,
 }: {
   assetInfo: any;
-  userCode?: string;
-  userName?: string;
+  // userCode?: string;
+  // userName?: string;
 }) => {
   if (!assetInfo) {
     toast.error("No data found");
     return;
   }
 
+  if (
+    !useUserInfoStore.getState().user?.EMP_NO ||
+    !useUserInfoStore.getState().user?.NAME
+  ) {
+    return toast.error("Please login first");
+  }
+
   const body = {
     ...assetInfo,
     id: 0,
-    insertUserId: userCode,
-    insertUserName: userName,
+    insertUserId: useUserInfoStore.getState().user?.EMP_NO,
+    insertUserName: useUserInfoStore.getState().user?.NAME,
     // insertUserId: userCode,
     // insertUserName: userName,
   };

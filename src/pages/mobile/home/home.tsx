@@ -69,10 +69,10 @@ export default function MobileHomePage() {
   return (
     <div className="pl-4">
       <div className="" onClick={() => navigate("/wage")}>
-        <div className="flex items-center gap-2 text-gray-700">
+        <div className="flex items-center gap-2 text-blue-900 underline">
           <HiCash size={24} />
           <Heading1 title={t("homePage.wage")} />
-          <div className="text-gray-500">
+          <div className="text-blue-700">
             {" - " +
               (!date ? "####" : date.slice(4, 6) + "/" + date.slice(0, 4))}
           </div>
@@ -81,7 +81,7 @@ export default function MobileHomePage() {
       </div>
 
       <div className="mt-6" onClick={() => navigate("/attendant")}>
-        <div className="flex items-center gap-2 text-gray-700">
+        <div className="flex items-center gap-2 text-blue-900 underline">
           <MdCalendarMonth size={24} />
           <Heading1 title={t("homePage.attendance")} />
         </div>
@@ -89,7 +89,7 @@ export default function MobileHomePage() {
       </div>
 
       <div className="mt-6" onClick={() => navigate("/day-off")}>
-        <div className="flex items-center gap-2 text-gray-700">
+        <div className="flex items-center gap-2 text-blue-900 underline">
           <MdSailing size={24} />
           <Heading1 title={t("homePage.dayOff")} />
         </div>

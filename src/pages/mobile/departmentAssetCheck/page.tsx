@@ -130,10 +130,11 @@ export default function DepartmentAssetCheck(props: IAssetCheckDetailProps) {
             <BiSearch color="white" />
           </div>
           <Input
+            prefix={<BiSearch color="blue" />}
             value={searchVal}
             onChange={(e) => setSearchVal(e.target.value)}
             spellCheck={false}
-            className="h-8 rounded-full border-none pl-12 text-sm text-gray-700 shadow-inner shadow-gray-400 focus:shadow-blue-400 focus:outline-blue-800"
+            className="h-8 rounded-full border-none text-sm text-gray-700 shadow-inner shadow-gray-400 focus:shadow-blue-400 focus:outline-blue-800"
             placeholder={t("assetPage.assetNo")}
           />
         </div>

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Scanner } from "@yudiel/react-qr-scanner";
-import { toast } from "react-toastify";
 import styled from "styled-components";
 import { IoMdCloseCircle } from "react-icons/io";
 
@@ -16,9 +15,7 @@ const StyledScanner = styled.div`
   justify-content: center;
   margin: 0;
   padding: 0;
-  /* background: blue; */
   video {
-    /* background-color: red;*/
     position: fixed;
     inset: 0;
     height: 100vh;
@@ -27,7 +24,6 @@ const StyledScanner = styled.div`
   }
 
   & > div > div > div {
-    /* background-color: red; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -49,6 +45,11 @@ const StyledScanner = styled.div`
 
 export default function QrCodeScanner(props: IQrCodeScannerProps) {
   const pause = React.useMemo(() => props.pause, [props.pause]);
+  const [flashOn, setFlashOn] = React.useState<boolean>(false);
+  const [videoTrack, setVideoTrack] = React.useState<MediaStreamTrack | null>(
+    null,
+  );
+  const [facingMode, setFacingMode] = React.useState<string>("environment");
 
   const scan = (result) => {
     if (result[0]?.rawValue) {
@@ -56,12 +57,43 @@ export default function QrCodeScanner(props: IQrCodeScannerProps) {
     }
   };
 
+  // const toggleFlash = () => {
+  //   if (videoTrack) {
+  //     const constraints = {
+  //       advanced: [{ torch: !flashOn }],
+  //     };
+  //     videoTrack.applyConstraints(constraints);
+  //     setFlashOn(!flashOn);
+  //   }
+  // };
+
+  // React.useEffect(() => {
+  //   const constraints = {
+  //     video: {
+  //       facingMode: { exact: facingMode },
+  //     },
+  //   };
+
+  //   navigator.mediaDevices
+  //     .getUserMedia(constraints)
+  //     .then((stream) => {
+  //       const track = stream.getVideoTracks()[0];
+  //       setVideoTrack(track);
+  //       // Apply the torch constraint if flash is on
+  //       if (flashOn) {
+  //         track.applyConstraints({
+  //           advanced: [{ torch: flashOn }],
+  //         });
+  //       }
+  //     })
+  //     .catch((err) => console.error(err));
+  // }, [facingMode, flashOn]);
+
   return (
     <div className="fixed inset-0 z-10 flex items-center justify-center">
       <div className="overlay h-full w-full bg-[#000000]"></div>
 
       <StyledScanner
-        className="?????"
         style={{
           position: "absolute",
           top: 0,
@@ -74,22 +106,22 @@ export default function QrCodeScanner(props: IQrCodeScannerProps) {
       >
         <div>
           <Scanner
-            constraints={{ facingMode: "environment" }}
+            constraints={{ facingMode }}
             paused={!!pause}
             onScan={(result) => scan(result)}
-            // onScan={props.pause ? () => {} : (result) => onScan(result)}
           />
         </div>
         <div className="option absolute left-0 top-0 flex h-[20vh] w-full flex-col">
-          {/* <div></div> */}
           <div className="flex h-[20vh] justify-end gap-2 p-4">
+            {/* <button onClick={toggleFlash}>
+              {flashOn ? "Turn Off Flash" : "Turn On Flash"}
+            </button> */}
             <div
               className="flex h-12 flex-row items-center justify-center gap-2 rounded-lg bg-blue-200 px-2 py-1"
               onClick={() => props.onClose()}
             >
               <IoMdCloseCircle size={32} color="#666666" className="m-0 p-0" />
               <p className="font-medium text-gray-400">Close QR</p>
-              {/* <p>cc</p> */}
             </div>
           </div>
         </div>

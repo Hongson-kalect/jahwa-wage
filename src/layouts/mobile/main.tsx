@@ -117,27 +117,27 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
     verifyUser();
   }, []);
 
-  React.useEffect(() => {
-    switch (activeTab) {
-      case "wage":
-        setHeader(t("wagePage.title"));
-        break;
-      case "attendant":
-        setHeader(t("attendantPage.title1"));
-        break;
-      case "day-off":
-        setHeader(t("attendantPage.title2"));
-        break;
-      case "information":
-        setHeader(t("infomationPage.title"));
-        break;
-      case "asset":
-        setHeader(t("assetPage.title"));
-        break;
-      default:
-        setHeader(cookiesInfo[0]);
-    }
-  }, [activeTab, t]);
+  // React.useEffect(() => {
+  //   switch (activeTab) {
+  //     case "wage":
+  //       setHeader(t("wagePage.title"));
+  //       break;
+  //     case "attendant":
+  //       setHeader(t("attendantPage.title1"));
+  //       break;
+  //     case "day-off":
+  //       setHeader(t("attendantPage.title2"));
+  //       break;
+  //     case "information":
+  //       setHeader(t("infomationPage.title"));
+  //       break;
+  //     case "asset":
+  //       setHeader(t("assetPage.title"));
+  //       break;
+  //     default:
+  //       setHeader(cookiesInfo[0]);
+  //   }
+  // }, [activeTab, t]);
 
   if (authening)
     return (

@@ -43,12 +43,11 @@ export const AttendanceItem = ({ item }: { item: Attendance }) => {
       <td>
         <div className="flex items-center justify-center">
           <div
-            className={`flex items-end gap-0.5 ${item.HOLI_TYPE === "H" ? "text-red-300" : "text-gray-600"} h-6 w-12 justify-center`}
+            className={`flex items-center gap-0.5 ${item.HOLI_TYPE === "H" ? "text-red-300" : "text-gray-600"} h-6 w-12 justify-center`}
           >
+            <p className="text-gray-600">{item.DATE.slice(5, 7)}</p>
+            <p>{"/"} </p>
             <p>{item.DATE.slice(8, 10)} </p>
-            <p className="text-xs text-gray-300">
-              {"/" + item.DATE.slice(5, 7)}
-            </p>
           </div>
         </div>
       </td>
@@ -63,12 +62,12 @@ export const AttendanceItem = ({ item }: { item: Attendance }) => {
       </td>
 
       <td>
-        <p className={`${isLate ? "font-medium" : "text-sm text-gray-400"}`}>
+        <p className={`${isLate ? "font-medium" : "text-sm text-gray-500"}`}>
           {item.STRT_TIME}
         </p>
       </td>
       <td
-        className={`pr-4 text-end font-medium ${isOT ? "" : isQuitSoon ? "" : "text-sm text-gray-400"}`}
+        className={`pr-4 text-end font-medium ${isOT ? "" : isQuitSoon ? "" : "text-sm text-gray-500"}`}
       >
         {item.END_TIME}
       </td>

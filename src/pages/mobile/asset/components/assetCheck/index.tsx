@@ -1,6 +1,8 @@
 import { Empty, Skeleton } from "antd";
 import * as React from "react";
 import AssetCheckItem from "./assetCheckItem";
+import { useUserInfoStore } from "../../../../../store/userinfo";
+import { useMobileAppStore } from "../../../../../store/mobile.app";
 
 export type CheckMasterType = {
   id: number;
@@ -33,6 +35,8 @@ export interface IAssetCheckProps {
 }
 
 export default function AssetCheck(props: IAssetCheckProps) {
+  const { entCode } = useMobileAppStore();
+
   const assets = React.useMemo(() => {
     if (!props.assets) return null;
     if (!props.assets.length) return [];
@@ -47,11 +51,14 @@ export default function AssetCheck(props: IAssetCheckProps) {
       ) : !assets?.length ? (
         <Empty />
       ) : (
-        assets.map((data, index) => (
-          <div key={index} className="p-2">
-            <AssetCheckItem data={data} />
-          </div>
-        ))
+        assets.map((data, index) => {
+          if (data.master.company === entCode)
+            return (
+              <div key={index} className="p-2">
+                <AssetCheckItem data={data} />
+              </div>
+            );
+        })
       )}
     </div>
   );

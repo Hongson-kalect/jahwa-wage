@@ -97,7 +97,8 @@
     "assetInfo": "资产信息",
     "pleaseInput": "请输入数据",
     "usedInfo": "使用信息",
-    "valueInfo": "价值信息"
+    "valueInfo": "价值信息",
+    "inspector": "发明家"
   },
   "infomationPage": {
     "company": "公司名称",

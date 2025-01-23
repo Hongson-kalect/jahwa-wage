@@ -55,6 +55,7 @@ export type AssetInfoType = {
 
 export default function Asset(props: IAssetProps) {
   const { t } = useTranslation();
+  const { entCode } = useMobileAppStore();
   const { setHeader, setIsLoading } = useMobileAppStore();
   const [activeTab, setActiveTab] = React.useState<ActiveTab>("search");
   const [searchText, setSearchText] = React.useState("");
@@ -144,10 +145,10 @@ export default function Asset(props: IAssetProps) {
       <div>
         <div className="flex items-start justify-between">
           <div
-            className="ml-2 w-28 rounded-r-full bg-blue-900 px-3 py-2 text-center text-lg text-white"
-            onClick={() => setIsShowMenu(true)}
+            className="ml-2 w-24 rounded-r-full bg-blue-900 px-3 py-1 text-center text-lg text-white"
+            // onClick={() => setIsShowMenu(true)}
           >
-            {activeTabList[activeTab]}
+            {entCode}
           </div>
           <form
             onSubmit={(e) => {

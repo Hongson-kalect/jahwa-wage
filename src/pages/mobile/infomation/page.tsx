@@ -20,7 +20,7 @@ export default function Information(props: IInformationProps) {
 
   const Item = ({ title, content }: { title: string; content: string }) => {
     return (
-      <div className="flex items-start gap-2 py-2">
+      <div className="flex items-start gap-2 py-2 text-sm">
         <p className="w-1/3 text-gray-400">{title} </p>
         {/* <p className="mr-4 text-gray-400">:</p> */}
         <p className="w-2/3 text-gray-500"> {content}</p>

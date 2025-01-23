@@ -247,29 +247,29 @@ export default function WagePage2() {
                 <div className="rounded-xl bg-white p-2">
                   <div className="rounded-md"></div>
                   <div className="ml-3 rounded-md bg-white pb-4 pt-2">
-                    <table className="w-full">
-                      <tbody className="font-bold">
+                    <table className="w-full font-normal">
+                      <tbody>
                         <tr>
                           <td className="pt-0.5 font-medium uppercase text-gray-700">
                             {t("common.totalPay")}
                           </td>
-                          <td className="text-right">
+                          <td className="pt-0.5 text-right">
                             {wageDetail?.data?.Table3?.[0]?.PROV_TOT_AMT}
                           </td>
                         </tr>
                         <tr>
-                          <td className="pt-0.5 font-medium uppercase text-gray-700">
+                          <td className="pt-1 font-medium uppercase text-gray-700">
                             {t("common.totalDeduct")}
                           </td>
-                          <td className="text-right">
+                          <td className="pt-1 text-right">
                             {wageDetail?.data?.Table3?.[0]?.SUB_TOT_AMT}
                           </td>
                         </tr>
                         <tr>
-                          <td className="pt-0.5 font-medium uppercase text-gray-700">
+                          <td className="pt-1 font-medium uppercase text-gray-700">
                             {t("common.totalPayment")}
                           </td>
-                          <td className="text-right">
+                          <td className="pt-1 text-right font-bold">
                             {wageDetail?.data?.Table3?.[0]?.REAL_PROV_AMT}
                           </td>
                         </tr>

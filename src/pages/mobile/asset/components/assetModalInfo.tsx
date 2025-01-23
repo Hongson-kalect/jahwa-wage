@@ -3,7 +3,7 @@ import { FaSave, FaArrowLeft } from "react-icons/fa";
 import styled, { keyframes } from "styled-components";
 import { AssetInfoType } from "../asset";
 import { useTranslation } from "react-i18next";
-import { Input, Select, Skeleton } from "antd";
+import { Input, Select, Skeleton, Tabs } from "antd";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getUsers, updateAsset } from "../../../../services/asset";
 import useDebounce from "../../../../hooks/useDebounce";
@@ -47,6 +47,14 @@ const ModalContent = styled.div<{ isClosing: boolean }>`
     forwards;
 `;
 
+const Card = styled.div`
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  margin-bottom: 16px;
+`;
+
 const ItemInfo = ({
   label,
   value,
@@ -54,8 +62,8 @@ const ItemInfo = ({
   label: string;
   value: React.ReactNode;
 }) => (
-  <div className="flex items-center justify-between gap-2 text-gray-700">
-    <div className="w-1/3 text-[13px] font-medium text-gray-500">{label}:</div>
+  <div className="flex items-center justify-between gap-2 py-3 text-gray-700">
+    <div className="w-1/3 text-sm font-medium text-gray-500">{label}:</div>
     <div className="flex-1">{value}</div>
   </div>
 );
@@ -128,86 +136,52 @@ const AssetInfoModal = ({
   return (
     <ModalOverlay className="z-10 h-dvh w-full max-w-[500px] overflow-auto">
       <ModalContent className="flex flex-col py-2" isClosing={isClosing}>
-        <div className="fixed inset-0 z-10">
-          <div className="absolute inset-0 flex flex-col gap-1 bg-white">
-            <div
-              className="flex items-center justify-between gap-2 bg-blue-600 p-2 text-white"
-              style={{ borderBottom: "1px solid #ddd" }}
-            >
-              <div className="flex items-center gap-2" onClick={handleClose}>
-                <FaArrowLeft size={20} />
-                <div className="line-clamp-1 text-lg font-medium">
-                  {assetInfo.asst_no}
-                </div>
-                <p className="text-sm text-gray-300">{assetInfo.asst_nm}</p>
+        {/* <div className="fixed inset-0 z-10"> */}
+        <div className="absolute inset-0 flex flex-col gap-1 bg-white">
+          <div
+            className="flex items-center justify-between gap-2 bg-blue-600 p-2 text-white"
+            style={{ borderBottom: "1px solid #ddd" }}
+          >
+            <div className="flex items-center gap-2" onClick={handleClose}>
+              <FaArrowLeft size={20} />
+              <div className="line-clamp-1 text-lg font-medium">
+                {assetInfo.asst_no}
               </div>
-              <div className="flex items-center gap-1 text-sm font-medium italic">
-                <div className="flex gap-2">
-                  <FaSave
-                    className="text-yellow-300"
-                    size={24}
-                    onClick={() => mUpdateAsset()}
-                  />
-                </div>
+              <p className="text-sm text-gray-300">{assetInfo.asst_nm}</p>
+            </div>
+            <div className="flex items-center gap-1 text-sm font-medium italic">
+              <div className="flex gap-2">
+                <FaSave
+                  className="text-yellow-300"
+                  size={24}
+                  onClick={() => mUpdateAsset()}
+                />
               </div>
             </div>
-            <div className="flex-1 overflow-auto px-2">
-              <div className="flex flex-col gap-2">
-                <p
-                  className="mt-2 font-medium text-blue-900"
-                  style={{ borderBottom: "1px solid #d0c3ff33" }}
-                >
-                  {t("assetPage.usedInfo")}
-                </p>
-                <div className="flex flex-col gap-2 rounded-t-md px-2 py-1">
+          </div>
+          <div className="flex-1 overflow-auto px-2">
+            <Tabs
+              defaultActiveKey="1"
+              className="[&_.ant-tabs-tab]:font-bold [&_.ant-tabs-tab]:text-gray-400"
+            >
+              <Tabs.TabPane tab={t("assetPage.usedInfo")} key="1">
+                <Card>
                   <ItemInfo
-                    label={t("asset.dept")}
+                    label={t("asset.assetState")}
                     value={
-                      <div className="text-gray-700">
-                        {assetInfo.dept_cd}
-                        <span className="text-sm text-gray-400">
-                          {" "}
-                          - {assetInfo.dept_nm}
-                        </span>
+                      <div className="font-bold text-gray-700">
+                        {assetInfo.asset_state}
                       </div>
                     }
                   />
-                  <ItemInfo
-                    label={t("asset.company")}
-                    value={
-                      <div className="text-gray-700">
-                        {assetInfo.company}
-                        <span className="text-sm text-gray-400">
-                          {" "}
-                          - {assetInfo.company_nm}
-                        </span>
-                      </div>
-                    }
-                  />
-                  <ItemInfo
-                    label={t("asset.account")}
-                    value={
-                      <div className="flex-1 text-gray-700">
-                        {assetInfo.acct_cd}
-                        <span className="text-sm text-gray-400">
-                          {" "}
-                          - {assetInfo.acct_nm}
-                        </span>
-                      </div>
-                    }
-                  />
-                  <ItemInfo
-                    label={t("asset.rentPlace")}
-                    value={<div>{assetInfo.send_bp_nm || "-"}</div>}
-                  />
-                  <div className="mt-2 flex items-center justify-between gap-2 text-gray-700">
-                    <div className="w-1/3 text-[13px] font-medium text-gray-500">
+                  <div className="flex items-center justify-between gap-2 text-gray-700">
+                    <div className="w-1/3 py-2 text-sm font-medium text-gray-500">
                       {t("asset.installationPlace")}:
                     </div>
                     <div className="flex-1">
                       <Input
-                        className="rounded-none border-none p-0 text-sm text-blue-600"
-                        style={{ borderBottom: "1px solid blue" }}
+                        className="rounded-none border-none p-0 text-sm font-medium text-blue-600"
+                        style={{ borderBottom: "1px solid #2563eb88 " }}
                         value={place}
                         onChange={(e) => setPlace(e.target.value)}
                       />
@@ -217,10 +191,10 @@ const AssetInfoModal = ({
                     label={t("asset.user")}
                     value={
                       <Select
-                        showSearch
                         suffixIcon={null}
-                        className="h-8 w-full rounded-none !shadow-none !outline-none [&_*]:inset-0 [&_*]:!border-none [&_*]:p-0 [&_.ant-select-selection-placeholder]:text-blue-600"
-                        style={{ borderBottom: "1px solid blue" }}
+                        showSearch
+                        className="h-8 w-full rounded-none font-medium !shadow-none !outline-none [&_*]:inset-0 [&_*]:!border-none [&_*]:p-0 [&_.ant-select-selection-placeholder]:text-blue-600"
+                        style={{ borderBottom: "1px solid #2563eb88 " }}
                         placeholder={
                           assetInfo.user_cd + " - " + assetInfo.user_nm
                         }
@@ -235,10 +209,9 @@ const AssetInfoModal = ({
                         ) : (
                           users.map((user, index: number) => (
                             <Option key={index} value={user.empCode}>
-                              <p className="flex items-center gap-1">
-                                <span className="text-sm">{user.empCode}</span>{" "}
-                                -{" "}
-                                <span className="opacity-60">{user.name}</span>
+                              <p className="flex items-center gap-1 text-sm font-medium text-orange-600">
+                                <span>{user.empCode}</span> -{" "}
+                                <span>{user.name}</span>
                               </p>
                             </Option>
                           ))
@@ -246,43 +219,102 @@ const AssetInfoModal = ({
                       </Select>
                     }
                   />
-                </div>
-                <p
-                  className="mb-1 mt-2 font-medium text-blue-900"
-                  style={{ borderBottom: "1px solid #d0c3ff33" }}
-                >
-                  {t("assetPage.valueInfo")}
-                </p>
-                <div className="flex flex-col gap-2 px-2">
-                  <div
-                    className="flex rounded shadow-inner shadow-gray-400"
-                    style={{ border: "1px solid #e7e7e7" }}
-                  >
-                    <div className="" style={{ borderRight: "1px solid #ddd" }}>
-                      <p
-                        className="mb-2 py-1 pl-0.5 pr-2 text-center text-[13px] text-gray-500"
-                        style={{ borderBottom: "1px solid #ddd" }}
-                      >
-                        {t("asset.regDate")}
-                      </p>
-                      <p className="my-2 px-2">
-                        {assetInfo?.reg_dt?.slice(0, 10) || "-"}
-                      </p>
-                    </div>
-                    <div className="flex flex-1 flex-col">
-                      <p
-                        className="mb-2 py-1 pl-0.5 pr-2 text-center text-[13px] text-gray-500"
-                        style={{ borderBottom: "1px solid #ddd" }}
-                      >
-                        {t("asset.custBpName")}
-                      </p>
-                      <div className="text-center">
-                        <p className="line-clamp-3">{assetInfo.cust_bp_nm}</p>
+                  <ItemInfo
+                    label={t("asset.deptCode")}
+                    value={
+                      <div className="text-gray-700">
+                        {assetInfo.dept_cd}
+                        {/* <span className="text-sm text-gray-400">
+                            {" "}
+                            - {assetInfo.dept_nm}
+                          </span> */}
                       </div>
-                    </div>
-                  </div>
+                    }
+                  />
+                  <ItemInfo
+                    label={t("asset.deptName")}
+                    value={
+                      <div className="text-gray-700">{assetInfo.dept_nm}</div>
+                    }
+                  />
+                  <ItemInfo
+                    label={t("asset.company")}
+                    value={
+                      <div className="text-gray-700">{assetInfo.company}</div>
+                    }
+                  />
+                  <ItemInfo
+                    label={t("asset.companyName")}
+                    value={
+                      <div className="text-gray-700">
+                        {assetInfo.company_nm}
+                      </div>
+                    }
+                  />
+                  <ItemInfo
+                    label={t("asset.acctCode")}
+                    value={
+                      <div className="flex-1 text-gray-700">
+                        {assetInfo.acct_cd}
+                      </div>
+                    }
+                  />
+                  <ItemInfo
+                    label={t("asset.acctName")}
+                    value={
+                      <div className="flex-1 text-gray-700">
+                        {assetInfo.acct_nm}
+                      </div>
+                    }
+                  />
+                  <ItemInfo
+                    label={t("asset.rentPlace")}
+                    value={<div>{assetInfo.send_bp_nm || "-"}</div>}
+                  />
+                </Card>
+              </Tabs.TabPane>
+              <Tabs.TabPane tab={t("assetPage.valueInfo")} key="2">
+                <Card>
+                  {/* <div
+                      className="flex rounded shadow-inner shadow-gray-400"
+                      style={{ border: "1px solid #e7e7e7" }}
+                    >
+                      <div
+                        className=""
+                        style={{ borderRight: "1px solid #ddd" }}
+                      >
+                        <p
+                          className="mb-2 py-1 pl-0.5 pr-2 text-center text-[13px] text-gray-500"
+                          style={{ borderBottom: "1px solid #ddd" }}
+                        >
+                          {t("asset.regDate")}
+                        </p>
+                        <p className="my-2 px-2">
+                          {assetInfo?.reg_dt?.slice(0, 10) || "-"}
+                        </p>
+                      </div>
+                      <div className="flex flex-1 flex-col">
+                        <p
+                          className="mb-2 py-1 pl-0.5 pr-2 text-center text-[13px] text-gray-500"
+                          style={{ borderBottom: "1px solid #ddd" }}
+                        >
+                          {t("asset.custBpName")}
+                        </p>
+                        <div className="text-center">
+                          <p className="line-clamp-3">{assetInfo.cust_bp_nm}</p>
+                        </div>
+                      </div>
+                    </div> */}
+                  <ItemInfo
+                    label={t("asset.regDate")}
+                    value={assetInfo?.reg_dt?.slice(0, 10) || "-"}
+                  />
                   <ItemInfo
                     label={t("asset.acqLocAmt")}
+                    value={assetInfo.cust_bp_nm || "-"}
+                  />
+                  <ItemInfo
+                    label={t("asset.custBpName")}
                     value={assetInfo.acq_loc_amt || "-"}
                   />
                   <ItemInfo
@@ -297,78 +329,10 @@ const AssetInfoModal = ({
                     label={t("asset.taxEndDate")}
                     value={assetInfo.tax_end_date || "-"}
                   />
-                </div>
-
-                <div
-                  className="mt-2 flex items-center justify-between font-medium text-gray-700"
-                  style={{ borderBottom: "1px solid #d0c3ff33" }}
-                >
-                  <p className="mt-2 font-medium text-blue-900">
-                    {t("assetPage.assetInfo")}
-                  </p>
-                  <div>
-                    <p className="text-green-600">{assetInfo.asset_state}</p>
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-4 px-2">
-                  <div
-                    className="mt-2 flex rounded shadow-inner shadow-gray-400"
-                    style={{ border: "1px solid #e7e7e7" }}
-                  >
-                    <div className="" style={{ borderRight: "1px solid #ddd" }}>
-                      <p
-                        className="mb-2 py-1 pl-0.5 pr-2 text-center text-[13px] text-gray-500"
-                        style={{ borderBottom: "1px solid #ddd" }}
-                      >
-                        CPU
-                      </p>
-                      <p className="px-2 text-center text-sm text-gray-700">
-                        {assetInfo.cpu || "-"}
-                      </p>
-                    </div>
-                    <div className="" style={{ borderRight: "1px solid #ddd" }}>
-                      <p
-                        className="mb-2 py-1 pl-0.5 pr-2 text-center text-[13px] text-gray-500"
-                        style={{ borderBottom: "1px solid #ddd" }}
-                      >
-                        RAM
-                      </p>
-                      <p className="px-2 text-sm text-gray-700">
-                        {assetInfo.ram || "-"}
-                      </p>
-                    </div>
-                    <div
-                      className="flex-1"
-                      style={{ borderRight: "1px solid #ddd" }}
-                    >
-                      <p
-                        className="mb-2 flex-1 py-1 pl-0.5 pr-2 text-center text-[13px] text-gray-500"
-                        style={{ borderBottom: "1px solid #ddd" }}
-                      >
-                        HDD
-                      </p>
-                      <p className="px-2 text-center text-sm text-gray-700">
-                        {assetInfo.hdd || "-"}
-                      </p>
-                    </div>
-                    <div>
-                      <p
-                        className="mb-2 py-1 pl-0.5 pr-2 text-center text-[13px] text-gray-500"
-                        style={{ borderBottom: "1px solid #ddd" }}
-                      >
-                        CD
-                      </p>
-                      <p className="px-2 text-center text-gray-700">
-                        {assetInfo.cd || "-"}
-                      </p>
-                    </div>
-                  </div>
-
-                  <ItemInfo
-                    label={t("asset.assetType")}
-                    value={assetInfo.asset_type || "-"}
-                  />
+                </Card>
+              </Tabs.TabPane>
+              <Tabs.TabPane tab={t("assetPage.assetInfo")} key="3">
+                <Card>
                   <ItemInfo
                     label={t("asset.maker")}
                     value={assetInfo.maker || "-"}
@@ -386,19 +350,39 @@ const AssetInfoModal = ({
                     value={assetInfo.serial_no || "-"}
                   />
                   <ItemInfo
-                    label={t("asset.monitor")}
-                    value={assetInfo.monitor || "-"}
+                    label={t("asset.assetType")}
+                    value={assetInfo.asset_type || "-"}
                   />
+
                   <ItemInfo
                     label={t("asset.projectNo")}
                     value={assetInfo.project_no || "-"}
                   />
+                  <ItemInfo
+                    label={t("asset.monitor")}
+                    value={assetInfo.monitor || "-"}
+                  />
+                  <ItemInfo
+                    label={t("asset.cpu")}
+                    value={assetInfo.cpu || "-"}
+                  />
+                  <ItemInfo
+                    label={t("asset.ram")}
+                    value={assetInfo.ram || "-"}
+                  />
+                  <ItemInfo
+                    label={t("asset.hdd")}
+                    value={assetInfo.hdd || "-"}
+                  />
+                  <ItemInfo label={t("asset.cd")} value={assetInfo.cd || "-"} />
+
                   <ItemInfo label="MAC" value={assetInfo.mac_add || "-"} />
-                </div>
-              </div>
-            </div>
+                </Card>
+              </Tabs.TabPane>
+            </Tabs>
           </div>
         </div>
+        {/* </div> */}
       </ModalContent>
     </ModalOverlay>
   );

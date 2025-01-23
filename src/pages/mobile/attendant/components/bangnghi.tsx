@@ -14,12 +14,11 @@ export const DayOffItem = (props: { item: OffDate }) => {
       <td className="py-2 text-sm">
         <div className="flex items-center">
           <div
-            className={`flex h-6 w-9 items-center justify-start rounded-full text-base text-gray-500`}
+            className={`flex h-6 items-center justify-start rounded-full text-base text-gray-600`}
           >
-            {item.DILIG_DT.slice(8, 10)}
-            <span className="text-xs text-gray-300">
-              /{item.DILIG_DT.slice(5, 7)}
-            </span>
+            {item.DILIG_DT.slice(5, 7)}
+            <span>/</span>
+            <span>{item.DILIG_DT.slice(8, 10)}</span>
           </div>
         </div>
       </td>
