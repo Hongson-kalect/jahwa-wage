@@ -22,20 +22,9 @@ export default function App(props: IAppProps) {
         draggable
         position="top-right"
         newestOnTop
-        // hideProgressBar
         draggablePercent={50}
         autoClose={1000}
       />
     </QueryClientProvider>
-    // <BrowserRouter>
-    // <Routes>
-    //   <Route path="/m/auth" element={<MAuthLayout />}>
-    //     <Route index element={<MSignInPage />} />
-    //   </Route>
-    //   <Route path="*" element={<NotFound />} />
-    // </Routes>
-    // </BrowserRouter>
   );
 }
-
-const NotFound = () => <div>404</div>;

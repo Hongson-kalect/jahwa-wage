@@ -1,31 +1,22 @@
-import axios from "axios";
 import * as React from "react";
-import { useTranslation } from "react-i18next";
+import axios from "axios";
+import { Outlet, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { BiSolidUser } from "react-icons/bi";
 import { FaAngleLeft, FaCubes } from "react-icons/fa6";
 import { TiHome } from "react-icons/ti";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import styled from "styled-components";
+
 import fav from "../../assets/images/favicon.gif";
 import LanguageChanger from "../../components/common/languageChange";
-import { useSearch } from "../../hooks/useSearch";
-import { getRawCookie, handleLogout } from "../../lib/utlis";
-import Attendant from "../../pages/mobile/attendant/attendant";
-import DayOffPage from "../../pages/mobile/dayoff/dayOff";
-import MobileHomePage from "../../pages/mobile/home/home";
-import Information from "../../pages/mobile/infomation/page";
-import WagePage2 from "../../pages/mobile/wage2/page";
+import ScrollToTop from "../../lib/ScrollToTop";
+import { handleLogout } from "../../lib/utlis";
 import { useMobileAppStore } from "../../store/mobile.app";
 import { useUserInfoStore } from "../../store/userinfo";
+import CookieChecking from "./checkCookie";
+import Loading from "./components/loading";
 import { Navbar } from "./components/nav";
 import { checkCookieNSession } from "./utils";
-import Asset from "../../pages/mobile/asset/asset";
-import ScrollToTop from "../../lib/ScrollToTop";
-import Loading from "./components/loading";
-import CookieChecking from "./checkCookie";
-
-export interface IMobileMainLayoutProps {}
 
 const MainLayout = styled.div`
   /* width: 100vw; */
@@ -41,19 +32,12 @@ const Content = styled.div`
   }
 `;
 
-export default function MobileMainLayout(props: IMobileMainLayoutProps) {
+export default function MobileMainLayout() {
   const { setUser } = useUserInfoStore();
-  const { empCode, entCode, setHeader } = useMobileAppStore();
-  const { t } = useTranslation();
+  const { empCode, entCode } = useMobileAppStore();
 
   const { setDevice, device } = useMobileAppStore();
   const [authening, setAuthening] = React.useState(true);
-
-  const [paramsObject] = useSearch();
-  // const param = useParams();
-  const activeTab = React.useMemo(() => {
-    return paramsObject.tab || "";
-  }, [paramsObject]);
 
   const verifyUser = async () => {
     try {
@@ -85,20 +69,6 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
     }
   };
 
-  const cookiesInfo = React.useMemo(() => {
-    const cookies = getRawCookie("JHInfo");
-    return decodeURIComponent(cookies || "").split("♪");
-  }, []);
-
-  const renderPage = () => {
-    if (activeTab === "wage") return <WagePage2 />;
-    if (activeTab === "attendant") return <Attendant />;
-    if (activeTab === "day-off") return <DayOffPage />;
-    if (activeTab === "information") return <Information />;
-    if (activeTab === "asset") return <Asset />;
-    else return <MobileHomePage />;
-  };
-
   React.useLayoutEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 1000) setDevice("pc");
@@ -116,28 +86,6 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
   React.useEffect(() => {
     verifyUser();
   }, []);
-
-  // React.useEffect(() => {
-  //   switch (activeTab) {
-  //     case "wage":
-  //       setHeader(t("wagePage.title"));
-  //       break;
-  //     case "attendant":
-  //       setHeader(t("attendantPage.title1"));
-  //       break;
-  //     case "day-off":
-  //       setHeader(t("attendantPage.title2"));
-  //       break;
-  //     case "information":
-  //       setHeader(t("infomationPage.title"));
-  //       break;
-  //     case "asset":
-  //       setHeader(t("assetPage.title"));
-  //       break;
-  //     default:
-  //       setHeader(cookiesInfo[0]);
-  //   }
-  // }, [activeTab, t]);
 
   if (authening)
     return (
@@ -165,15 +113,9 @@ export default function MobileMainLayout(props: IMobileMainLayoutProps) {
 const HeaderNav = () => {
   const navigate = useNavigate();
   const { header } = useMobileAppStore();
-  const params = useParams();
   const pathName = React.useMemo(() => {
     return window.location.pathname;
   }, [window.location.pathname]);
-
-  const isHomePage = React.useMemo(
-    () => window.location.pathname === "/",
-    [window.location.pathname],
-  );
 
   const handleNavigate = () => {
     const pathNameArr = pathName.split("/");
@@ -218,13 +160,7 @@ const HeaderNav = () => {
 
 const Header = () => {
   const [showNav, setShowav] = React.useState(false);
-  const { header } = useMobileAppStore();
   const navigate = useNavigate();
-
-  const [paramsObject, setSearchParams] = useSearch();
-  const activeTab = React.useMemo(() => {
-    return paramsObject.tab || "";
-  }, [paramsObject]);
 
   return (
     <>

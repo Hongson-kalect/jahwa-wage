@@ -8,6 +8,7 @@ import Information from "../pages/mobile/infomation/page";
 import Asset from "../pages/mobile/asset/asset";
 import AssetCheckDetail from "../pages/mobile/assetCheckDetail/page";
 import DepartmentAssetCheck from "../pages/mobile/departmentAssetCheck/page";
+import NotFound from "../pages/mobile/NotFound";
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,8 @@ export const router = createBrowserRouter([
       },
       { path: "/asset/cc", element: <Asset /> },
       { path: "/", element: <MobileHomePage /> },
+      { path: "*", element: <NotFound /> }, // Not Found Page
     ],
   },
 ]);
+

@@ -18,13 +18,6 @@ export default function ContentWrap(props: IContentWrapProps) {
         props.className
       }
     >
-      {/* <div
-        className="absolute left-0 top-0 z-[1] h-full w-full blur-md"
-        style={{
-          background:
-            "url(https://th.bing.com/th/id/R.21c29ff…?rik=gtJfQX3pObRFVQ&riu=http%3a%2f%2ffotodes.ru%2fupload%2fimg1343813912.jpg&ehk=Lq9%2bjTJ%2flAJyhVG98XIFivoTOt5SCAeokt%2fcKmi%2bjRg%3d&risl=&pid=ImgRaw&r=0) center center / cover no-repeat",
-        }}
-      ></div> */}
       <div className="z-[10] flex flex-1 flex-col gap-4">{props.children}</div>
     </Styled>
   );
