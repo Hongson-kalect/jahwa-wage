@@ -51,7 +51,7 @@ export default function MobileMainLayout() {
           entCode,
         });
 
-        if (userData?.data?.Table[0]) {
+        if (userData?.data?.Table?.[0]) {
           setUser({
             ...userData.data.Table[0],
             Photo: userData.data.Table1?.[0].Photo,

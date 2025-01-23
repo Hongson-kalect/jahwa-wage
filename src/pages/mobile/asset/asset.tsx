@@ -25,11 +25,25 @@ export default function Asset() {
   const html = React.useMemo<HTMLHtmlElement | null>(() => {
     return document.querySelector("html");
   }, []);
+  const [activeCompany, setActiveCompany] = React.useState<string>(entCode);
+  const [selectCompany, setSelectCompany] = React.useState<boolean>(false);
 
   const assetChecks = useQuery<AssetCheckType[]>({
     queryKey: ["assetChecks"],
     queryFn: () => getAssetCheck(),
   });
+
+  const companyList = React.useMemo(() => {
+    const list: string[] = [entCode];
+    if (assetChecks.data?.length) {
+      assetChecks.data.forEach((item) => {
+        if (!list.includes(item.master.company)) {
+          list.push(item.master.company);
+        }
+      });
+    }
+    return list;
+  }, [assetChecks.data]);
 
   React.useEffect(() => {
     setHeader(t("assetPage.title"));
@@ -87,11 +101,15 @@ export default function Asset() {
   return (
     <div
       className={`relative h-full w-full ${isModalOpen ? "overflow-hidden" : ""}`}
+      style={{ height: "calc(100dvh - 60px)" }}
     >
       <div>
         <div className="flex items-start justify-between">
-          <div className="ml-2 w-24 rounded-r-full bg-blue-900 px-3 py-1 text-center text-lg text-white">
-            {entCode}
+          <div
+            onClick={() => setSelectCompany(true)}
+            className="ml-2 w-24 rounded-r-full bg-blue-900 px-3 py-1 text-center text-lg text-white"
+          >
+            {activeCompany}
           </div>
           <form
             onSubmit={(e) => {
@@ -137,12 +155,58 @@ export default function Asset() {
       />
 
       <div className="mt-4">
-        <AssetCheck assets={assetChecks.data} />
+        <AssetCheck assets={assetChecks.data} activeCompany={activeCompany} />
       </div>
 
-      {/* <div className="mt-4 px-2">{activeTab === "search" && <AssetInfo />}</div> */}
-      {/* <div className="mt-4 px-2">{activeTab === "search" && <AssetInfo />}</div> */}
-      {/* <div className="mt-4 px-2">{activeTab === "search" && <AssetInfo />}</div> */}
+      {selectCompany && (
+        <SelectCompany
+          companyList={companyList}
+          activeCompany={activeCompany}
+          setActiveCompany={setActiveCompany}
+          setSelectCompany={setSelectCompany}
+        />
+      )}
     </div>
   );
 }
+
+type SelectCompanyProps = {
+  activeCompany: string;
+  companyList: string[];
+  setActiveCompany: React.Dispatch<React.SetStateAction<string>>;
+  setSelectCompany: React.Dispatch<React.SetStateAction<boolean>>;
+};
+function SelectCompany({
+  activeCompany,
+  companyList,
+  setActiveCompany,
+  setSelectCompany,
+}: SelectCompanyProps) {
+  const selectCompany = (company: string) => {
+    // e.stopPropagation()
+    setActiveCompany(company);
+    // setSelectCompany(false)
+  };
+  return (
+    <div
+      className="absolute left-0 top-0 z-50 flex h-full w-full flex-col items-end gap-4 bg-[#000000aa] pt-8"
+      onClick={() => setSelectCompany(false)}
+    >
+      {companyList.map((company, index) => {
+        return (
+          <div
+            onClick={() => {
+              selectCompany(company);
+              setSelectCompany(false);
+            }}
+            className={`w-fit min-w-28 rounded-l-full py-2 pl-8 pr-4 text-right text-lg ${activeCompany === company ? "active bg-blue-600 text-white" : "bg-white"}`}
+            key={index}
+          >
+            {company}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+

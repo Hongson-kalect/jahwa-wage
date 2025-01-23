@@ -1,8 +1,15 @@
 import { Button, Result } from "antd";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMobileAppStore } from "../../store/mobile.app";
 
 const NotFound = () => {
   const navigate = useNavigate();
+  const { setHeader } = useMobileAppStore();
+
+  useEffect(() => {
+    setHeader("Back home");
+  }, []);
 
   return (
     <div className="[&_*]:overflow-hidden">
