@@ -21,7 +21,9 @@ export default function MobileHomePage() {
   const navigate = useNavigate();
   const { setHeader } = useMobileAppStore();
   const [date, setDate] = React.useState<string>(
-    new Date().getFullYear() + "" + (new Date().getMonth() + 1),
+    new Date().getFullYear() +
+      "" +
+      (new Date().getMonth() + 1).toString().padStart(2, "0"),
   );
   const year = useMemo(() => new Date().getFullYear(), [date]);
 
