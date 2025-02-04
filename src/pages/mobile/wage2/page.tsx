@@ -42,11 +42,6 @@ export default function WagePage2() {
   const wageDetail = useQuery<WorkData | null>({
     queryKey: ["wageDetail", wageMonth, wageType, wageMonths.data],
     queryFn: () => {
-      console.log(
-        "object :>> ",
-        Number(wageMonths.data?.Table?.[0].Code),
-        Number(wageMonth),
-      );
       if (!wageMonths.data?.Table?.[0]?.Code || !wageMonth) return null;
       if (Number(wageMonths.data?.Table?.[0].Code) < Number(wageMonth))
         return null;

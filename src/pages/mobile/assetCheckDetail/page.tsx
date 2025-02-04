@@ -61,15 +61,6 @@ export default function AssetCheckDetail() {
 
   const active = React.useMemo(() => {
     if (selectedMaster) {
-      console.log(
-        "new Date(selectedMaster?.master.startDate).getTime() :>> ",
-        new Date(selectedMaster?.master.startDate).getTime(),
-      );
-      console.log(
-        "new Date(selectedMaster?.master.endDate).getTime() :>> ",
-        new Date(selectedMaster?.master.endDate).getTime(),
-      );
-      console.log("new Date().getTime() :>> ", new Date().getTime());
       return (
         new Date(selectedMaster?.master.startDate).getTime() <
           new Date().getTime() &&
@@ -115,8 +106,6 @@ export default function AssetCheckDetail() {
 
     return list;
   }, [AssetCheckDetail, filtVal, selectFilter]);
-
-  console.log("scannedInfo :>> ", scannedInfo);
 
   const { mutate: getAssetInfo, isPending } = useMutation({
     mutationKey: ["getAssetInfo"],

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
@@ -8,24 +8,30 @@ import { MdCalendarMonth, MdSailing } from "react-icons/md";
 
 import { useMobileAppStore } from "../../../store/mobile.app";
 import { Attendance } from "../../../interface/attendance";
-import { useGetDayOff, useGetWage, useGetWageTime } from "./queries";
+import { useGetDayOff, useGetWageTime } from "./queries";
 import { getAttendanceRange } from "../../../services/attendance";
 import { getRawCookie } from "../../../lib/utlis";
 import Wage from "./components/wage";
 import Attendances from "./components/attendance";
 import Heading1 from "./components/_shared/heading1";
 import LeaveDetail from "../dayoff/components/leaveDetail";
+import { WorkData } from "../wage2/interface";
+import { getWageDetail } from "../../../services/wage";
 
 export default function MobileHomePage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { setHeader } = useMobileAppStore();
-  const [date, setDate] = React.useState<string>(
-    new Date().getFullYear() +
-      "" +
-      (new Date().getMonth() + 1).toString().padStart(2, "0"),
-  );
-  const year = useMemo(() => new Date().getFullYear(), [date]);
+
+  const [date, setDate] = React.useState(() => {
+    const month = new Date().getMonth();
+    if (!month) return (new Date().getFullYear() - 1).toString() + "12";
+    return (
+      new Date().getFullYear().toString() + month.toString().padStart(2, "0")
+    );
+  });
+
+  const year = useState(new Date().getFullYear());
 
   const [startDate, endDate] = useMemo(() => {
     const currentDate = dayjs().format("YYYY-MM-DD");
@@ -36,17 +42,34 @@ export default function MobileHomePage() {
     return [firstDayTwoMonthsAgo, currentDate];
   }, []);
 
-  const { data: wageData } = useGetWage(date, "1");
-  const { data: monthData } = useGetWageTime();
+  // const { data: wageData } = useGetWage(date, "1");
+
   const { data: dayOffData } = useGetDayOff(year.toString());
   const { data: attendanceData } = useQuery<{ Table: Attendance[] }>({
     queryKey: ["workData", startDate, endDate],
     queryFn: () => getAttendanceRange({ startDate, endDate }),
   });
+
   const cookiesInfo = React.useMemo(() => {
     const cookies = getRawCookie("JHInfo");
     return decodeURIComponent(cookies || "").split("♪");
   }, []);
+
+  const { data: monthData, isLoading: isLoadingMonth } = useGetWageTime();
+
+  const { data: wageData } = useQuery<WorkData | null>({
+    enabled: !isLoadingMonth,
+    queryKey: ["wageDetail", date, monthData],
+    queryFn: () => {
+      if (
+        !monthData?.Table?.[0]?.Code ||
+        Number(monthData?.Table?.[0].Code) < Number(date)
+      ) {
+        return null;
+      }
+      return getWageDetail({ wageMonth: date, wageType: "1" });
+    },
+  });
 
   useEffect(() => {
     if (monthData?.Table?.[0]?.Code) {

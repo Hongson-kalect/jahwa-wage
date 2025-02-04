@@ -23,7 +23,7 @@ const WageItem = ({
 };
 
 export interface IWageProps {
-  wage: WorkData;
+  wage?: WorkData | null;
 }
 
 export default function Wage({ wage }: IWageProps) {
@@ -33,10 +33,10 @@ export default function Wage({ wage }: IWageProps) {
     <div className="rounded-xl bg-white p-2">
       <div className="flex items-center gap-2"></div>
       <div className="px-2">
-        {!wage ? (
+        {wage === undefined ? (
           <Skeleton active />
-        ) : !wage.Table3?.length ? (
-          <Empty description={t("common.noData")} />
+        ) : !wage || !wage?.Table3?.length ? (
+          <Empty className="!animate-none" description={t("common.noData")} />
         ) : (
           <>
             <WageItem

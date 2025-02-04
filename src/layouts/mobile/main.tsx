@@ -119,7 +119,6 @@ const HeaderNav = () => {
 
   const handleNavigate = () => {
     const pathNameArr = pathName.split("/");
-    console.log(pathNameArr);
     if (pathName.includes("/asset-check/")) {
       if (pathNameArr[3])
         // /asset-check/masterId/departmentId
