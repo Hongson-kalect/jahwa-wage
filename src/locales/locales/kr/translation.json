@@ -55,6 +55,7 @@
     "leaveTable": "휴가표",
     "index": "번호",
     "hour": "시간",
+    "offType": "근태코드",
     "note": "비고"
   },
 

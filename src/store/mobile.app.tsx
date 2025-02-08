@@ -28,8 +28,8 @@ export const useMobileAppStore = create<Props>((set) => {
   if (mainInfo == null || typeof mainInfo == "undefined") return handleLogout();
 
   const mainInfoArr = mainInfo.split("♪");
-  const empCode = mainInfoArr[2];
-  const entCode = mainInfoArr[0];
+  const empCode = mainInfoArr[2] || getRawCookie("EmpCode");
+  const entCode = mainInfoArr[0] || getRawCookie("EntCode");
 
   return {
     isLoading: false,

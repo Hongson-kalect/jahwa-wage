@@ -15,6 +15,7 @@ export const getUserInfomation = async () => {
       ...userData.data.Table[0],
       Photo: userData.data.Table1?.[0].Photo,
     });
+    return userData?.data;
   } else {
     toast.error("Failed to get user data");
     handleLogout();

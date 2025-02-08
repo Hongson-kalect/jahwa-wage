@@ -115,8 +115,8 @@ export async function checkCookieNSession() {
     // return "로그인 정보가 존재하지 않습니다.\n로그인을 먼저 진행해 주시기 바랍니다.\nLogin Information does not exist.\nPlease login first.";
   } else if (
     //Cái này để làm gì ta?
-    getCookie("GWLevel") == null ||
-    getCookie("GWLevel") == "" ||
+    // getCookie("GWLevel") == null ||
+    // getCookie("GWLevel") == "" ||
     getSession("EntCode") == null ||
     getSession("EntCode") == "" ||
     // getSession("DeptCode") == null ||

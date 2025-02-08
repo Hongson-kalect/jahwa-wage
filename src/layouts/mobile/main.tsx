@@ -17,6 +17,8 @@ import CookieChecking from "./checkCookie";
 import Loading from "./components/loading";
 import { Navbar } from "./components/nav";
 import { checkCookieNSession } from "./utils";
+import { getUserInfomation } from "../../services/infomation";
+import { useQuery } from "@tanstack/react-query";
 
 const MainLayout = styled.div`
   /* width: 100vw; */
@@ -33,37 +35,24 @@ const Content = styled.div`
 `;
 
 export default function MobileMainLayout() {
-  const { setUser } = useUserInfoStore();
-  const { empCode, entCode } = useMobileAppStore();
-
   const { setDevice, device } = useMobileAppStore();
   const [authening, setAuthening] = React.useState(true);
+  const { isLoading } = useQuery({
+    queryKey: ["userData"],
+    queryFn: async () => await getUserInfomation(),
+  });
 
   const verifyUser = async () => {
     try {
       setAuthening(true);
       const result = await checkCookieNSession();
       if (result !== "") {
+        console.log("fail check cookie");
         handleLogout();
       } else {
-        const userData = await axios.post("/api/MPersonalInformationERP", {
-          empCode,
-          entCode,
-        });
-
-        if (userData?.data?.Table?.[0]) {
-          setUser({
-            ...userData.data.Table[0],
-            Photo: userData.data.Table1?.[0].Photo,
-          });
-        } else {
-          toast.error("Failed to get user data");
-          handleLogout();
-        }
+        // await fetchUserData();
+        setAuthening(false);
       }
-
-      // await fetchUserData();
-      setAuthening(false);
     } catch (error) {
       // alert(JSON.stringify(error));
     }
@@ -98,14 +87,18 @@ export default function MobileMainLayout() {
     <MainLayout
       className={`min-h-dvh !animate-none ${device === "pc" ? "py-4" : ""}`}
     >
-      <div className="!animation-none relative w-full max-w-[500px] bg-white">
-        <ScrollToTop />
-        <Loading />
-        <Header />
-        <Content>
-          <Outlet />
-        </Content>
-      </div>
+      {isLoading ? (
+        <CookieChecking />
+      ) : (
+        <div className="!animation-none relative w-full max-w-[500px] bg-white">
+          <ScrollToTop />
+          <Loading />
+          <Header />
+          <Content>
+            <Outlet />
+          </Content>
+        </div>
+      )}
     </MainLayout>
   );
 }

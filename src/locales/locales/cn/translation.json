@@ -54,6 +54,7 @@
     "leaveTable": "休假表",
     "index": "序号",
     "hour": "小时",
+    "offType": "代码",
     "note": "备注"
   },
 

@@ -95,6 +95,18 @@ export function setDomainCookie(name: string, value: string, hour?: number) {
   document.cookie =
     name + "=" + (value || "") + expires + ";domain=" + domain + ";path=/";
 }
+export const handleLogout = () => {
+  deleteAllCookies();
+  window.location.href =
+    "https://sso.jahwa.co.kr/login.html?relayState=https://m.jahwa.co.kr";
+};
+
+export const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
 
 export const monthNames = [
   "January",
@@ -111,15 +123,27 @@ export const monthNames = [
   "December",
 ];
 
-export const handleLogout = () => {
-  deleteAllCookies();
-  window.location.href =
-    "https://sso.jahwa.co.kr/login.html?relayState=https://m.jahwa.co.kr";
-};
+export const OFF_DATE_CODE: string[] = [
+  "01",
+  "15",
+  "03",
+  "02",
+  "05",
+  "10",
+  "18",
+  "19",
+  "20",
+  "21",
+  "70",
+  "63",
+  "24",
+  "35",
+];
+export const NOTFULL = ["09", "12", "13", "14", "62"];
+export const NIGHT_SHIFT = ["25"];
+export const SUNDAY = ["38"];
+export const FES = ["43"];
+export const OVERTIME = ["31", "33", "38", "40", "45", "47"];
+export const FOOD_BONUS = ["55", "56", "57", "58", "59", "60", "61"];
 
-export const scrollToTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
-};
+

@@ -13,6 +13,7 @@ import { getDayOff } from "../../../services/leave";
 import BangNghi from "../attendant/components/bangnghi";
 import LeaveDetail from "./components/leaveDetail";
 import LeaveMonthUse from "./components/leaveMonthUse";
+import { OFF_DATE_CODE } from "../../../lib/utlis";
 
 export default function DayOffPage() {
   const { t } = useTranslation();
@@ -35,6 +36,14 @@ export default function DayOffPage() {
     queryKey: ["dayOff", dayOffYear],
     queryFn: () => getDayOff(dayOffYear),
   });
+
+  const dayOffList = React.useMemo(() => {
+    return getDayOffs.data?.Table2?.length
+      ? [...getDayOffs.data?.Table2] //Table2 never be undefined in here
+          .filter((item) => OFF_DATE_CODE.includes(item.N_DILIG_CD))
+          .reverse()
+      : [];
+  }, [getDayOffs.data?.Table2]);
 
   React.useEffect(() => {
     setHeader(t("dayOffPage.title2"));
@@ -70,8 +79,7 @@ export default function DayOffPage() {
             </div>
 
             <p className="flex items-center gap-2 text-lg font-medium text-gray-600">
-              <MdSailing size={24} /> {getDayOffs?.data?.Table2?.length}{" "}
-              {t("common.day")}
+              <MdSailing size={24} /> {dayOffList?.length} {t("common.day")}
             </p>
           </div>
         </div>
@@ -112,7 +120,7 @@ export default function DayOffPage() {
             </>
           ) : (
             <div className="pl-6">
-              <BangNghi list={getDayOffs?.data?.Table2 || []} />
+              <BangNghi list={dayOffList || []} />
             </div>
           )}
         </div>

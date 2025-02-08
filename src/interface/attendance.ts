@@ -10,8 +10,10 @@ export type Attendance = {
 };
 
 export type OffDate = {
+  N_DILIG_CD: string;
   DILIG_DT: string;
   N_DILIG_HH: number;
+  N_DILIG_MM: number;
   DILIG_NM: string;
   REMARK: string;
 };
@@ -41,3 +43,8 @@ export type OffInfo = {
   YEAR_SAVE_TOT: number;
   YEAR_XRAY: number;
 };
+
+export type DateDetail = {
+  [key: string]: OffDate[];
+};
+export type DateDetailArray = [string, OffDate[]][];

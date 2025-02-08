@@ -25,7 +25,6 @@ export const router = createBrowserRouter([
         path: "/asset-check/:masterId/:departmentId",
         element: <DepartmentAssetCheck />,
       },
-      { path: "/asset/cc", element: <Asset /> },
       { path: "/", element: <MobileHomePage /> },
       { path: "*", element: <NotFound /> }, // Not Found Page
     ],

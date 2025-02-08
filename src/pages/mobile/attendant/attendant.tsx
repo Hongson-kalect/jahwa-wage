@@ -6,10 +6,18 @@ import { FaRegCalendarCheck, FaRightLong } from "react-icons/fa6";
 import { MdOutlineAccessTime } from "react-icons/md";
 import { DatePicker, Skeleton } from "antd";
 
-import { Attendance } from "../../../interface/attendance";
+import {
+  Attendance,
+  DateDetail,
+  DateDetailArray,
+  OffDate,
+  OffHour,
+  OffInfo,
+} from "../../../interface/attendance";
 import { useMobileAppStore } from "../../../store/mobile.app";
 import { getAttendanceRange } from "../../../services/attendance";
 import BangCong from "./components/bangcong";
+import { getDayOff } from "../../../services/leave";
 
 export default function Attendant() {
   const { t } = useTranslation();
@@ -34,6 +42,49 @@ export default function Attendant() {
         endDate: end.format("YYYY-MM-DD"),
       }),
   });
+
+  const dateValues = useQuery({
+    queryKey: [start, end],
+    queryFn: async () => {
+      console.log("2 :>> ", 2);
+      const range = [];
+      const tempOffDate = [];
+      const startYear = start.year();
+      const endYear = end.year();
+
+      if (!endYear && startYear > endYear) return [];
+      let i = startYear;
+      while (i <= endYear) {
+        range.push(i.toString());
+        i++;
+      }
+
+      for (let i = 0; i < range.length; i++) {
+        const res = (await getDayOff(range[i])) as {
+          Table: [OffInfo];
+          Table1: [OffHour];
+          Table2: OffDate[];
+        };
+        if (res?.Table2?.length > 0) {
+          tempOffDate.push(...res.Table2);
+        }
+      }
+      return tempOffDate;
+    },
+  });
+
+  const dateDetails = React.useMemo<DateDetail>(() => {
+    const temp: DateDetailArray = [];
+    dateValues.data?.map((date) => {
+      const matchedDate = temp.find((item) => item[0] === date.DILIG_DT);
+      if (matchedDate) {
+        matchedDate[1].push(date);
+      } else {
+        temp.push([date.DILIG_DT, [date]]);
+      }
+    });
+    return Object.fromEntries(temp);
+  }, [dateValues.data]);
 
   React.useEffect(() => {
     setHeader(t("attendantPage.title1"));
@@ -122,7 +173,7 @@ export default function Attendant() {
               <Skeleton className="mt-4" active />
             </>
           ) : (
-            <BangCong list={attendanceData} />
+            <BangCong list={attendanceData} dateDetail={dateDetails} />
           )}
         </div>
       </div>

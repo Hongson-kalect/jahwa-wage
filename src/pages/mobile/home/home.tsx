@@ -17,6 +17,7 @@ import Heading1 from "./components/_shared/heading1";
 import LeaveDetail from "../dayoff/components/leaveDetail";
 import { WorkData } from "../wage2/interface";
 import { getWageDetail } from "../../../services/wage";
+import { companies } from "./utils";
 
 export default function MobileHomePage() {
   const { t } = useTranslation();
@@ -31,7 +32,7 @@ export default function MobileHomePage() {
     );
   });
 
-  const year = useState(new Date().getFullYear());
+  const [year] = useState(new Date().getFullYear());
 
   const [startDate, endDate] = useMemo(() => {
     const currentDate = dayjs().format("YYYY-MM-DD");
@@ -78,7 +79,12 @@ export default function MobileHomePage() {
   }, [monthData]);
 
   useEffect(() => {
-    setHeader(cookiesInfo[0]);
+    const entCode = getRawCookie("EntCode") as
+      | "VN532"
+      | "JV532"
+      | "VN538"
+      | "default";
+    setHeader(cookiesInfo[0] || companies?.[entCode || "default"]);
   }, [t]);
 
   return (
@@ -110,7 +116,7 @@ export default function MobileHomePage() {
         </div>
         {/* {<Leave leave={dayOffData} />} */}
         <div className="px-5 pt-4">
-          {<LeaveDetail leaveInfo={dayOffData?.Table[0]} />}
+          {<LeaveDetail leaveInfo={dayOffData?.Table?.[0]} />}
         </div>
       </div>
     </div>

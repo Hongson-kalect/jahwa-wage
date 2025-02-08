@@ -16,6 +16,13 @@ export const getNews = async () => {
   ];
 };
 
+export const companies = {
+  VN532: "JAHWA VINA",
+  JV532: "JH VINA",
+  VN538: "NANO VINA",
+  default: "JAHWA",
+};
+
 export const getWageTime = async () => {
   const res = await axios.post("/api/MSelectList", {
     DIV: "PAY_YYMM",
