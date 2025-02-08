@@ -61,8 +61,6 @@ export const AttendanceItem = ({
     [details],
   );
 
-  console.log("item.DATE, isOff :>> ", item.DATE, isOff, dateDetail, details);
-
   const wordShift = React.useMemo(
     () => (Number(item.STRT_TIME.slice(0, 2)) <= 17 ? "day" : "night"),
     [item.STRT_TIME],

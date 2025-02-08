@@ -46,7 +46,6 @@ export default function Attendant() {
   const dateValues = useQuery({
     queryKey: [start, end],
     queryFn: async () => {
-      console.log("2 :>> ", 2);
       const range = [];
       const tempOffDate = [];
       const startYear = start.year();
